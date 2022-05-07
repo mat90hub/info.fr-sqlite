@@ -1,2 +1,4 @@
 # info.fr-sqlite
-Aide en Français sur SQLite
+
+Traduction en Français du document venant du site : https://www.sqlite.org/cli.html
+

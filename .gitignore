@@ -1,0 +1,14 @@
+# -*- coding: utf-8-unix; -*-
+
+# emacs temporary files
+# ---------------------
+*~
+
+# usual directory for just trash material
+# ---------------------------------------
+old/
+OLD/
+
+# source file in English
+# ----------------------
+src-en/*

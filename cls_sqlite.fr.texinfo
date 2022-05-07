@@ -1,0 +1,1433 @@
+\input texinfo   @c -*-mode: texinfo; coding: utf-8-unix; -*-
+@c %**start of header
+@setfilename cls_sqlite.fr.info
+@settitle Console en ligne de commande pour SQLite
+@c %**end of header
+
+@documentencoding UTF-8
+@c typographie française :    «   » …
+
+@direntry
+* Console SQLite: (cls_sqlite.fr).          Console pour SQLite
+@end direntry
+
+
+@set xref-automatic-section-title
+
+@set TITLE Command Line Shell for SQLite
+
+@copying
+Ce fichier est une traduction de la page html pour la documentation
+officielle de SQLite : @url{https://www.sqlite.org/cli.html}
+
+@end copying
+
+@paragraphindent 0
+
+@iftex
+@set DOCUMENT article
+@set CHAPTER chapter
+@set SECTION section
+@end iftex
+
+@ifinfo
+@set DOCUMENT Info file
+@set CHAPTER major node
+@set SECTION minor node
+@end ifinfo
+
+@ifhtml
+@set DOCUMENT Web page
+@set CHAPTER chapter
+@set SECTION section
+@end ifhtml
+
+
+@titlepage
+@title @value{TITLE}
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+
+@ifnottex
+@node Top
+@top SQLITE en ligne de commande
+Ce manuel explique comme interagir avec une base de données SQLite dans
+une console en utilisant la commande @code{sqlite3}.
+@end ifnottex
+
+@iftex
+@heading off
+@evenheading @thispage@ @ @ @strong{@value{TITLE}} @| @|
+@oddheading  @| @| @strong{@thischapter}@ @ @ @thispage
+@end iftex
+
+
+@contents
+
+@node Bien démarrer
+@chapter Bien démarrer
+@c 1
+
+Le projet SQLite fournit une commande simple en ligne de commande@tie{}:
+@code{sqlite3} (ou @code{sqlite3.exe} sous Windows). Elle permet à
+l'utilisateur d'entrer manuellement des instructions SQL et de les
+exécuter sur une base de données SQLite. Ce document donne une courte
+introduction sur la façon d'utiliser ce programme sqlite3.
+
+On démmarre le programme sqlite3 en entrant la commande @code{sqlite3}
+sur l'invite de commande, en y ajoutant éventuellement le nom du fichier
+qui contient la base de données SQLite. Si le nom du fichier n'existe
+pas, un nouveau fichier de base de données est créé automatiquement avec
+le nom qui a été donné. Si aucun nom de fichier est spécifié sur la
+ligne de commande, une base de données temporaire est créée. Elle sera
+effacée que la programme @code{sqlite3} s'arrêtera.
+
+Au démarrage, le programme @code{sqlite3} affiche un court message
+bannière qui vous invite à entrer une instruction SQL. Entrez la (en la
+terminant par un point virgule), tapez la touche d'entrée et
+l'instruction SQL est exécutée.
+
+Par exemple, pour créer une nouvelle base de données SQLite nommée
+@file{ex1}, avec une une table simple, nommée @file{tbl1}, vous pourriez
+écrire ceci@tie{}:
+
+@example
+$ sqlite3 ex1
+SQLite version 3.8.5 2014-05-29 12:36:14
+Enter ".help" for usage hints.
+sqlite> create table tbl1(one varchar(10), two smallint);
+sqlite> insert into tbl1 values('hello!',10);
+sqlite> insert into tbl1 values('goodbye', 20);
+sqlite> select * from tbl1;
+hello!|10
+goodbye|20
+sqlite>
+@end example
+
+Terminez le programme @code{sqlite3} en entrant le caractère de fin de
+ligne (le plus souvent @kbd{@key{CTRL}-D}). Utilisez le caractère
+d’interruption (le plus souvent @kbd{@key{CTRL}-C}) pour arrêter
+l'exécution trop longue d'une instruction SQL.
+
+Assurez-vous de bien entrer le point virgule à la fin des instructions
+SQL ! Le programme @code{sqlite3} recherche un point virgule, pour
+savoir si la commande SQL est complète. Si vous l'oubliez,
+@code{sqlite3} vous renverra une invite de commande de continuation en
+attendant que vous entriez la suite de l'instruction SQL en cours. Cette
+fonctionalité permet d'entrer des commandes SQL sur plusieurs lignes. Par
+exemple@tie{}:
+
+@example
+sqlite> CREATE TABLE tbl2 (
+   ...>   f1 varchar(30) primary key,
+   ...>   f2 text,
+   ...>   f3 real
+   ...> );
+sqlite>
+@end example
+
+
+@node Démarrage sur Windows
+@chapter Démarrage avec deux clics sur Windows
+@c 2
+
+Les utilisateurs de Windows peuvent double cliquer sur l'icône
+@file{sqlite3.exe} pour que la console en ligne de commande apparaisse
+dans une fenêtre de terminal en exécutant SQLite. Cependant, comme ce
+double-clic lance @file{sqlite3.exe} sans argument en ligne de commande,
+aucun fichier de base données n'aura été spécifié et donc SQLite
+utilisera une base de données temporaire, qui sera effacée quand la
+session se termine. Pour utiliser un fichier de base de donnée
+persistant sur le disque, entrez la commande@code{.open} immédiatement
+après que la fenêtre du temrinal apparait :
+
+@example
+SQLite version 3.8.5 2014-05-29 12:36:14
+Enter ".help" for usage hints.in        
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> .open ex1.db
+sqlite>
+@end example
+
+L'exemple ci-dessus ouvre le fichier de base de données nommé
+@file{ex1.db}, qui sera donc utilisé. Le fichier @file{ex1.db} sera créé
+s'il n'existait pas au préalable. Vous pourriez vouloir préciser un
+chemin complet à ce fichier, pour vous assurer qu'il soit dans le
+repertoire auquel vous pensez. Utilisez les barres obliques comme
+séparateur entre les répertoires (ce qui n'est pas la convention par
+défaut de Windows qui utilise normalement les barres obliques
+inverses). En d'autres termes, utilisez @file{c:/work/ex1.db} et non pas
+@file{c:\work\ex1.db}.
+
+Alternativement, vous pouvez créer une base de données en utilisant le
+répertoire par défaut de stockage temporaire et ensuite sauver le
+fichier sur le disque en utilisant le commande @code{.save} :
+
+@example
+SQLite version 3.16.0 2016-12-29 19:48:46
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> ... many SQL commands omitted ...
+sqlite> .save ex1.db
+sqlite>
+@end example
+
+Faites attention en utilisant la commandes @code{.save} qu'elle n'écrase
+pas sans avertissement un fichier de base de données pré-existant ayant
+le même nom. Comme avec la commande @code{.open}, vous pourriez vouloir
+préciser un nom de chemin complet en utilisant les barres obliques, pour
+éviter toute ambiguïté.
+
+
+@node Les commandes pointées
+@chapter Les commandes pointées de sqlite3
+@c 3
+
+La pluplart du temps, @code{sqlite3} ne fait que lire les lignes en
+entrée et les passe à la bibliothèque SQLite pour exécution. Mais les
+lignes entrées qui commencent par un point (@code{.}) sont interceptées
+et interprétées par le programme @code{sqlite3} lui-même. Ces
+@code{commandes pointes} (ndt. @code{dot commands}) sont utilisées
+en particulier pour changer le format de sortie des requêtes ou pour
+pour exécutaines requêtes prédéfinies.
+
+Pour obtenir la liste des commandes pointées disponibles, entrez
+@code{.help} sans argument. Ou entrez @code{.help TOPIC} pour avoir de
+l'information détaillée sur le @code{TOPIC}. La liste de toutes les
+commandes pointées est la suivante :
+
+@example
+sqlite> .help
+.archive ...             Manage SQL archives
+.auth ON|OFF             Show authorizer callbacks
+.backup ?DB? FILE        Backup DB (default "main") to FILE
+.bail on|off             Stop after hitting an error.  Default OFF
+.binary on|off           Turn binary output on or off.  Default OFF
+.cd DIRECTORY            Change the working directory to DIRECTORY
+.changes on|off          Show number of rows changed by SQL
+.check GLOB              Fail if output since .testcase does not match
+.clone NEWDB             Clone data into NEWDB from the existing database
+.databases               List names and files of attached databases
+.dbconfig ?op? ?val?     List or change sqlite3_db_config() options
+.dbinfo ?DB?             Show status information about the database
+.dump ?TABLE? ...        Render all database content as SQL
+.echo on|off             Turn command echo on or off
+.eqp on|off|full         Enable or disable automatic EXPLAIN QUERY PLAN
+.excel                   Display the output of next command in a spreadsheet
+.exit ?CODE?             Exit this program with return-code CODE
+.expert                  EXPERIMENTAL. Suggest indexes for specified queries
+.fullschema ?--indent?   Show schema and the content of sqlite_stat tables
+.headers on|off          Turn display of headers on or off
+.help ?-all? ?PATTERN?   Show help text for PATTERN
+.import FILE TABLE       Import data from FILE into TABLE
+.imposter INDEX TABLE    Create imposter table TABLE on index INDEX
+.indexes ?TABLE?         Show names of indexes
+.iotrace FILE            Enable I/O diagnostic logging to FILE
+.limit ?LIMIT? ?VAL?     Display or change the value of an SQLITE_LIMIT
+.lint OPTIONS            Report potential schema issues.
+.load FILE ?ENTRY?       Load an extension library
+.log FILE|off            Turn logging on or off.  FILE can be stderr/stdout
+.mode MODE ?TABLE?       Set output mode
+.nullvalue STRING        Use STRING in place of NULL values
+.once (-e|-x|FILE)       Output for the next SQL command only to FILE
+.open ?OPTIONS? ?FILE?   Close existing database and reopen FILE
+.output ?FILE?           Send output to FILE or stdout if FILE is omitted
+.print STRING...         Print literal STRING
+.prompt MAIN CONTINUE    Replace the standard prompts
+.quit                    Exit this program
+.read FILE               Read input from FILE
+.restore ?DB? FILE       Restore content of DB (default "main") from FILE
+.save FILE               Write in-memory database into FILE
+.scanstats on|off        Turn sqlite3_stmt_scanstatus() metrics on or off
+.schema ?PATTERN?        Show the CREATE statements matching PATTERN
+.selftest ?OPTIONS?      Run tests defined in the SELFTEST table
+.separator COL ?ROW?     Change the column and row separators
+.session ?NAME? CMD ...  Create or control sessions
+.sha3sum ...             Compute a SHA3 hash of database content
+.shell CMD ARGS...       Run CMD ARGS... in a system shell
+.show                    Show the current values for various settings
+.stats ?on|off?          Show stats or turn stats on or off
+.system CMD ARGS...      Run CMD ARGS... in a system shell
+.tables ?TABLE?          List names of tables matching LIKE pattern TABLE
+.testcase NAME           Begin redirecting output to 'testcase-out.txt'
+.timeout MS              Try opening locked tables for MS milliseconds
+.timer on|off            Turn SQL timer on or off
+.trace FILE|off          Output each SQL statement as it is run
+.vfsinfo ?AUX?           Information about the top-level VFS
+.vfslist                 List all available VFSes
+.vfsname ?AUX?           Print the name of the VFS stack
+.width NUM1 NUM2 ...     Set column widths for "column" mode
+sqlite>
+@end example
+
+@node Règles
+@chapter Règles pour les @code{commandes pointées}
+@c 4
+
+Les instructions SQL ordinaires ont une forme libre. Elles peuvent
+s'étaler sur plusieurs lignes et avoir des espaces blancs ou des
+commentaires n'importe où. Les @code{commandes pointées} ont une syntaxe
+plus restrictives :
+
+@itemize @bullet
+@item
+Une @code{commande pointée} doit commencer par un point @code{.} contre
+la marge gauche, sans espace blanc qui le précède.
+
+@item    
+Une @code{commande pointée} doit être entièrement contenue sur une seule
+ligne.
+
+@item
+Une @code{commande pointée} ne peut s'intégrer à l'intérieur d'une
+instruction SQL ordinaire. En d'autres termes, une @code{commande
+pointée} ne peut pas être placées après l'invite de continuation de
+commande.
+
+@item
+Les @code{commandes pointées} ne reconnaissent par les commentaires.
+@end itemize
+
+Les commandes pointées sont interprétées par le programme
+@code{sqlite3.exe} en ligne de commande, pas par SQLite lui-même. Donc
+aucune commande pointée ne fonctionnera si elle est miste en argument
+d'une commande d'interface de SQLite comme @code{sqlite3_prepare()} ou
+@code{sqlite3_exec()}.
+
+
+@node Changer la sortie
+@chapter Changer les formats de sortie
+@c 5
+
+Le programme sqlite3 est capable de montrer les résultats d'une requête
+sous huit formats différents : @code{csv}, @code{column}, @code{html},
+@code{insert}, @code{line}, @code{list}, @code{quote}, @code{tabs} et
+@code{tcl}. Vous pouvez utiliser la commande pointée @code{.mode} pour
+passer de l'un de ces formats à un autre.
+
+Le format de sortie par défaut est @code{list}. En mode @code{list},
+chaqque rangée du résultat d'une requête est écrite sur une ligne de la
+sortie et chaque élément de colonne dans cette ligne est séparré par une
+chaîne particulière de séparation. Le séparateur par défaut est une
+ligne verticale (@code{|}). Ce mode @code{list} est particulièrement
+intéressant si vous envoyez le résultat d'une requête à un autre
+programme (comme @code{AWK}) qui réalisera ensuite un traitement
+supplémentaire.
+
+@example
+sqlite> .mode list
+sqlite> select * from tbl1;
+hello|10
+goodbye|20
+sqlite>
+@end example
+
+Utilisez la commande @code{.separator} pour changer de séparateur. Par
+exemple, pour changer le séparateur en un virgule suivie d'un espace,
+vous écrirez :
+
+@example
+sqlite> .separator ", "
+sqlite> select * from tbl1;
+hello, 1
+goodbye, 20
+sqlite>
+@end example
+
+La prochaine commande @code{.mode} ré-initialisera le @code{.separator}
+à sa valeur par défaut. Vous devrez donc répéter la commande
+@code{.separator} chaque fois que vous changerez de mode, si vous voulez
+continuer à utiliser un séparateur non-standard.
+
+Dans le mode @code{quote} (nd. quotation), la sortie est formatée sous
+la forme brute rendue par SQL. Les chaînes sont entourées d'apostrophe
+simple et les apostrophes simples internes sont échappées en les
+doublant. Les @code{BLOB}
+(@xref{Les types de données,,,sql_sqlite.fr,SQL pour SQLite})
+sont affichés en utlisant une notation litérale en héxadecimal (Ex:
+x'abcd'). Les nombres sont écrits comme du texte ASCII et les valeurs
+NULL sont montrées comme @code{NULL}. Toutes les colonnes sont séparées
+les unes des autres par une vrigule (ou tout autre caractère alternatif
+définit en utilisant @code{.separator}).
+
+@example
+sqlite> .mode quote
+sqlite> select * from tbl1;
+'hello',10
+'goodbye',20
+sqlite>
+@end example
+
+En mode @code{line} (ndt. ligne), chaque colonne dans une rangée de la
+base de données est montrée comme une ligne elle-même. Chaque ligne
+est composée du nom de la colonne, un signe égal et les données de la
+colonne. Les enregistrements successifs sont séparés par des lignes
+vide. Voici une exemple :
+
+@example
+sqlite> .mode line
+sqlite> select * from tbl1;
+one = hello
+two = 10
+
+one = goodbye
+two = 20
+sqlite>
+@end example
+
+En mode @code{column}, chaque enregistrement est montré sur une ligne
+séparée, avec les données alignées par colonnes. Par exemple :
+
+@example
+sqlite> .mode column
+sqlite> select * from tbl1;
+one         two       
+----------  ----------
+hello       10        
+goodbye     20        
+sqlite>
+@end example
+
+Par défaut, chaque colonne a une largeur comprise entre 1 et 10
+caractères, en fonction du titre de la colonne et de la largeur de la
+première colonne de données. Si les données sont trop larges pour entrer
+dans la largeur d'une colonne, elles sont tronquées. Utilisez la
+commande @code{.width} pour ajuster la largeur des colonnes comme ceci :
+
+@example
+sqlite> .width 12 6
+sqlite> select * from tbl1;
+one           two   
+------------  ------
+hello         10    
+goodbye       20    
+sqlite>
+@end example
+
+La commande @code{.width} dans l'exemple ci-dessus règle la largeur de
+la première colonne à 12 caractère et celle de seconde à 6. Les autres
+colonnes ne sont pas modifiées. Vous pouvez donner autant d'arguments
+que nécessaire à la commande @code{.width} pour spécifier les largeurs
+d'autent de colonnes qu'il y a dans le résultat de votre requête.
+
+Si vous spécifiez la largeur d'une colonne à 0, alors la largeur de
+cette colonne sera automatiquement ajustée au maximum entre 10, la
+largeur du titre de la colonne ou la largeur du premier élément. C'est
+un équivalent simplifié d'ajustement automatique de la largeur. Le
+réglage par défaut de la largeur de toutes les colonnes est cette valeur
+0.
+
+Utilisez une largeur négative pour définir une justification à droite
+des données.
+
+Les étiquettes des colonnes qui apparaissent sur les deux premières
+lignes de la sortie peuvent être désactivées en utilisant la command
+@code{.header off}. Dans l'exemple ci-dessus, les étiquettes de données
+étaient affichées. Pour les enlever, on écrirait ceci :
+
+@example
+sqlite> .header off
+sqlite> select * from tbl1;
+hello         10    
+goodbye       20    
+sqlite>
+@end example
+
+Un autre format utile pour les sorties est le mode @code{insert}. Dans
+ce mode, la sortie est formatée pour ressemble à une instruction
+@code{SQL INSERT}. Utilisez ce mode @code{insert} pour générer du texte,
+qui pourra ensuite être utilisé pour entrer des données dans une autre
+base de données.
+
+Quand vous spécifiez le mode @code{insert}, vous devez entrer un
+argument supplémentaire, qui est le nom de la table dans laquelle il
+faudra insérer. Par exemple :
+
+@example
+sqlite> .mode insert new_table
+sqlite> select * from tbl1;
+INSERT INTO "new_table" VALUES('hello',10);
+INSERT INTO "new_table" VALUES('goodbye',20);
+sqlite>
+@end example
+
+Le dernier format de sortie est @code{html}. Dans ce mode,
+@code{sqlite3} écrit les résultat de la requête comme une table
+XHTML. La début de @code{<TABLE>} et la fin @code{</TABLE>} ne sont pas
+écrits, mais tous les @code{<TR>}s, @code{<TH>}s, et @code{<TD>}s
+intermédiaires le sont. Ce mode @code{html} peut être utile pour un
+programme fonctionnant avec un interface CGI.
+
+
+@node Écrire les résultats
+@chapter Écrire les résultats dans un fichier
+@c 6
+
+Par défaut, @code{sqlite3} envoie le résultat d'une requête sur la
+sortie standard. Vous pouvez changer cela avec les commandes
+@code{.output} et @code{.once}. Mettez juste le nom du fichier de sortie
+en argument de @code{.output} et toutes les requêtes suivantes écriront
+leur résultat dans ce fichier. Ou à la place de @code{.output}, utilisez 
+la commande @code{.once} et le resultat sera envoyé vers le fichier pour
+la seule commande suivante et ensuite la sortie retournera vers la
+console. Utilisez la commande @code{.output} sans argument pour écrire
+de nouveau sur la sortie standard. Par exemple :
+
+@example
+sqlite> .mode list
+sqlite> .separator |
+sqlite> .output test_file_1.txt
+sqlite> select * from tbl1;
+sqlite> .exit
+$ cat test_file_1.txt
+hello|10
+goodbye|20
+$
+@end example
+
+Si le premier caractère du fichier donné en argument de @code{.output}
+ou @code{.once} est une barre verticale (@code{|}), alors les caractères
+restants sont traités comme une commande et le resultat est envoyé à
+cette commande. Ceci facilite la mise en tuyau des résultat d'une
+requête vers une autre commande. Par exemple, la commande @code{open -f}
+sur un Mac ouvre un éditeur de texte pour montrer le résultat lu sur
+l'entrée standard. Donc pour voir le résultat d'une requête dans
+l'éditeur de texte, on peut écrire :
+
+@example
+sqlite3> .once '|open -f'
+sqlite3> SELECT * FROM bigTable;
+@end example
+
+Si les commandes @code{.output} ou @code{.once} ont un argument
+contenant @code{-e}, alors la sortie est collectée dans un fichier
+temporaire et l'éditeur de texte du système est invoqué pour ouvrir ce
+fichier. Donc, la commande @code{.once -e} donne le même résultat que
+@code{.once '|open -f'} mais avec le bénéfice d'être portable sur tous
+les systèmes.
+
+Si les commandes @code{.output} ou @code{.once} ont un argument
+@code{-x}, ceci leur fera accumuler les sorties dans un fichier
+temporaire au format CSV (ndt. Comma-Separated-Values) et ensuite
+invoquer le programme par défaut pour visualiser le fichier CSV
+(normalement ce sont les tableurs). C'est une moyen rapide d'envoyer les
+resultat d'une requêtes sur un tableur pour un visionage facilité :
+
+@example
+sqlite3> .once -x
+sqlite3> SELECT * FROM bigTable;
+@end example
+
+La commande @code{.excel} est un alias pour @code{.once -x}. Elle fait
+exactement la même chose.
+
+
+@menu
+* Fonctions sur les fichiers:: Fonctions d'Entrée/Sortie sur les fichiers
+* Fonction d'édition::         Fonction SQL edit()
+@end menu
+
+
+@node Fonctions sur les fichiers
+@section Fonctions d'Entrée/Sortie sur les fichiers
+@c 6.1
+
+La console en ligne de commande ajoute deux fonctions SQL, qui
+facilitent le transfert du contenu d'un fichier dans la colonne d'une
+table et respectivement d'écrire une colonne de table dans un fichier.
+
+La fonction SQL @code{readfile(X)} lit le contenu entier du fichier
+nommé @file{X} et retourne le contenu comme un @code{BLOB}. Celui ci
+peut ensuite être utilisé pour charger le contenu dans une table. Par
+exemple :
+
+@example
+sqlite> CREATE TABLE images(name TEXT, type TEXT, img BLOB);
+sqlite> INSERT INTO images(name,type,img)
+   ...>   VALUES('icon','jpeg',readfile('icon.jpg'));
+@end example
+
+La fonction SQL @code{writefile(X,Y)} écrit le tas de données
+(ndt. 'blob') Y dans un fichier nommé @code{X} et retourne le nombre
+d'octets écrits. Utilisez cette fonction pour extraire le contenu d'une
+colonne d'une table seule dans un fichier. Par exemple :
+
+@example
+sqlite> SELECT writefile('icon.jpg',img) FROM images WHERE name='icon';
+@end example
+
+Notez que les fonctions @code{readfile(X)} et @code{writefile(X,Y)} sont
+des fonctions ajoutées et ne font pas parties du cœur de la bibliothèque
+de SQLite. Ces routines sont disponibles comme des extensions
+téléchargeables dans le fichier source @file{ext/misc/fileio.c} du code
+source de SQLite.
+
+
+@node Fonction d'édition
+@section Fonction SQL edit()
+@c 6.2
+
+Cette extension a une autre fonction SQL intégrée nommée
+@code{Edit()}. Cette fonction @code{Edit()} prends un ou deux
+arguments. Le premier est une valeur - normalement a un longue chaîne
+multi-ligne à éditer. Le second argument est le nom de l'éditeur de
+texte. Si ce second argument est omis, la variable d'environement
+@file{VISUAL} est utilisée. La fonction @code{Edit()} écrit son premier
+argument dans un fichie temporaire, puis ouvre ce fichier temporaire
+avec l'éditeur de texte puis remet le fichier en mémoire quand le
+travail de l'éditeur est fini et retourne au texte édité.
+
+Cette fonction @code{Edit()} peut être utilisée pour faire des
+changements sur des larges portions de texte. Par exemple :
+
+@example
+sqlite> UPDATE docs SET body=edit(body) WHERE name='report-15';
+@end example
+
+Dans cet exemple, le contenu du champs @code{docs.body} pour
+l'enregistrement pour lequel le champs @code{docs.name} est
+@code{report-15} va $etre envoyé à l'éditeur. Quand l'éditeur retourne
+son conteny, le résultat est reécrit dans le champs @code{docs.body}.
+
+L'opération par défaut de @code{Edit()} est d'invoquer un éditeur de
+texte. Mais en utilisant un autre programme d'édition, vous pouvez aussi
+éditer une image ou tout autre ressource non-textuelle. Par exemple, si
+vous voulez modifier une image JPEG, qui s'avère être stockée dans le
+champs d'une table, vous pouvez exécuter :
+
+@example
+sqlite> UPDATE pics SET img=edit(img,'gimp') WHERE id='pic-1542';
+@end example
+
+Le programme d'édition peut aussi être utilisé comme un visualisateur en
+ignorant simplement la valeur de retour. Par exemple, pour simplement
+visualiser l'image ci-dessus, vous pourriez lancer :
+
+@example
+sqlite> SELECT length(edit(img,'gimp')) WHERE id='pic-1542';
+@end example
+
+
+@node Requête sur le schéma
+@chapter Requête sur le schémma de la base de donnée
+@c 7
+
+Le programme sqlite3 fournit plusieurs commandes, qui sont pratiques
+pour explorer le schéma d'une base données. Tout ce que font ces
+commandes pourrait l'être par d'autres moyens, ces commandes sont
+fournies simplement comme raccourcis utiles.
+
+
+Par exemple, pour voir la liste des tables de la base de données, vous
+pouvez entrer :
+@code{.tables}.
+
+@example
+sqlite> .tables
+tbl1
+tbl2
+sqlite>
+@end example
+
+La commande @code{ .tables} fait ici la même chose que de passer en mode
+@code{list} et d'exécuter ensuite la requête suivante :
+
+@example
+SELECT name FROM sqlite_master 
+WHERE type IN ('table','view') AND name NOT LIKE 'sqlite_%'
+ORDER BY 1
+@end example
+
+Mais la commmande @code{.tables} fait plus. Elle lance sa requête sur la
+table sqlite_master pour toutes les bases de données attachées et non
+seulement la base de données primaire. Et elle présente son résultat sur
+des colonnes claires.
+
+La commande @code{.indexes} fonctionnne de manière similaire pour lister
+toutes les indexes. Si on donne un argument à la commande
+@code{.indexes}, qui est le nom de la table, alors elle ne montre que
+les index de cette table.
+
+La commande @code{.schema} montre le schéma complet de la base de donnée
+our une table seule, si un argment donnant le nom d'une table est
+donnée :
+
+@example
+sqlite> .schema
+create table tbl1(one varchar(10), two smallint)
+CREATE TABLE tbl2 (
+  f1 varchar(30) primary key,
+  f2 text,
+  f3 real
+)
+sqlite> .schema tbl2
+CREATE TABLE tbl2 (
+  f1 varchar(30) primary key,
+  f2 text,
+  f3 real
+)
+sqlite>
+@end example
+
+La commande @code{.schema} est en gros la même que choisir le mode
+@code{list} d'entrer la requête suivante :
+
+@example
+SELECT sql FROM sqlite_master
+ORDER BY tbl_name, type DESC, name
+@end example
+
+Comme avec @code{.tables}, la commande @code{.schema} montre le schéma
+de toutes les bases de données attachées. Si vous ne voulez voir que le
+schéma d'une base de données simple (peut être nommée "main"), alors
+vous pouvez ajouter un argument à la commande @code{.schema} pour
+restreindre la sortie :
+
+@example
+sqlite> .schema main.*
+@end example
+
+La commande @code{.schema} peut être améliorée avec l'option
+@code{--indent}, dans ce cas, elle essaye de reformater les différentes
+instruction @code{CREATE} du schéma pour qu'elle soit plus facile à lire
+pour des humains.
+
+La commande @code{.databases} montre une liste de toutes les bases de
+données ouvertes dans la connexion en cours. Il y en aura toujours au
+moins 2. La première est @code{main}, la base de données qui a été
+ouverte. La seconde est @code{temp}, la base de données utilisée pour
+les tables temporaires. Il peut y avoir des bases de données
+supplémentaires listées, qui auraient été attachée en utilisant
+l'instruction @code{ATTACH}. La première colonne de la sortie est le nom
+de basee donnée attachée avec et la seconde colonne est le nom du
+fichier extérieur.
+
+@example
+sqlite> .databases
+@end example
+
+La commande @code{.fullschema} fonctionne comme la commande
+@code{.schema} en ce qu'elle montre le schéma entier de la base de
+données. Mais la commande @code{.fullschema} inclut aussi les dépôts des
+tables de statistiques @code{sqlite_stat1}, @code{sqlite_stat3}, et
+@code{sqlite_stat4} s'ils existent. La commande @code{.fullschema}
+fournit normalement toute l'information dont on a besoin pour recréer
+exactement un plan de requêtes pour une requêtes spécifiques. Quand on
+veut rapporter un problème suspect sur une planification de requêtes à
+l'équipe de développement de SQLite, on se voit demander de fournir la
+sortie complète de @code{.fullschema} avec la partie qui cause le
+problème. Notez que que les tables @code{sqlite_stat3} et
+@code{sqlite_stat4} contiennent des échantillons d'entrée d'index et
+peuvent contenir des données sensibles, donc n'envoyez pas la sortie de
+@code{.fullschema} d'une base de données propriétaire à travers un canal
+public.
+
+
+@node Importation CSV
+@chapter Importation CSV
+@c 8
+
+Utilisez la commande @code{.import} pour importer des données en CSV
+(comma separated value) dans une table SQLite. La commande
+@code{.import} prend deux arguments, qui sont le nom du fichier sur
+disque, d'où les données CSV ont été lues et le noms de la table SQLite
+dans laquelle les données CSV doivent être insérées.
+
+Notez qu'il est important de configure le format de sortie sur
+@code{csv} avant de la lancer la commande @code{.import}. Ceci est
+nécessaire pour empêcher la console en ligne de commande d'essayer
+d'interpréter le fichier d'entrée dans un autre format.
+
+@example
+sqlite> .mode csv
+sqlite> .import C:/work/somedata.csv tab1
+@end example
+
+Il y a deux cas à considérer : (1) la table @code{tab1} ne pré-existait
+pas ou (2) la table @code{tab1} existait déjà.
+
+Dans le premier cas, quand la table ne pré-exite pas, la table est alors
+automatiquement crée et le contenu de la première rangée eu fichier CSV
+en entrée est utilisée pour déterminer le nom de toutes les colonnes de
+la table. En d'autres termes, si la table ne pré-existe pas, la première
+rangée du fichier CSV est interprétée comme étant les titres des
+colonnes et les données effectives démarrent à partir de la deuxième
+rangée du fichier CSV.  
+
+Pour le secon cas, quand la table existe déjà, chaque rangée du fichier
+CSV, incluant la première rangée, est sansée être le contenu effectif de
+la table. Si le fichier CSV contient une rangée initiales de titres de
+colonnes, cette rangée sera lue comme des données et insérée dans la
+table. Pour l'éviter, assurer vous que le table n'existait pas avant.
+
+
+@node Export CSV
+@chapter Export CSV
+@c 9
+
+Pour exporter une table SQLite (ou une partie de table) en CSV, régler
+simplement le format de sortie sur le mode @code{csv} et lancer la
+requêtre qui extraira les rangées que vous cherchez dans la table.
+
+@example
+sqlite> .header on
+sqlite> .mode csv
+sqlite> .once c:/work/dataout.csv
+sqlite> SELECT * FROM tab1;
+sqlite> .system c:/work/dataout.csv
+@end example
+
+Dans l'exemple ci-dessous, la ligne @code{.header on} fait imprimer les
+titres des colonnes comme la première rangée de la sortie. Ceci veut
+dire que la première rangée du fichier CSV résultat contiendra les
+titres des colonnes. Si on ne désire pas extraire les titres des
+colonne, régler à @code{.header off} à la place. (Le réglage @code{.header off}
+est le choix par défaut et il peut être omis si les titres de colonnes
+n'avaient pas été activé auparavant.)
+
+La ligne @code{.once FILENAME} fait que tous les resultats de requête
+vont dans le fichier nommé au lien d'être renvoyés sur la console. Dans
+l'exemple ci-dessus, cette ligne ferait que le contenu CSV serait écrit
+dans un fichier nommmé @file{C:/work/dataout.csv}.
+
+La ligne finale de l'exemble  (le fichier @file{.system
+c:/work/dataout.csv}) a le même effet que double cliquer sur le fichier
+@file{c:/work/dataout.csv} dans Windows. Ceci ouvrira typiquement le
+tableur pour afficher le fichier CSV.
+
+Cette commande ne peut être écrite que sur Windows. La ligne équivalent
+sour Mac serait :
+
+@example
+sqlite> .system open dataout.csv
+@end example
+
+Sur Linux et les autres système unix you, vous entrerez quelque chose comme :
+
+@example
+sqlite> .system xdg-open dataout.csv
+@end example
+
+
+@menu
+* Exporter sur Excel::
+@end menu
+
+@node Exporter sur Excel
+@section Exporter sur Excel
+@c 9.1
+
+Pour simplifier l'export sur un tableur, l'extenstion CLI fournit la
+commande @code{.excel}, qui capture la sortie d'une requête unique et
+envoie la sortie sur la tableur sur l'ordinateur hôte. Utilisez le de la
+façon suivante :
+
+@example
+sqlite> .excel
+sqlite> SELECT * FROM tab;
+@end example
+
+La commande ci-dessus écrit la sortie de la requête comme un fichier
+temporaire au format CSV, puis invoque le tableur par défaut du système
+(le plus souvent le tableur par défaut est Excel ou LibreOffice Calc),
+puis efface le fichier temporaire. C'est essentiallement une méthode
+raccourcis pour faire la séquence de commande @code{.csv}, @code{.once},
+et @code{.system} vue plus haut.
+
+La commande @code{.excel} est en réalité un alias pour @code{.once -x}.
+L'option @code{-x} donnée à @code{.once} fait que le fichier CSV résulat
+est écrit dans un fichier temporaire ayant le suffixe @code{.csv}, puis
+il invoque le programme par défaut pour affichier les fichiers CSV.
+
+Il y a aussi une commande @code{.once -e} qui fonctionne de manière
+similaire, excepté qu'elle nomme le fichier temporaire avec un suffixe
+@code{.txt} , de tel sorte que c'est l'éditeur de fichier texte par
+défaut qui sera appelé à place d'un tableur.
+
+
+@node Convertir en ASCII
+@chapter Convertir une base de données entière en un fichier ASCII
+@c 10
+
+Utiliser la commande @code{.dump} pour convertir le contenu entier de la
+base de données en un seul fichier texte ASCII. Ce fichier peut ensuite
+être reconverti en une base de données en la tuyautant sur sqlite3.
+
+Une bonne façon de faire une copie archivée de la base de données et de
+d'écrire ceci :
+
+@example
+$ sqlite3 ex1 .dump | gzip -c >ex1.dump.gz
+@end example
+
+Ceci génère un fichier nommé @code{ex1.dump.gz}, qui contient tout ce
+dont vous avez besoin pour reconstuire la base de données plus tard ou
+sur une autre machine. Pour reconstruire la base, tapez juste ceci :
+
+@example
+$ zcat ex1.dump.gz | sqlite3 ex2
+@end example
+
+Le format du texte est du pure SQL. Vous pouvez utiliser la commande
+@code{.dump} pour exporter une base de données SQLite vers un autre
+gestionnaire populaire de base de données comme ceci :
+
+@example
+$ createdb ex2
+$ sqlite3 ex1 .dump | psql ex2
+@end example
+
+
+@node Charger des extensions
+@chapter Charger des extensions
+@c 11
+
+Vous pouvez ajouter de nouvelles functions SQL personnalisées pour votre
+application, en collationnant des séquences, des tables virtuelles et
+des VFS pour les charger en ligne de commande avec l'instruction
+@code{.load}. Convertissez d'abord l'extension en un DLL ou une
+librairie partagée (comme décrit dans le document sur le chargement des
+extensions au moment de l'exécution).
+
+@example
+sqlite> .load /path/to/my_extension
+@end example
+
+Notez que que SQLite ajoute automatiquement le suffixe approprié
+(@file{.dll} pour Windows, @file{.dylib} sur Mac, @file{.so} sur la
+plupart des autres systèmes basés sur Unix) au nom de fichier. C'est
+généralement une bonne idée de spécifier la chemin complet de
+l'extension à charger.
+
+SQLite calcule le point d'entrée pour l'extension en se basant sur le
+nom de fichier de l'extension. Pour surcharger ce choix, ajouter
+simplement le nom de l'extension comme second argument de la commande
+@code{.load}.
+
+Le code source de plusieurs extensions utiles peut être trouvé sur le
+sous-répertoire @file{ext/misc} de l'arbre du code source de
+SQLite. Vous pouvez utiliser ces extensions tel que ou comme une base
+pour créer vos propres extesnions personnalisées, qui adresseront au
+mieux vos besoins particuliers.
+
+
+@node Cryptographie
+@chapter Hachage cryptographique du contenu d'une base de données
+@c 12
+
+La commande @code{.sha3sum} calcule un hachage SHA3 du contenu de la
+base de données. Pour être clair, le hachage est calculé sur le contenu
+de la base de données et non sur sa représentation sur le disque. Ceci
+signifie par exemple, qu'une commande @code{VACUUM} ou une autre
+commande similaire préservant les données ne change par le hachage.
+
+La commande @code{.sha3sum} supporte les options @code{--sha3-224},
+@code{--sha3-256}, @code{--sha3-384} et @code{--sha3-512} pour définir
+quelle variété de SHA3 utiliser pour le hachage. Le choix par défaut est
+SHA3-256.
+
+Le schema de la base de données (dans une table sqlite_master) n'est
+normalement pas inclu dans le hachage, mais il peut être ajouté par
+l'option @code{--schema}.
+
+La commande @code{.sha3sum} n'admet d'une seule option qui est le motif
+donné par @code{LIKE}. Si cette option est présented, seules les tables
+qui correspondront au motif @code{LIKE} seront hachées.
+
+La commande @code{.sha3sum} est implémentée avec l'aide de la fonction
+d'extension @code{sha3_query()}, qui vient avec la console en ligne de
+commande.
+
+
+@node Auto-tests
+@chapter Auto-tests du contenu de la base de données
+@c 13
+
+La commande @code{.selftest} cherche à vérifier, que le contenu de la
+base de données est intact et non corrompu. La commande @code{.selftest}
+recherche la table nommée @code{selftest} dans le schéma et définie de
+la manière suivante :
+
+@example
+CREATE TABLE selftest(
+  tno INTEGER PRIMARY KEY,  -- Numéro du test
+  op TEXT,                  -- 'run' ou 'memo'
+  cmd TEXT,                 -- La commande SQL à exécuter ou le texte 'memo'
+  ans TEXT                  -- Résultat attendu de la commande SQL
+);
+@end example
+
+La commande @code{.selftest} lit les rangées de la table @code{selftest}
+dans l'ordre de @code{selftest.tno}. Pour chaque rangée taguée
+@code{memo}, elle écrit le texte dans @code{cmd} sur la sortie. Pour
+chaque rangée @code{run}, elle exécute le texte @code{cmd} comme une
+commande SQL et compare le résultat à la valeur qui est dans @code{ans},
+et montre un message d'erreur, si les résultats diffèrent.
+
+S'il n'y a pas de table @code{selftest}, la commande @code{.selftest}
+effectuera la commande par défaut @code{PRAGMA integrity_check}.
+
+La commande @code{.selftest --init} crée la table @code{selftest}, si
+elle n'existe pas déjà, puis elle ajoute les entrées qui vérifient le
+hash du contenu de toutes les tables. Les commandes @code{.selftest}
+suivantes vérifieront que la base de données n'a pas changé
+d'aucune façon. Pour générer des tests vérifiant qu'un sous-ensemble des
+tables reste inchangé, exécutez simplement @code{.selftest --init}, puis
+effacez avec @code{DELETE} les rangées de @code{selftest} qui réfèrent à
+des tables, qui ne resteront pas constantes.
+
+
+@node Support d'archivage
+@chapter Support d'archivage de SQLite
+@c 14
+
+La commande @code{.archive} et son option @code{-A} fournit un support
+pré-intégré pour le format d'archivage de SQLite. L'interface est
+similaire à celui de la commande @code{tar} des systèmes Unix. Chaque
+invocation de la commande @code{.ar} doit spécifier une seule option en
+ligne de commande. Voici les commandes qui sont disponibles pour
+@code{.archive}:
+
+@multitable {-x} {--extract} {Crée une nouvelle archive contenant les fichiers spécifiés.}
+@headitem Option @tab Long Option @tab Purpose
+@item @code{-c} @tab @code{--create}  @tab Crée une nouvelle archive contenant les fichiers spécifiés.
+@item @code{-x}	@tab @code{--extract} @tab Extraire les fichiers spécifiés de l'archive.
+@item @code{-t}	@tab @code{--list}    @tab Lister les fichiers de l'archive.
+@item @code{-u}	@tab @code{--update}  @tab Ajouter les fichiers à l'archive existante.
+@end multitable
+
+Comme l'option de commande, chaque invocation de @code{.ar} peut
+spécifier une ou plusieurs options de modifications. Quelques options de
+modifications demande un argument, d'autre pas. Les options de
+modification suivantes sont disponibles :
+
+@multitable {-f FILE} {--directory DIR} {relative to DIR, instead of the current working directory.}
+@headitem Option @tab Long Option @tab Purpose
+@item @code{-v}
+@tab @code{--verbose}
+@tab Liste chaque fichier au moment de son traitement.
+
+@item @code{-f FILE}
+@tab @code{--file FILE}
+@tab Si spécifié, utilise @code{FILE} comme fichier d'archive. Sinon,
+fait l'hypothèque que la base de données courante nommée @code{main} est
+l'archive sur laquelle opérer.
+
+@item @code{-a FILE}
+@tab @code{--append FILE}
+@tab Comme @code{--file}, utiliser le fichier @file{FILE} comme fichier
+d'archive, mais ouvre le fichier en utilisant @code{apndvfs VFS}, de
+telle manière que l'archive soit ajoutée à la fin du fichier @file{FILE}
+s'il existe déjà.
+
+@item @code{-C DIR}
+@tab @code{--directory DIR}
+@tab Si spécifié, interprète tous les chemins relatifs relativement au
+répertoire @code{DIR} à la place du répertoire courant.
+
+@item @code{-n}
+@tab @code{--dryrun}
+@tab Montre l'instruction SQL qui serait exécutée si on lançait
+l'opération d'archivage, mais ne change rien.
+
+@item @code{--}
+@tab @code{--}
+@tab Tous ce qui suit sur la ligne de commande seront considérés comme
+des arguments de la commande et plus comme des options.
+@end multitable
+
+Pour l'utilisation en ligne de commande, ajoutez les options en ligne de
+commande de style court immédiatement après @code{-A}, sans espace
+intermédiaire. Tous les arguments qui suivent seront considérés commen
+faisant partie de la commande @code{.archive}. Par exemple, les
+commandes suivantes sont équivalentes :
+
+@example
+sqlite3 new_archive.db -Acv file1 file2 file3
+sqlite3 new_archive.db ".ar -cv file1 file2 file3"
+@end example
+
+Les styles longs et courts des options peuvent être mélangés. Par
+exemple les commandes suivantes sont équivalentes :
+
+@example
+-- Deux façons de créer une nouvelle archive appelée "new_archive.db" et
+-- contenant les fichiers "fichier1", "fichier2" et "fichier3".
+.ar -c --file new_archive.db fichier1 fichier2 fichier3
+.ar -f new_archive.db --create fichier1 fichier2 fichier3
+@end example
+
+Le premier argument suivant @code{-ar} aussi être la concaténation de
+des formes courtes de toutes les options (dans le caractère
+@kbd{-}). Dans ce cas, les arguments des options qui les requièrent sont
+lues l'une après lautre et les mots qui restent sont considérés comme
+des arguments de la commande. Par exemple :
+
+@example
+-- Créer une nouvelle archive "nouv_archive.db" contenant les fichiers "fichier1"
+-- et "fichier2" du répertoire "rep1".
+.ar cCf rep1 nouv_archive.db fichier1 ficher2 fichier3
+@end example
+
+@menu
+* Commande de création d'archive:: Commande SQLite de création d'archive : 'ar --create'
+* Commande d'extraction d'archive:: Command SQLite d'extraction d'archive : 'ar --extract'
+* Commande liste d'une archive:: Commande SQLite pour lister le contenu d'une archie : `.ar --list'
+* Commande de mise à jour d'archive:: Commande SQLite de mise à jour d'archive : '.ar --update'
+* Opérations avec ZIP:: Opérations sur des archives compressées avec ZIP
+* Implémenter des opérations d'archivage:: Instuctions SQL utilisées pour implémenter des opérations d'archivage SQLite
+@end menu
+
+
+@node Commande de création d'archive
+@section Commande SQLite de création d'archive : '.ar --create'
+@c 14.1
+
+Create a new archive, overwriting any existing archive (either in the
+current "main" db or in the file specified by a @code{--file} option). Each
+argument following the options is a file to add to the
+archive. Directories are imported recursively. See above for examples.
+
+@node Commande d'extraction d'archive
+@section Command SQLite d'extraction d'archive : 'ar --extract'
+@c 14.2
+
+Extract files from the archive (either to the current working directory
+or to the directory specified by a @code{--directory} option). If there are no
+arguments following the options all files are extracted from the
+archive. Or, if there are arguments, they are the names of files to
+extract from the archive. Any specified directories are extracted
+recursively. It is an error if any specified files are not part of the
+archive.
+
+@example
+-- Extract all files from the archive in the current "main" db to the
+-- current working directory. List files as they are extracted. 
+.ar --extract --verbose
+
+-- Extract file "file1" from archive "ar.db" to directory "dir1".
+.ar fCx ar.db dir1 file1
+@end example
+
+
+@node Commande liste d'une archive
+@section Commande SQLite pour lister le contenu d'une archie : `.ar --list'
+@ 14.3
+
+List the contents of the archive. If no arguments are specified, then
+all files are listed. Otherwise, only those specified as arguments
+are. Currently, the @code{--verbose} option does not change the behaviour of
+this command. That may change in the future.
+
+@example
+-- List contents of archive in current "main" db..
+.ar --list
+@end example
+
+
+@node Commande de mise à jour d'archive
+@section Commande SQLite de mise à jour d'archive : '.ar --update'
+@c 14.4
+
+This command works the same way as the @code{--create} command, except
+that it does not delete the current archive before commencing. New
+versions of files silently replace existing files with the same names,
+but otherwise the initial contents of the archive (if any) remain
+intact.
+
+@node Opérations avec ZIP
+@section Opérations sur des archives compressées avec ZIP
+@c 14.5
+
+If FILE is a ZIP archive rather than an SQLite Archive, the
+@code{.archive} command and the @code{-A} command-line option still
+work. This is accomplished using of the zipfile extension. Hence, the
+following commands are roughly equivalent, differing only in output
+formatting:
+
+@multitable {zip -r archive2.zip dir} {Equivalent sqlite3.exe Command}
+@headitem Traditional Command @tab Equivalent @code{sqlite3.exe} Command
+@item @code{unzip archive.zip}       @tab @code{sqlite3 -Axf archive.zip}
+@item @code{unzip -l archive.zip}    @tab @code{sqlite3 -Atvf archive.zip}
+@item @code{zip -r archive2.zip dir} @tab @code{sqlite3 -Acf archive2.zip dir}
+@end multitable
+
+@node Implémenter des opérations d'archivage
+@section Instuctions SQL utilisées pour implémenter des opérations d'archivage SQLite
+@c 14.6
+
+The various SQLite Archive Archive commands are implemented using SQL
+statements. Application developers can easily add SQLite Archive Archive
+reading and writing support to their own projects by running the
+appropriate SQL.
+
+To see what SQL statements are used to implement an SQLite Archive
+operation, add the @code{--dryrun} or @code{-n} option. This causes the
+SQL to be displayed but inhibits the execution of the SQL.
+
+The SQL statements used to implement SQLite Archive operations make use
+of various loadable extensions. These extensions are all available in
+the SQLite source tree in the @code{ext/misc/} subfolder. The extensions needed
+for full SQLite Archive support include:
+
+@table @code
+@item fileio.c —
+This extension adds SQL functions @code{readfile()} and
+@code{writefile()} for reading and writing content from files on
+disk. The @code{fileio.c} extension also includes @code{fsdir()}
+table-valued function for listing the contents of a directory and the
+@code{lsname()} function for converting numeric st_mode integers from the
+@code{stat()} system call into human-readable strings after the fashion of the
+@code{ls -l} command.
+
+@item sqlar.c —
+This extension adds the @code{sqlar_compress()} and @code{sqlar_uncompress()}
+functions that are needed to compress and uncompress file content as it
+is insert and extracted from an SQLite Archive.
+
+@item zipfile.c —
+This extension implements the "zipfile(FILE)" table-valued function
+which is used to read ZIP archives. This extension is only needed when
+reading ZIP archives instead of SQLite archives.
+
+@item appendvfs.c —
+This extension implements a new VFS that allows an SQLite database to be
+appended to some other file, such as an executable. This extension is
+only needed if the @code{--append} option to the .archive command is used.
+@end table
+
+
+@node Recommendations d'index
+@chapter Recommendations d'Index (pour utilisateur expert)
+@c 15
+
+Note: This command is experimental. It may be removed or the interface
+modified in incompatible ways at some point in the future.
+
+For most non-trivial SQL databases, the key to performance is creating
+the right SQL indexes. In this context "the right SQL indexes" means
+those that cause the queries that an application needs to optimize run
+fast. The ".expert" command can assist with this by proposing indexes
+that might assist with specific queries, were they present in the
+database.
+
+The ".expert" command is issued first, followed by the SQL query on a
+separate line. For example, consider the following session:
+
+@example
+sqlite> CREATE TABLE x1(a, b, c);                  -- Create table in database 
+sqlite> .expert
+sqlite> SELECT * FROM x1 WHERE a=? AND b>?;        -- Analyze this SELECT 
+CREATE INDEX x1_idx_000123a7 ON x1(a, b);
+
+0|0|0|SEARCH TABLE x1 USING INDEX x1_idx_000123a7 (a=? AND b>?)
+
+sqlite> CREATE INDEX x1ab ON x1(a, b);             -- Create the recommended index 
+sqlite> .expert
+sqlite> SELECT * FROM x1 WHERE a=? AND b>?;        -- Re-analyze the same SELECT 
+(no new indexes)
+
+0|0|0|SEARCH TABLE x1 USING INDEX x1ab (a=? AND b>?)
+@end example
+
+
+In the above, the user creates the database schema (a single table -
+@code{x1}), and then uses the @code{.expert} command to analyze a
+query, in this case @code{SELECT * FROM x1 WHERE a=? AND b>?}. The
+shell tool recommends that the user create a new index (index "x1_idx_000123a7")
+and outputs the plan that the query would use in
+@code{EXPLAIN QUERY PLAN} format. The user then creates an index with an
+equivalent schema and runs the analysis on the same query again. This
+time the shell tool does not recommend any new indexes, and outputs the
+plan that SQLite will use for the query given the existing indexes.
+
+The @code{.expert} command accepts the following options:
+
+@multitable {--sample PERCENT} {If present, output a more verbose report for each query analyzed.}
+@headitem Option @tab Purpose
+@item @code{--verbose}        @tab If present, output a more verbose report for each query analyzed.
+@item @code{--sample PERCENT} @tab By default, the @code{.expert} command recommends indexes
+based on the query and database schema
+alone. This is similar to the way the SQLite
+query planner selects indexes for queries if the
+user has not run the ANALYZE command on the
+database to generate data distribution
+statistics.
+@end multitable
+
+If this option is passed a non-zero argument, the @code{.expert} command
+generates similar data distribution statistics for all indexes
+considered based on PERCENT percent of the rows currently stored in each
+database table. For databases with unusual data distributions, this may
+lead to better index recommendations, particularly if the application
+intends to run ANALYZE.  For small databases and modern CPUs, there is
+usually no reason not to pass @code{--sample 100}. However, gathering data
+distribution statistics can be expensive for large database tables. If
+the operation is too slow, try passing a smaller value for the --sample
+option.
+
+The functionality described in this section may be integrated into other
+applications or tools using the SQLite expert extension code.
+
+@node Les autres commandes
+@chapter Les autres commandes pointées
+@c 16
+
+Il y a beaucoup d'autres commandes pointées disponible pour le console
+en ligne de commande. Voyez la commande @code{.help} pour une liste
+complète pour toute version particulière ou nouvellement compilée de
+SQLite. 
+
+
+@node Les scripts en ligne de commande
+@chapter Utiliser sqlite3 dans un script en ligne de commande
+@c 17
+
+Une façon d'utiliser sqlite3 dans un script de terminal est d'utiliser
+la commande @code{echo} ou @code{cat} pou généer la séquence de
+commandes dans un fichier et d'invoquer ensuite sqlite3 en redirigeant
+son entrée sur le fichier généré par ces commandes. Ceci fonctionne bien
+et est une méthode appropriée dans beaucoup de circonstances. Mais
+sqlite3 propose une fontionalité supplémentaire qui d'entrer une
+commande SQL comme second argument sur la ligne de commande, après le
+nom de la base de données. Quand le programme sqlite3 est lancé avec
+deux arguments, le second argument est passé à la bibliothèque SQLite
+pour exécution. Les résultats de la requête sont renvoyés sur la sortie
+standard en mode liste (ntd. 'list mode') et le programme s'arrête. Ce
+mécanisme a été concu pour rendre sqlite3 simple à utiliser en
+conjonction avec d'autres programmes comme @code{awk}.
+
+Par exemple :
+
+@example
+$ sqlite3 ex1 'select * from tbl1' | 
+>  awk '@{ printf "<tr><td>%s<td>%s\n",$1,$2 @}'
+<tr><td>hello<td>10
+<tr><td>goodbye<td>20
+$
+@end example
+
+@node Terminer les commandes
+@chapter Terminer les commandes sur la console
+@c 18
+
+Les commandes SQLite sont normalement terminées par un point
+virgule. Dans le terminal, vous pouvez aussi utiliser la mont @code{GO}
+(en respectant la casse) ou une barre oblique @code{/} sur la ligne
+elle-même pour terminer une commande. Ceci est utilisé par les serveurs
+SQL et Oracle respectivement. Néanmoins, ceci ne fonctionne pas avec
+@code{sqlite3_exec()}, car en fait le terminal traduit ces deux codes en
+point virgule avant de les passer à cette fonction.
+
+@c à clarifier
+
+
+@node Compiler à partir des sources
+@chapter Compiler le programme sqlite3 à partir des sources
+@c 19
+
+To compile the command-line shell on unix systems and on Windows with
+MinGW, the usual configure-make command works:
+
+@example
+sh configure; make
+@end example
+
+The @code{configure-make} works whether your are building from the canonical
+sources from the source tree, or from an amalgamated bundle. There are
+few dependencies. When building from canonical sources, a working tclsh
+is required. If using an amalgamation bundle, all the preprocessing work
+normally done by tclsh will have already been carried out and only
+normal build tools are required.
+
+A working zlib compression library is needed in order for the @code{.archive}
+command to operate.
+
+On Windows with MSVC, use @code{nmake} with the @code{Makefile.msc}:
+
+@example
+nmake /f Makefile.msc
+@end example
+
+For correct operation of the .archive command, make a copy of the zlib
+source code into the @file{compat/zlib} subdirectory of the source tree and
+compile this way:
+
+@example
+nmake /f Makefile.msc USE_ZLIB=1
+@end example
+
+@menu
+* Faites le par vous-même:: Compilations personnelles, faitres par vous même
+@end menu
+
+@node Faites le par vous-même
+@section Compilations personnalisée, faites par vous-même.
+@c 19.1
+
+The source code to the @code{sqlite3} command line interface is in a single
+file named @file{shell.c}. The @file{shell.c} source file is generated from other
+sources, but most of the file for @file{shell.c} can be found in
+@file{src/shell.c.in}. (Regenerate @file{shell.c} by typing @file{make shell.c} from the
+canonical source tree.) Compile the @file{shell.c} file (together with the
+sqlite3 library source code) to generate the executable. For example:
+
+@example
+gcc -o sqlite3 shell.c sqlite3.c -ldl -lpthread -lz -lm
+@end example
+
+The following additional compile-time options are recommended in order
+to provide a full-featured command-line shell:
+
+@example
+    -DSQLITE_THREADSAFE=0
+    -DSQLITE_ENABLE_EXPLAIN_COMMENTS
+    -DSQLITE_USE_ZLIB
+    -DSQLITE_INTROSPECTION_PRAGMAS
+    -DSQLITE_ENABLE_UNKNOWN_SQL_FUNCTION
+    -DSQLITE_ENABLE_STMTVTAB
+    -DSQLITE_ENABLE_DBPAGE_VTAB
+    -DSQLITE_ENABLE_DBSTAT_VTAB
+    -DSQLITE_ENABLE_OFFSET_SQL_FUNC
+    -DSQLITE_ENABLE_JSON1
+    -DSQLITE_ENABLE_RTREE
+    -DSQLITE_ENABLE_FTS4
+    -DSQLITE_ENABLE_FTS5 
+@end example
+
+
+@bye
+
++-----------------------------+
+| Instructions d'installation |
++-----------------------------+
+
+* Sous un shell, créer le fichier info avec :
+
+  makeinfo cls_sqlite.texinfo
+
+
+* copier le fichier sous /usr/local/share/info/:
+
+  sudo cp cls_sqlite.info /usr/local/share/info/
+
+
+* compresser le fichier avec gzip
+
+  sudo gzip cls_sqlite.info
+
+  En mode dir sous Emacs, cela se fait aussi en se mettant
+  sur le fichier et en tapant `z` (mais il faut être dans
+  une session root).
+
+
+* mettre à jour le fichier dir.gz
+  Utiliser pour cela ce qui est ici en début de fichier
+
+  (je pense que cette dernière étape peut-être automatique,
+   mais je n'ai pas encore trouvé).
