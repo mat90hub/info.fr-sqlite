@@ -1088,29 +1088,32 @@ des arguments de la commande. Par exemple :
 @section Commande SQLite de création d'archive : '.ar --create'
 @c 14.1
 
-Create a new archive, overwriting any existing archive (either in the
-current "main" db or in the file specified by a @code{--file} option). Each
-argument following the options is a file to add to the
-archive. Directories are imported recursively. See above for examples.
+Créer un nouvelle archive, en écrasant toute archive pré-existante (soit
+dans la base courante @code{main} ou dans le fichier spécifié par
+l'option @code{--file}). Chaque argument qui suit les options est un
+fichier à ajouter à l'archive. Les répertoires sont importés
+récursivement. Voir plus haut pour des exemples.
+
 
 @node Commande d'extraction d'archive
 @section Command SQLite d'extraction d'archive : 'ar --extract'
 @c 14.2
 
-Extract files from the archive (either to the current working directory
-or to the directory specified by a @code{--directory} option). If there are no
-arguments following the options all files are extracted from the
-archive. Or, if there are arguments, they are the names of files to
-extract from the archive. Any specified directories are extracted
-recursively. It is an error if any specified files are not part of the
-archive.
+Extrait des fichiers d'une archive (soit dans le répertoire courant ou
+dans un répertoire spécifié par l'option @code{--directory}). S'il n'y a
+pas d'argument qui suit les options, tous les fichiers sont extraits de
+l'archive. S'il n'y a des arguments, ce sont les noms des fichiers à
+extraire de l'archive. Tout répertoire spécifié est extrait
+récursivement. Une erreur est levée si l'un des fichiers ne fait pas
+partie de l'archive.
 
 @example
--- Extract all files from the archive in the current "main" db to the
--- current working directory. List files as they are extracted. 
+-- Extrait tous les fichiers de l'archive dans la base de donnée
+-- courante "main" sur le repertoire courant. Liste les fichiers qui
+-- sont extraits.
 .ar --extract --verbose
 
--- Extract file "file1" from archive "ar.db" to directory "dir1".
+-- Extrait le fichier "file1" de l'archive "ar.db" dans le répertoire "dir1".
 .ar fCx ar.db dir1 file1
 @end example
 
@@ -1119,13 +1122,13 @@ archive.
 @section Commande SQLite pour lister le contenu d'une archie : `.ar --list'
 @ 14.3
 
-List the contents of the archive. If no arguments are specified, then
-all files are listed. Otherwise, only those specified as arguments
-are. Currently, the @code{--verbose} option does not change the behaviour of
-this command. That may change in the future.
+Lister le contenu d'une archive. Si aucun argument n'est spécifié, alors
+tous les fichiers sont listés. Autrement, seuls ceux qui sont spécifiés
+en arguments le sont. Actuellement, l'option @code{--verbose} ne change
+pas le comportement de cette commande. Ceci pourrait changer dans le futur
 
 @example
--- List contents of archive in current "main" db..
+-- Liste le contenu de l'archive dans le base de donnée "main" courante.
 .ar --list
 @end example
 
