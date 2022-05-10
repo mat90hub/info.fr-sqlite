@@ -1088,29 +1088,32 @@ des arguments de la commande. Par exemple :
 @section Commande SQLite de création d'archive : '.ar --create'
 @c 14.1
 
-Create a new archive, overwriting any existing archive (either in the
-current "main" db or in the file specified by a @code{--file} option). Each
-argument following the options is a file to add to the
-archive. Directories are imported recursively. See above for examples.
+Créer un nouvelle archive, en écrasant toute archive pré-existante (soit
+dans la base courante @code{main} ou dans le fichier spécifié par
+l'option @code{--file}). Chaque argument qui suit les options est un
+fichier à ajouter à l'archive. Les répertoires sont importés
+récursivement. Voir plus haut pour des exemples.
+
 
 @node Commande d'extraction d'archive
 @section Command SQLite d'extraction d'archive : 'ar --extract'
 @c 14.2
 
-Extract files from the archive (either to the current working directory
-or to the directory specified by a @code{--directory} option). If there are no
-arguments following the options all files are extracted from the
-archive. Or, if there are arguments, they are the names of files to
-extract from the archive. Any specified directories are extracted
-recursively. It is an error if any specified files are not part of the
-archive.
+Extrait des fichiers d'une archive (soit dans le répertoire courant ou
+dans un répertoire spécifié par l'option @code{--directory}). S'il n'y a
+pas d'argument qui suit les options, tous les fichiers sont extraits de
+l'archive. S'il n'y a des arguments, ce sont les noms des fichiers à
+extraire de l'archive. Tout répertoire spécifié est extrait
+récursivement. Une erreur est levée si l'un des fichiers ne fait pas
+partie de l'archive.
 
 @example
--- Extract all files from the archive in the current "main" db to the
--- current working directory. List files as they are extracted. 
+-- Extrait tous les fichiers de l'archive dans la base de donnée
+-- courante "main" sur le repertoire courant. Liste les fichiers qui
+-- sont extraits.
 .ar --extract --verbose
 
--- Extract file "file1" from archive "ar.db" to directory "dir1".
+-- Extrait le fichier "file1" de l'archive "ar.db" dans le répertoire "dir1".
 .ar fCx ar.db dir1 file1
 @end example
 
@@ -1119,13 +1122,13 @@ archive.
 @section Commande SQLite pour lister le contenu d'une archie : `.ar --list'
 @ 14.3
 
-List the contents of the archive. If no arguments are specified, then
-all files are listed. Otherwise, only those specified as arguments
-are. Currently, the @code{--verbose} option does not change the behaviour of
-this command. That may change in the future.
+Lister le contenu d'une archive. Si aucun argument n'est spécifié, alors
+tous les fichiers sont listés. Autrement, seuls ceux qui sont spécifiés
+en arguments le sont. Actuellement, l'option @code{--verbose} ne change
+pas le comportement de cette commande. Ceci pourrait changer dans le futur
 
 @example
--- List contents of archive in current "main" db..
+-- Liste le contenu de l'archive dans le base de donnée "main" courante.
 .ar --list
 @end example
 
@@ -1134,21 +1137,23 @@ this command. That may change in the future.
 @section Commande SQLite de mise à jour d'archive : '.ar --update'
 @c 14.4
 
-This command works the same way as the @code{--create} command, except
-that it does not delete the current archive before commencing. New
-versions of files silently replace existing files with the same names,
-but otherwise the initial contents of the archive (if any) remain
-intact.
+Cette commande fonctionne de la même façon que la commande
+@code{--create}, excepté qu'elle n'efface pas l'archive courante avant
+de commencer. Les nouvelles versions des fichiers remplacent
+silencieusement les fichiers existants ayant le même nom, mais sinon le
+contenu de l'archive initial reste intacte.
+
 
 @node Opérations avec ZIP
 @section Opérations sur des archives compressées avec ZIP
 @c 14.5
 
-If FILE is a ZIP archive rather than an SQLite Archive, the
-@code{.archive} command and the @code{-A} command-line option still
-work. This is accomplished using of the zipfile extension. Hence, the
-following commands are roughly equivalent, differing only in output
-formatting:
+Si le fichier @file{FILE} est une archive ZIP plutôt qu'une archive
+SQLite, la commande @code{.archive} et l'option en ligne de commande
+@code{-A} fonctionnent toujours. Ceci est accompli en utliser les
+extensions de fichiers zip. C'est pourquoi les commandes suivantes sont
+à peu près équivalente, différent seulement par le formatage de la
+sortie : 
 
 @multitable {zip -r archive2.zip dir} {Equivalent sqlite3.exe Command}
 @headitem Traditional Command @tab Equivalent @code{sqlite3.exe} Command
@@ -1157,48 +1162,52 @@ formatting:
 @item @code{zip -r archive2.zip dir} @tab @code{sqlite3 -Acf archive2.zip dir}
 @end multitable
 
+
 @node Implémenter des opérations d'archivage
 @section Instuctions SQL utilisées pour implémenter des opérations d'archivage SQLite
 @c 14.6
 
-The various SQLite Archive Archive commands are implemented using SQL
-statements. Application developers can easily add SQLite Archive Archive
-reading and writing support to their own projects by running the
-appropriate SQL.
+Les différentes commandes d'archivage SQLite sont implémentées en
+utilisant des expressions SQL. Les développeurs d'applications peuvent
+facilement ajouter des supports pour lire ou écire des archives SQLite
+pour leur propres projets en exécutant les instructions SQL appropriées.
 
-To see what SQL statements are used to implement an SQLite Archive
-operation, add the @code{--dryrun} or @code{-n} option. This causes the
-SQL to be displayed but inhibits the execution of the SQL.
+Pour voire quelles instructions SQL sont utilisées pour réaliser une
+opération d'archivate SQLite, ajouter l'option @code{--dryrun} ou
+@code{-n}.  Ceci affiche le code SQL, mais empêche l'exécution du code
+SQL.
 
-The SQL statements used to implement SQLite Archive operations make use
-of various loadable extensions. These extensions are all available in
-the SQLite source tree in the @code{ext/misc/} subfolder. The extensions needed
-for full SQLite Archive support include:
+Les instructions SQL utilisées pour implémenter des opérations
+d'archivage SQLite, vous pouvez utiliser des extensions à charger. Ces
+extensions sont toutes disponibles dans l'arbre des sources de SQLite
+dans le sous-répertoire @code{ext/misc/}. Ces extensions nécessite le
+support complet de l'archivange SQLite incluant :
 
 @table @code
 @item fileio.c —
-This extension adds SQL functions @code{readfile()} and
-@code{writefile()} for reading and writing content from files on
-disk. The @code{fileio.c} extension also includes @code{fsdir()}
-table-valued function for listing the contents of a directory and the
-@code{lsname()} function for converting numeric st_mode integers from the
-@code{stat()} system call into human-readable strings after the fashion of the
-@code{ls -l} command.
+Cette extension ajouter les fonctions SQL @code{readfile()} et
+@code{writefile()} pour lire et écrire le contenu des fichiers sur le
+disque. L'extension @code{fileio.c} inclue aussi la fonction tabulée @code{fsdir()}
+pour liste les contenus d'un répertoire la fonction @code{lsname()} pour
+convertir les entiers @code{st_mode} des appels système @code{stat()} en
+des chaînes lisibles pour un humain, à la façon de la commande @code{ls -l}.
 
 @item sqlar.c —
-This extension adds the @code{sqlar_compress()} and @code{sqlar_uncompress()}
-functions that are needed to compress and uncompress file content as it
-is insert and extracted from an SQLite Archive.
+Cette extension ajouter les fonctiones @code{sqlar_compress()} et @code{sqlar_uncompress()}
+qui sont requises pour compresser et décompresser le contenu de fichier
+comme ils sont après avoir été extrait d'une archive SQLite.
 
 @item zipfile.c —
-This extension implements the "zipfile(FILE)" table-valued function
-which is used to read ZIP archives. This extension is only needed when
-reading ZIP archives instead of SQLite archives.
+Cette extension implémente la fonction tabulée @code{zipfile(FILE)}, qui
+est utilisée pour lire les archies ZIP. Cette extension n'est requise
+que quand il faut lire des archives ZIP à la place d'archives SQLite.
 
 @item appendvfs.c —
-This extension implements a new VFS that allows an SQLite database to be
-appended to some other file, such as an executable. This extension is
-only needed if the @code{--append} option to the .archive command is used.
+Cette extension implémente une nouveau système de virtualisation de
+fichier (VFS) qui permet à une base de données SQLite d'être ajoutée à
+autre type de fichier, comme par exemple un exécutable. Cette extension
+n'est requise que si l'option @code{--append} de la commande
+@code{.archive} est utilisée.
 @end table
 
 
@@ -1206,8 +1215,9 @@ only needed if the @code{--append} option to the .archive command is used.
 @chapter Recommendations d'Index (pour utilisateur expert)
 @c 15
 
-Note: This command is experimental. It may be removed or the interface
-modified in incompatible ways at some point in the future.
+Note: Cette commande est expérimentale. Elle pourrait être enlevée ou
+l'interface pourrait modifié de façon incompatible à un certain point
+dans l'avenir.
 
 For most non-trivial SQL databases, the key to performance is creating
 the right SQL indexes. In this context "the right SQL indexes" means
@@ -1331,58 +1341,65 @@ point virgule avant de les passer à cette fonction.
 @chapter Compiler le programme sqlite3 à partir des sources
 @c 19
 
-To compile the command-line shell on unix systems and on Windows with
-MinGW, the usual configure-make command works:
+Pour compiler sur un terminal en ligne de commande sur un système Unix
+ou sur Windows avec MinGW, la commande habituelle @code{configure-make}
+fonctionne :
 
 @example
 sh configure; make
 @end example
 
-The @code{configure-make} works whether your are building from the canonical
-sources from the source tree, or from an amalgamated bundle. There are
-few dependencies. When building from canonical sources, a working tclsh
-is required. If using an amalgamation bundle, all the preprocessing work
-normally done by tclsh will have already been carried out and only
-normal build tools are required.
+La cmmande @code{configure-make} fonctionne que vous compiliez depuis
+les sources canoniques de l'arbre des sources ou dpuis un paquet
+amalgamé. Il y a quelques dépendances. Quand vous compilez à partir des
+sources canoniques, un programme @code{tclsh} fonctionnant est
+requis. Si vous utilisez un autre type de paquet, toutes les tâches de
+pré-compilation, qui sont normalement réalisées par @code{tclsh},
+devront avoir été faites et alors seuls les outils classique de
+compilation sont requis.
 
-A working zlib compression library is needed in order for the @code{.archive}
-command to operate.
+Une extension de compression zlib est requise pour que la commande
+@code{.archive} fonctionne.
 
-On Windows with MSVC, use @code{nmake} with the @code{Makefile.msc}:
+Sur Windows avec MSVC, utlisez @code{nmake} avec @code{Makefile.msc}:
 
 @example
 nmake /f Makefile.msc
 @end example
 
-For correct operation of the .archive command, make a copy of the zlib
-source code into the @file{compat/zlib} subdirectory of the source tree and
-compile this way:
+Pour que la commande @code{.archive} fonctionne correctement, faite une
+copie du code source de zlib dans le sous-répertoire @file{compat/zlib}
+de l'argre des sources et compilez de la façon suivante :
 
 @example
 nmake /f Makefile.msc USE_ZLIB=1
 @end example
 
+
 @menu
 * Faites le par vous-même:: Compilations personnelles, faitres par vous même
 @end menu
+
 
 @node Faites le par vous-même
 @section Compilations personnalisée, faites par vous-même.
 @c 19.1
 
-The source code to the @code{sqlite3} command line interface is in a single
-file named @file{shell.c}. The @file{shell.c} source file is generated from other
-sources, but most of the file for @file{shell.c} can be found in
-@file{src/shell.c.in}. (Regenerate @file{shell.c} by typing @file{make shell.c} from the
-canonical source tree.) Compile the @file{shell.c} file (together with the
-sqlite3 library source code) to generate the executable. For example:
+La code source de l'interface en ligne de commande de @code{sqlite3} est
+un fichier unique nommé @file{shell.c}. Le fichier source @file{shell.c}
+est généré à partire d'autres sources, mais la plupart des fichiers pour
+@file{shell.c} peuvent être trouvé dans
+@file{src/shell.c.in}. (Regénérer @file{shell.c} en tapant @file{make
+shell.c} depuis l'arbre canonique des sources). Compilez le fichier
+@file{shell.c} (avec le code source de la bibliothèque sqlite3) pour
+généer l'exécutable. Par exemple :
 
 @example
 gcc -o sqlite3 shell.c sqlite3.c -ldl -lpthread -lz -lm
 @end example
 
-The following additional compile-time options are recommended in order
-to provide a full-featured command-line shell:
+Les options suivantes de compilation sont recommandées pour obtenir
+toutes les fonctionnalités du terminal en ligne de commande :
 
 @example
     -DSQLITE_THREADSAFE=0
@@ -1402,6 +1419,7 @@ to provide a full-featured command-line shell:
 
 
 @bye
+
 
 +-----------------------------+
 | Instructions d'installation |

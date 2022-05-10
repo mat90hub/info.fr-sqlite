@@ -1,0 +1,34 @@
+# -*- coding: utf-8-unix; mode:org; mode: auto-fill; fill-column: 80; ispell-local-dictionary: "french"; -*-
+
+
+#+TITLE:  Apprendre SQLine en ligne de commande
+#+DATE:   Mai 2022
+#+AUTHOR: Mathieu Pouit
+#+LANG: en
+
+#+STARTUP: showall
+#+STARTUP: hidestars
+#+STARTUP: inlineimages
+#+STARTUP: noindent
+
+
+* Table of content                                                      :TOC:
+- [[#introduction][Introduction]]
+- [[#création-dune-base][Création d'une base]]
+
+* Introduction
+
+Ce Texte aide la lecture du manuel en proposant des tests à exécuter dans le
+répertoire local.
+
+
+* Création d'une base
+
+
+#+begin_src bash :output
+sqlite3 .help
+#+end_src
+
+#+RESULTS:
+
+
