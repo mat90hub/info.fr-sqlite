@@ -1,0 +1,2536 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Ce fichier est une traduction de la page html pour la documentation
+officielle de l’interface en ligne de commande de SQLite :
+https://www.sqlite.org/cli.html.  Le site est régulièrement mis à
+jour, la version traduite date de juin 2024. -->
+<title>L’interface ligne de commande de SQLite</title>
+
+<meta name="description" content="L’interface ligne de commande de SQLite">
+<meta name="keywords" content="L’interface ligne de commande de SQLite">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="#Top" rel="start" title="Top">
+<link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="#Pour-commencer" rel="next" title="Pour commencer">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+kbd.key {font-style: normal}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+ul.toc-numbered-mark {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="fr">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="top-level-extent" id="Top">
+<div class="nav-panel">
+<p>
+Next: <a href="#Pour-commencer" accesskey="n" rel="next">Pour commencer</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h1 class="top" id="SQLITE-en-ligne-de-commande"><span>SQLITE en ligne de commande<a class="copiable-link" href="#SQLITE-en-ligne-de-commande"> &para;</a></span></h1>
+<p>Ce manuel explique comment interagir avec une base de données SQLite dans
+une console en utilisant la commande <code class="code">sqlite3</code>.
+</p>
+
+
+<div class="element-contents" id="SEC_Contents">
+<h2 class="contents-heading">Table of Contents</h2>
+
+<div class="contents">
+
+<ul class="toc-numbered-mark">
+  <li><a id="toc-Pour-commencer-1" href="#Pour-commencer">1 Pour commencer</a></li>
+  <li><a id="toc-Demarrage-en-deux-clics-sous-Windows" href="#D_00e9marrage-en-deux-clics-sous-Windows">2 Démarrage en deux clics sous Windows</a></li>
+  <li><a id="toc-Les-commandes-point-de-sqlite3-1" href="#Les-commandes-point-de-sqlite3">3 Les commandes point de sqlite3</a></li>
+  <li><a id="toc-Regles-pour-les-commandes-point" href="#R_00e8gles-pour-les-commandes-point">4 Règles pour les commandes point</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Structure-d_2019une-ligne-1" href="#Structure-d_2019une-ligne">4.1 Structure d’une ligne</a></li>
+    <li><a id="toc-Arguments-des-commandes-point-1" href="#Arguments-des-commandes-point">4.2 Arguments des commandes point</a></li>
+    <li><a id="toc-Execution-des-commandes-point" href="#Ex_00e9cution-des-commandes-point">4.3 Exécution des commandes point</a></li>
+  </ul></li>
+  <li><a id="toc-Modification-des-formats-de-sortie-1" href="#Modification-des-formats-de-sortie">5 Modification des formats de sortie</a></li>
+  <li><a id="toc-Requete-sur-le-schema-de-la-base-de-donnees" href="#Requ_00eate-sur-le-sch_00e9ma-de-la-base-de-donn_00e9es">6 Requête sur le schéma de la base de données</a></li>
+  <li><a id="toc-Ouverture-des-fichiers-de-base-de-donnees" href="#Ouverture-des-fichiers-de-base-de-donn_00e9es">7 Ouverture des fichiers de base de données</a></li>
+  <li><a id="toc-Redirection-des-E_002fS-1" href="#Redirection-des-E_002fS">8 Redirection des E/S</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Ecrire-les-resultats-dans-un-fichier" href="#g_t_00c9crire-les-r_00e9sultats-dans-un-fichier">8.1 Écrire les résultats dans un fichier</a></li>
+    <li><a id="toc-Lire-SQL-a-partir-d_2019un-fichier" href="#Lire-SQL-_00e0-partir-d_2019un-fichier">8.2 Lire SQL à partir d’un fichier</a></li>
+    <li><a id="toc-Fonctions-d_2019Entree_002fSortie-sur-les-fichiers" href="#Fonctions-d_2019E_002fS-sur-les-fichiers">8.3 Fonctions d’Entrée/Sortie sur les fichiers</a></li>
+    <li><a id="toc-La-fonction-SQL-edit_0028_0029" href="#La-fonction-SQL-edit">8.4 La fonction SQL edit()</a></li>
+    <li><a id="toc-Importation-de-fichiers-au-format-CSV-ou-autres-formats-1" href="#Importation-de-fichiers-au-format-CSV-ou-autres-formats">8.5 Importation de fichiers au format CSV ou autres formats</a></li>
+    <li><a id="toc-Exporter-au-format-CSV-1" href="#Exporter-au-format-CSV">8.6 Exporter au format CSV</a>
+    <ul class="toc-numbered-mark">
+      <li><a id="toc-Exporter-vers-Excel-1" href="#Exporter-vers-Excel">8.6.1 Exporter vers Excel</a></li>
+      <li><a id="toc-Exporter-vers-TSV-_0028valeurs-separees-par-des-tabulations_0029" href="#Exporter-vers-TSV">8.6.2 Exporter vers TSV (valeurs séparées par des tabulations)</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a id="toc-Acces-aux-bases-sous-forme-compressee" href="#Acc_00e8s-aux-bases-sous-forme-compress_00e9e">9 Accès aux bases sous forme compressée</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Details-de-l_2019implementation-de-l_0027acces-aux-archives-ZIP" href="#Details-de-l_2019impl_00e9mentation-de-l_0027acc_00e8s-aux-archives-ZIP">9.1 Details de l’implémentation de l&rsquo;accès aux archives ZIP</a></li>
+  </ul></li>
+  <li><a id="toc-Conversion-d_0027une-base-en-fichier-texte-1" href="#Conversion-d_0027une-base-en-fichier-texte">10 Conversion d&rsquo;une base en fichier texte</a></li>
+  <li><a id="toc-Recuperer-une-base-de-donnees-corrompue" href="#R_00e9cup_00e9rer-une-base-de-donn_00e9es-corrompue">11 Récupérer une base de données corrompue</a></li>
+  <li><a id="toc-Charger-des-Extensions-1" href="#Charger-des-Extensions">12 Charger des Extensions</a></li>
+  <li><a id="toc-Hachages-cryptographiques-1" href="#Hachages-cryptographiques">13 Hachages cryptographiques</a></li>
+  <li><a id="toc-Autotests-du-contenu-de-la-base-de-donnees" href="#Autotests-du-contenu-de-la-base-de-donn_00e9es">14 Autotests du contenu de la base de données</a></li>
+  <li><a id="toc-Prise-en-charge-des-archives-SQLite-1" href="#Prise-en-charge-des-archives-SQLite">15 Prise en charge des archives SQLite</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-La-commande-de-creation-d_2019archive-_0028_002ear-_002d_002dcreate_0029" href="#La-commande-de-cr_00e9ation-d_2019archive-_0028_002ear-_002d_002dcreate_0029">15.1 La commande de création d’archive (.ar &ndash;create)</a></li>
+    <li><a id="toc-La-commande-d_2019extraction-_0028_002ear-_002d_002dextract_0029-1" href="#La-commande-d_2019extraction-_0028_002ear-_002d_002dextract_0029">15.2 La commande d’extraction (.ar &ndash;extract)</a></li>
+    <li><a id="toc-La-commande-pour-lister-le-contenu-d_2019une-archive-_0028_002ear-_002d_002dlist_0029-1" href="#La-commande-pour-lister-le-contenu-d_2019une-archive-_0028_002ear-_002d_002dlist_0029">15.3 La commande pour lister le contenu d’une archive (.ar &ndash;list)</a></li>
+    <li><a id="toc-Les-commandes-pour-inserer-et-mettre-a-jour-_0028_002ear-_002d_002dinsert_002f_002ear-_002d_002dupdate_0029" href="#Les-commandes-pour-ins_00e9rer-et-mettre-_00e0-jour-_0028_002ear-_002d_002dinsert_002f_002ear-_002d_002dupdate_0029">15.4 Les commandes pour insérer et mettre à jour (.ar &ndash;insert/.ar &ndash;update)</a></li>
+    <li><a id="toc-La-commande-pour-enlever-_0028_002ear-_002d_002dremove_0029-1" href="#La-commande-pour-enlever-_0028_002ear-_002d_002dremove_0029">15.5 La commande pour enlever (.ar &ndash;remove)</a></li>
+    <li><a id="toc-Les-operations-sur-les-archives-ZIP-1" href="#Les-operations-sur-les-archives-ZIP">15.6 Les operations sur les archives ZIP</a></li>
+    <li><a id="toc-Les-Instructions-SQL-realisant-des-operations-d_2019archivage-SQLite" href="#Les-Instructions-SQL-r_00e9alisant-des-op_00e9rations-d_2019archivage-SQLite">15.7 Les Instructions SQL réalisant des opérations d’archivage SQLite</a></li>
+  </ul></li>
+  <li><a id="toc-Parametres-SQL" href="#Param_00e8tres-SQL">16 Paramètres SQL</a></li>
+  <li><a id="toc-Recommendation-pour-les-experts-SQLite-sur-les-index-1" href="#Recommendation-pour-les-experts-SQLite-sur-les-index">17 Recommendation pour les experts SQLite sur les index</a></li>
+  <li><a id="toc-Travailler-avec-des-connexions-multiples-a-base-de-donnees" href="#Travailler-avec-des-connexions-multiples-_00e0-base-de-donn_00e9es">18 Travailler avec des connexions multiples à base de données</a></li>
+  <li><a id="toc-Fonctionalites-diverses-de-l_2019extension" href="#Fonctionalit_00e9s-diverses-de-l_2019extension">19 Fonctionalités diverses de l’extension</a></li>
+  <li><a id="toc-Autres-commandes-point-1" href="#Autres-commandes-point">20 Autres commandes point</a></li>
+  <li><a id="toc-Utiliser-sqlite3-dans-un-script-shell-1" href="#Utiliser-sqlite3-dans-un-script-shell">21 Utiliser sqlite3 dans un script shell</a></li>
+  <li><a id="toc-Marquer-la-fin-d_2019une-instruction-SQL-1" href="#Marquer-la-fin-d_2019une-instruction-SQL">22 Marquer la fin d’une instruction SQL</a></li>
+  <li><a id="toc-Options-de-la-ligne-de-commandes-1" href="#Options-de-la-ligne-de-commandes">23 Options de la ligne de commandes</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-L_2019option-de-ligne-de-commande-_002d_002dsafe-1" href="#L_2019option-de-ligne-de-commande-_002d_002dsafe">23.1 L’option de ligne de commande <code class="code">--safe</code></a>
+    <ul class="toc-numbered-mark">
+      <li><a id="toc-Court_002dcircuiter-des-commandes-particulieres-avec-_002d_002dsafe-restrictions" href="#Court_002dcircuiter-des-commandes-particuli_00e8res-avec-_002d_002dsafe-restrictions">23.1.1 Court-circuiter des commandes particulières avec &ndash;safe restrictions</a></li>
+    </ul></li>
+    <li><a id="toc-L_2019option-de-ligne-de-commande-_002d_002dunsafe_002dtesting-1" href="#L_2019option-de-ligne-de-commande-_002d_002dunsafe_002dtesting">23.2 L’option de ligne de commande &ndash;unsafe-testing</a></li>
+    <li><a id="toc-Les-options-de-ligne-de-commande-_002d_002dno_002dutf8-et-_002d_002dutf8-1" href="#Les-options-de-ligne-de-commande-_002d_002dno_002dutf8-et-_002d_002dutf8">23.3 Les options de ligne de commande &ndash;no-utf8 et &ndash;utf8</a></li>
+  </ul></li>
+  <li><a id="toc-Compiler-le-programme-sqlite3-depuis-ses-sources-1" href="#Compiler-le-programme-sqlite3-depuis-ses-sources">24 Compiler le programme sqlite3 depuis ses sources</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Tout-compiler-par-soi_002dmeme" href="#Tout-compiler-par-soi_002dm_00eame">24.1 Tout compiler par soi-même</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+<hr>
+<div class="chapter-level-extent" id="Pour-commencer">
+<div class="nav-panel">
+<p>
+Next: <a href="#D_00e9marrage-en-deux-clics-sous-Windows" accesskey="n" rel="next">Démarrage en deux clics sous Windows</a>, Previous: <a href="#Top" accesskey="p" rel="prev">SQLITE en ligne de commande</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Pour-commencer-1"><span>1 Pour commencer<a class="copiable-link" href="#Pour-commencer-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023getting_005fstarted"></a>
+<p>Le projet SQLite fournit un programme de ligne de commande simple
+<code class="code">sqlite3</code> (ou <code class="code">sqlite3.exe</code> sous Windows) qui permet à
+l’utilisateur de saisir et d’exécuter des instructions SQL sur une base
+de données SQLite ou sur une archive ZIP. Ce document fournit une
+introduction sur la façon d’utiliser le programme sqlite3 .
+</p>
+<p>Pour commencer, lancez le programme sqlite3 en tapant <code class="code">sqlite3</code>
+dans un shell, éventuellement suivi du nom du fichier contenant la base
+de données SQLite(ou l’archive ZIP). Si le fichier nommé n’existe pas,
+un nouveau fichier de base de données portant le nom donné sera créé
+automatiquement. Si aucun fichier de base de données n’est spécifié sur
+la ligne de commande, une base de données temporaire est créée et
+automatiquement supprimée en fin d’exécution du programme
+<code class="code">sqlite3</code>.
+</p>
+<p>Au démarrage, le programme <code class="code">sqlite3</code> affichera un bref message de
+bannière puis vous invitera à saisir du SQL. Tapez les instructions SQL
+(terminées par un point-virgule), appuyez sur &quot;Entrée&quot; et le code SQL
+sera exécuté.
+</p>
+<p>Par exemple, pour créer une nouvelle base de données SQLite
+nommée <code class="code">ex1</code> avec une seule table nommée <code class="code">tbl1</code>, vous pouvez
+procéder comme suit :
+</p>
+<div class="example">
+<pre class="example-preformatted">$ sqlite3 ex1
+SQLite version 3.36.0 2021-06-18 18:36:39
+Enter &quot;.help&quot; for usage hints.
+sqlite&gt; create table tbl1(one varchar(10), two smallint);
+sqlite&gt; insert into tbl1 values('hello!',10);
+sqlite&gt; insert into tbl1 values('goodbye', 20);
+sqlite&gt; select * from tbl1;
+hello!|10
+goodbye|20
+sqlite&gt;
+</pre></div>
+
+<p>Terminez le programme sqlite3 en tapant le caractère de fin de
+fichier de votre système (généralement un <kbd class="key">CTRL</kbd>-D). Utilisez le
+caractère d’interruption (généralement un <kbd class="key">CTRL</kbd>-C) pour arrêter une
+instruction SQL qui durt trop longtemps.
+</p>
+<p>Assurez-vous de taper un point-virgule à la fin de chaque commande SQL !
+Le programme sqlite3 recherche un point-virgule pour savoir si
+l’instruction SQL est terminée. Si vous omettez le point-virgule,
+<code class="code">sqlite3</code> affiche une invite de suite et attend que vous
+saisissiez plus de texte pour terminer l’instruction SQL en court. Cette
+fonctionnalité vous permet de saisir des commandes SQL qui s’étendent
+sur plusieurs lignes.  Par exemple:
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; CREATE TABLE tbl2 ( 
+   ...&gt;   f1 varchar(30) primary key,
+   ...&gt;   f2 text,
+   ...&gt;   f3 real
+   ...&gt; );
+sqlite&gt;
+</pre></div>
+
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="D_00e9marrage-en-deux-clics-sous-Windows">
+<div class="nav-panel">
+<p>
+Next: <a href="#Les-commandes-point-de-sqlite3" accesskey="n" rel="next">Les commandes point de sqlite3</a>, Previous: <a href="#Pour-commencer" accesskey="p" rel="prev">Pour commencer</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Demarrage-en-deux-clics-sous-Windows"><span>2 Démarrage en deux clics sous Windows<a class="copiable-link" href="#Demarrage-en-deux-clics-sous-Windows"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023double_005fclick_005fstartup_005fon_005fwindows"></a>
+<p>Les utilisateurs de Windows peuvent double-cliquer sur l’icône
+<code class="code">sqlite3.exe</code> pour que le shell de ligne de commande affiche une
+fenêtre de terminal exécutant SQLite. Cependant, comme un
+double-clic démarre <code class="code">sqlite3.exe</code> sans arguments de ligne de
+commande, aucun fichier de base de données n’aura été spécifié, donc
+SQLite utilisera une base de données temporaire qui sera
+supprimée à la fin de la session. Pour utiliser un fichier de disque
+persistant comme base de données, entrez la commande <code class="code">.open</code>
+immédiatement après le démarrage de la fenêtre du terminal :
+</p>
+<div class="example">
+<pre class="example-preformatted">SQLite version 3.36.0 2021-06-18 18:36:39
+Enter &quot;.help&quot; for usage hints.in        
+Connected to a transient in-memory database.
+Use &quot;.open FILENAME&quot; to reopen on a persistent database.
+sqlite&gt; .open ex1.db
+sqlite&gt;
+</pre></div>
+
+<p>L’exemple ci-dessus provoque l’ouverture et l’utilisation du fichier de
+base de données nommé <samp class="file">ex1.db</samp>. Le fichier &quot;ex1.db&quot; est créé s’il
+n’existe pas auparavant. Vous souhaiterez peut-être utiliser un chemin
+d’accès complet pour vous assurer que le fichier se trouve dans le
+répertoire dans lequel vous pensez qu’il se trouve. Utilisez des barres
+obliques comme caractère de séparation de répertoire. En d’autres
+termes, utilisez <samp class="file">c:/work/ex1.db</samp>, et non <samp class="file">c:\work\ex1.db</samp>.
+</p>
+<p>Alternativement, vous pouvez créer une nouvelle base de données en
+utilisant le stockage temporaire par défaut, puis enregistrer cette base
+de données dans un fichier disque à l’aide de la commande <code class="code">.save</code> :
+</p>
+<div class="example">
+<pre class="example-preformatted">SQLite version 3.36.0 2021-06-18 18:36:39
+Enter &quot;.help&quot; for usage hints.
+Connected to a transient in-memory database.
+Use &quot;.open FILENAME&quot; to reopen on a persistent database.
+sqlite&gt; ... ici on entre plusieurs commandes SQL  ...
+sqlite&gt; ... en oublient d’ouvrir une base  ...
+sqlite&gt; .save ex1.db
+sqlite&gt;
+</pre></div>
+
+<p>Soyez prudent lorsque vous utilisez la commande <code class="code">.save</code> car elle
+écrasera tous les fichiers de base de données préexistants portant le
+même nom sans demander de confirmation. Comme pour la commande <code class="code">.open</code>,
+vous souhaiterez peut-être utiliser un chemin d’accès complet avec des
+séparateurs de répertoire par barre oblique pour éviter toute ambiguïté.
+</p>
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Les-commandes-point-de-sqlite3">
+<div class="nav-panel">
+<p>
+Next: <a href="#R_00e8gles-pour-les-commandes-point" accesskey="n" rel="next">Règles pour les commandes point</a>, Previous: <a href="#D_00e9marrage-en-deux-clics-sous-Windows" accesskey="p" rel="prev">Démarrage en deux clics sous Windows</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Les-commandes-point-de-sqlite3-1"><span>3 Les commandes point de sqlite3<a class="copiable-link" href="#Les-commandes-point-de-sqlite3-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023special_005fcommands_005fto_005fsqlite3_005fdot_005fcommands_005f"></a>
+<p>La plupart du temps, <code class="code">sqlite3</code> lit simplement les lignes d’entrée
+et les transmet à la bibliothèque SQLite pour exécution. Mais
+les lignes d’entrée commençant par un point (<code class="code">.</code>) sont interceptées
+et interprétées par le programme <code class="code">sqlite3</code> lui-même. Ces
+<em class="emph">commandes point</em> sont généralement utilisées pour modifier le
+format de sortie des requêtes ou pour exécuter certaines instructions de
+requête préemballées. À l’origine, il n’y avait que quelques commandes
+par points, mais au fil des années, de nombreuses nouvelles
+fonctionnalités se sont accumulées, si bien qu’il en existe aujourd’hui
+plus de 60.
+</p>
+<p>Pour obtenir une liste des commandes point disponibles, vous pouvez
+saisir <code class="code">.help</code> sans argument. Ou entrez <code class="code">.help TOPIC</code> pour des
+informations détaillées sur <code class="code">TOPIC</code>. 
+</p>
+<p>Voici la liste de ces options, avec l’explication traduite en français.
+</p>
+<table class="multitable">
+<tbody><tr><td width="31%"><code class="code">.archive ...</code></td><td width="69%">Gérer les archives SQL</td></tr>
+<tr><td width="31%"><code class="code">.auth ON|OFF</code></td><td width="69%">Afficher les rappels de l’autorisateur</td></tr>
+<tr><td width="31%"><code class="code">.backup ?DB? FILE</code></td><td width="69%">Sauvegarder <code class="code">DB</code> (par défaut &quot;main&quot;) dans <code class="code">FILE</code></td></tr>
+<tr><td width="31%"><code class="code">.bail on|off</code></td><td width="69%">Arrêter après une erreur. Par défaut <code class="code">OFF</code></td></tr>
+<tr><td width="31%"><code class="code">.binary on|off</code></td><td width="69%">Activer ou désactiver la sortie binaire. Par défaut <code class="code">OFF</code></td></tr>
+<tr><td width="31%"><code class="code">.cd DIRECTORY</code></td><td width="69%">Changer le répertoire de travail pour <code class="code">DIRECTORY</code></td></tr>
+<tr><td width="31%"><code class="code">.changes on|off</code></td><td width="69%">Afficher le nombre de lignes modifiées</td></tr>
+<tr><td width="31%"><code class="code">.check GLOB</code></td><td width="69%">Échouer si la sortie depuis <code class="code">.testcase</code> ne correspond pas</td></tr>
+<tr><td width="31%"><code class="code">.clone NEWDB</code></td><td width="69%">Clôner les données dans <code class="code">NEWDB</code> à partir de la base de données existante</td></tr>
+<tr><td width="31%"><code class="code">.databases</code></td><td width="69%">Lister les noms et fichiers des bases de données attachées</td></tr>
+<tr><td width="31%"><code class="code">.dbconfig ?op? ?val?</code></td><td width="69%">Lister ou changer les options de <code class="code">sqlite3_db_config()</code></td></tr>
+<tr><td width="31%"><code class="code">.dbinfo ?DB?</code></td><td width="69%">Afficher les informations de statut sur la base de données</td></tr>
+<tr><td width="31%"><code class="code">.dump ?TABLE? ...</code></td><td width="69%">Traduire tout le contenu de la base de données en instruction SQL</td></tr>
+<tr><td width="31%"><code class="code">.echo on|off</code></td><td width="69%">Activer ou désactiver l’écho des commandes</td></tr>
+<tr><td width="31%"><code class="code">.eqp on|off|full</code></td><td width="69%">Activer ou désactiver la plan <code class="code">EXPLAIN QUERY PLAN</code></td></tr>
+<tr><td width="31%"><code class="code">.excel</code></td><td width="69%">Afficher la sortie de la prochaine commande dans une feuille de calcul</td></tr>
+<tr><td width="31%"><code class="code">.exit ?CODE?</code></td><td width="69%">Quitter ce programme avec le code de retour <code class="code">CODE</code></td></tr>
+<tr><td width="31%"><code class="code">.expert</code></td><td width="69%">(EXPÉRIMENTAL) Suggérer des index pour les requêtes spécifiées</td></tr>
+<tr><td width="31%"><code class="code">.fullschema ?--indent?</code></td><td width="69%">Afficher le schéma et le contenu des tables <code class="code">sqlite_stat</code></td></tr>
+<tr><td width="31%"><code class="code">.headers on|off</code></td><td width="69%">Activer ou désactiver l’affichage des en-têtes</td></tr>
+<tr><td width="31%"><code class="code">.help ?-all? ?PATTERN?</code></td><td width="69%">Afficher le texte d&rsquo;aide pour <code class="code">PATTERN</code></td></tr>
+<tr><td width="31%"><code class="code">.import FILE TABLE</code></td><td width="69%">Importer les données de <code class="code">FILE</code> dans <code class="code">TABLE</code></td></tr>
+<tr><td width="31%"><code class="code">.imposter INDEX TABLE</code></td><td width="69%">Créer une <code class="code">TABLE</code> <code class="code">.imposter</code> sur l’index <code class="code">INDEX</code></td></tr>
+<tr><td width="31%"><code class="code">.indexes ?TABLE?</code></td><td width="69%">Afficher les noms des index</td></tr>
+<tr><td width="31%"><code class="code">.iotrace FILE</code></td><td width="69%">Activer la journalisation de diagnostic d&rsquo;E/S dans FILE</td></tr>
+<tr><td width="31%"><code class="code">.limit ?LIMIT? ?VAL?</code></td><td width="69%">Afficher ou changer la valeur d&rsquo;un <code class="code">SQLITE_LIMIT</code></td></tr>
+<tr><td width="31%"><code class="code">.lint OPTIONS</code></td><td width="69%">Signaler les problèmes potentiels du schéma</td></tr>
+<tr><td width="31%"><code class="code">.load FILE ?ENTRY?</code></td><td width="69%">Charger une bibliothèque d&rsquo;extensions</td></tr>
+<tr><td width="31%"><code class="code">.log FILE|off</code></td><td width="69%">Activer ou désactiver la journalisation. FILE peut être stderr/stdout</td></tr>
+<tr><td width="31%"><code class="code">.mode MODE ?TABLE?</code></td><td width="69%">Définir le mode de sortie</td></tr>
+<tr><td width="31%"><code class="code">.nullvalue STRING</code></td><td width="69%">Utiliser STRING à la place des valeurs <code class="code">NULL</code></td></tr>
+<tr><td width="31%"><code class="code">.once (-e|-x|FILE)</code></td><td width="69%">Sortie de la prochaine commande SQL uniquement dans <code class="code">FILE</code></td></tr>
+<tr><td width="31%"><code class="code">.open ?OPTIONS? ?FILE?</code></td><td width="69%">Fermer la base de données existante et rouvrir <code class="code">FILE</code></td></tr>
+<tr><td width="31%"><code class="code">.output ?FILE?</code></td><td width="69%">Envoyer la sortie vers <code class="code">FILE</code> ou stdout si <code class="code">FILE</code> est omis</td></tr>
+<tr><td width="31%"><code class="code">.print STRING...</code></td><td width="69%">Imprimer la chaîne de caractères littérale <code class="code">STRING</code></td></tr>
+<tr><td width="31%"><code class="code">.prompt MAIN CONTINUE</code></td><td width="69%">Remplacer les invites standard</td></tr>
+<tr><td width="31%"><code class="code">.quit</code></td><td width="69%">Quitter ce programme</td></tr>
+<tr><td width="31%"><code class="code">.read FILE</code></td><td width="69%">Lire l’entrée de <code class="code">FILE</code></td></tr>
+<tr><td width="31%"><code class="code">.restore ?DB? FILE</code></td><td width="69%">Restaurer le contenu de <code class="code">DB</code> (par défaut &quot;main&quot;) à partir de <code class="code">FILE</code></td></tr>
+<tr><td width="31%"><code class="code">.save FILE</code></td><td width="69%">Écrire la base de données en mémoire dans <code class="code">FILE</code></td></tr>
+<tr><td width="31%"><code class="code">.scanstats on|off</code></td><td width="69%">Activer ou désactiver les métriques <code class="code">sqlite3_stmt_scanstatus()</code></td></tr>
+<tr><td width="31%"><code class="code">stats ?on/?off</code></td><td width="69%">Montre les statistiques ou les arrête</td></tr>
+<tr><td width="31%"><code class="code">.schema ?PATTERN?</code></td><td width="69%">Afficher les déclarations CREATE correspondant à <code class="code">PATTERN</code></td></tr>
+<tr><td width="31%"><code class="code">.selftest ?OPTIONS?</code></td><td width="69%">Exécuter les tests définis dans la table <code class="code">SELFTEST</code></td></tr>
+<tr><td width="31%"><code class="code">.separator COL ?ROW?</code></td><td width="69%">Changer les séparateurs de colonne et de ligne</td></tr>
+<tr><td width="31%"><code class="code">.session ?NAME? CMD ...</code></td><td width="69%">Créer ou contrôler des sessions</td></tr>
+<tr><td width="31%"><code class="code">.sha3sum ...</code></td><td width="69%">Calculer un hachage SHA3 du contenu de la base de données</td></tr>
+<tr><td width="31%"><code class="code">.shell CMD ARGS...</code></td><td width="69%">Exécuter <code class="code">CMD ARGS...</code> dans un shell système</td></tr>
+<tr><td width="31%"><code class="code">.show</code></td><td width="69%">Afficher les valeurs actuelles pour divers paramètres</td></tr>
+<tr><td width="31%"><code class="code">.stats ?on|off?</code></td><td width="69%">Afficher les statistiques ou activer/désactiver les statistiques</td></tr>
+<tr><td width="31%"><code class="code">.system CMD ARGS...</code></td><td width="69%">Exécuter <code class="code">CMD ARGS...</code> dans un environnement de shell</td></tr>
+<tr><td width="31%"><code class="code">.tables ?TABLE?</code></td><td width="69%">Lister les noms des tables correspondant au modèle <code class="code">LIKE TABLE</code></td></tr>
+<tr><td width="31%"><code class="code">.testcase NAME</code></td><td width="69%">Commencer à rediriger la sortie vers <samp class="file">testcase-out.txt</samp></td></tr>
+<tr><td width="31%"><code class="code">.timeout MS</code></td><td width="69%">Essayer d&rsquo;ouvrir les tables verrouillées pendant <code class="code">MS</code> millisecondes</td></tr>
+<tr><td width="31%"><code class="code">.timer on|off</code></td><td width="69%">Activer ou désactiver le chronomètre SQL</td></tr>
+<tr><td width="31%"><code class="code">.trace FILE|off</code></td><td width="69%">Afficher chaque instruction SQL au fur et à mesure de son exécution</td></tr>
+<tr><td width="31%"><code class="code">.vfsinfo ?AUX?</code></td><td width="69%">Informations sur le Système de fichiers Virtuels (VFS) de premier niveau</td></tr>
+<tr><td width="31%"><code class="code">.vfslist</code></td><td width="69%">Lister tous les Systèmes de fichiers Virtuels (VFS) disponibles</td></tr>
+<tr><td width="31%"><code class="code">.vfsname ?AUX?</code></td><td width="69%">Imprimer le nom de la pile du Systèmes de fichiers Virtuels (VFS)</td></tr>
+<tr><td width="31%"><code class="code">.width NUM1 NUM2 ...</code></td><td width="69%">Définir les largeurs de colonne pour le mode <code class="code">column</code></td></tr>
+</tbody>
+</table>
+
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="R_00e8gles-pour-les-commandes-point">
+<div class="nav-panel">
+<p>
+Next: <a href="#Modification-des-formats-de-sortie" accesskey="n" rel="next">Modification des formats de sortie</a>, Previous: <a href="#Les-commandes-point-de-sqlite3" accesskey="p" rel="prev">Les commandes point de sqlite3</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Regles-pour-les-commandes-point"><span>4 Règles pour les commandes point<a class="copiable-link" href="#Regles-pour-les-commandes-point"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023rules_005ffor_005fdot_005fcommands_005fsql_005fand_005fmore"></a>
+
+<ul class="mini-toc">
+<li><a href="#Structure-d_2019une-ligne" accesskey="1">Structure d’une ligne</a></li>
+<li><a href="#Arguments-des-commandes-point" accesskey="2">Arguments des commandes point</a></li>
+<li><a href="#Ex_00e9cution-des-commandes-point" accesskey="3">Exécution des commandes point</a></li>
+</ul>
+<hr>
+<div class="section-level-extent" id="Structure-d_2019une-ligne">
+<div class="nav-panel">
+<p>
+Next: <a href="#Arguments-des-commandes-point" accesskey="n" rel="next">Arguments des commandes point</a>, Up: <a href="#R_00e8gles-pour-les-commandes-point" accesskey="u" rel="up">Règles pour les commandes point</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Structure-d_2019une-ligne-1"><span>4.1 Structure d’une ligne<a class="copiable-link" href="#Structure-d_2019une-ligne-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023line_005fstructure"></a>
+<p>L’entrée de la ligne de commande d’interface est analysée en une
+séquence composée de :
+</p>
+<ul class="itemize mark-bullet">
+<li>Instructions SQL ;
+</li><li>commandes point;
+</li><li>Commentaires de la ligne de commande d’interface.
+</li></ul>
+
+<p>Les instructions SQL ont des formes libres et peuvent être
+réparties sur plusieurs lignes, avec des espaces ou des commentaires
+SQL intégrés n’importe où. Ils se terminent soit par un
+<code class="code">;</code> caractère à la fin d’une ligne de saisie, ou un caractère
+<code class="code">/</code> ou le mot <code class="code">go</code> sur une ligne seul.  Lorsqu’il n’est pas à
+la fin d’une ligne de saisie, le <code class="code">;</code> le caractère agit pour séparer
+les instructions SQL. Les espaces de fin sont ignorés à des fins de
+terminaison.
+</p>
+<p>Une commande point a une structure plus restrictive :
+</p>
+<ul class="itemize mark-bullet">
+<li>Il doit commencer par son <code class="code">.</code> dans la marge de gauche sans espace
+précédent.
+</li><li>Il doit être entièrement contenu sur une seule ligne d’entrée.
+</li><li>Cela ne peut pas se produire au milieu d’une instruction SQL
+ordinaire.  En d’autres termes, cela ne peut pas se produire à une
+invite de continuation.
+</li><li>Il n’y a pas de syntaxe de commentaire pour les commandes point.
+</li></ul>
+
+<p>L’interface en ligne de commande accepte également les commentaires sur
+une ligne entière commençant par un caractère <code class="code">#</code> et s’étendant
+jusqu’à la fin de la ligne. Il ne faut aucun espace avant le caractère
+<code class="code">#</code>.
+</p>
+
+<hr>
+</div>
+<div class="section-level-extent" id="Arguments-des-commandes-point">
+<div class="nav-panel">
+<p>
+Next: <a href="#Ex_00e9cution-des-commandes-point" accesskey="n" rel="next">Exécution des commandes point</a>, Previous: <a href="#Structure-d_2019une-ligne" accesskey="p" rel="prev">Structure d’une ligne</a>, Up: <a href="#R_00e8gles-pour-les-commandes-point" accesskey="u" rel="up">Règles pour les commandes point</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Arguments-des-commandes-point-1"><span>4.2 Arguments des commandes point<a class="copiable-link" href="#Arguments-des-commandes-point-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023dot_005fcommand_005farguments"></a>
+<p>Les arguments passés aux commandes point sont analysés en commençant
+par la queue de la commande en suivant ces règles :
+</p>
+<ol class="enumerate">
+<li> La nouvelle ligne de fin et tout autre espace de fin sont supprimés ;
+
+</li><li> Les espaces immédiatement après le nom de la commande point ou toute
+limite de fin d’entrée d’argument sont ignorés ;
+
+</li><li> Une entrée d’argument commence par n’importe quel caractère autre qu’un
+espace ;
+
+</li><li> Une entrée d’argument se termine par un caractère qui dépend ainsi de
+son caractère principal :
+
+<ul class="itemize mark-bullet">
+<li>pour un guillemet simple de début (<code class="code">'</code>), un guillemet simple fait
+office de délimiteur de fin ;
+</li><li>pour un guillemet double (<code class="code">&quot;</code>), un guillemet double non échappé
+fait office de délimiteur de fin ;
+</li><li>pour tout autre caractère principal, le délimiteur de fin est n’importe
+quel espace ;
+</li><li>la commande <code class="code">tail</code> end agit comme délimiteur de fin pour tout
+argument ;
+</li><li>Dans une entrée d’argument entre guillemets doubles, un guillemet double
+avec une barre oblique inverse fait partie de l’argument plutôt que de
+son guillemet final ;
+</li><li>Dans un argument entre guillemets doubles, la traduction traditionnelle
+de la séquence d’échappement de la chaîne C littérale et de la barre
+oblique inverse est effectuée ;
+</li><li>Les délimiteurs d’entrée d’argument (les guillemets ou les espaces) sont
+ignorés pour produire l’argument passé.
+</li></ul>
+
+</li></ol>
+
+<hr>
+</div>
+<div class="section-level-extent" id="Ex_00e9cution-des-commandes-point">
+<div class="nav-panel">
+<p>
+Previous: <a href="#Arguments-des-commandes-point" accesskey="p" rel="prev">Arguments des commandes point</a>, Up: <a href="#R_00e8gles-pour-les-commandes-point" accesskey="u" rel="up">Règles pour les commandes point</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Execution-des-commandes-point"><span>4.3 Exécution des commandes point<a class="copiable-link" href="#Execution-des-commandes-point"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023dot_005fcommand_005fexecution"></a>
+<p>Les commandes point sont interprétées par le programme de ligne de
+commande sqlite3.exe, et non par SQLite lui-même. Ainsi, aucune des
+commandes point ne fonctionnera comme argument pour les interfaces
+SQLite telles que  <code class="code">sqlite3_prepare()</code> ou <code class="code">sqlite3_exec()</code>.
+</p>
+
+<hr>
+</div>
+</div>
+<div class="chapter-level-extent" id="Modification-des-formats-de-sortie">
+<div class="nav-panel">
+<p>
+Next: <a href="#Requ_00eate-sur-le-sch_00e9ma-de-la-base-de-donn_00e9es" accesskey="n" rel="next">Requête sur le schéma de la base de données</a>, Previous: <a href="#R_00e8gles-pour-les-commandes-point" accesskey="p" rel="prev">Règles pour les commandes point</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Modification-des-formats-de-sortie-1"><span>5 Modification des formats de sortie<a class="copiable-link" href="#Modification-des-formats-de-sortie-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023changing_005foutput_005fformats"></a>
+<p>Le programme <code class="code">sqlite3</code> est capable d’afficher les résultats d’une requête
+dans 14 formats de sortie différents :
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">ascii</code>
+</li><li><code class="code">box</code>
+</li><li><code class="code">csv</code>
+</li><li><code class="code">column</code>
+</li><li><code class="code">html  </code>
+</li><li><code class="code">insert</code>
+</li><li><code class="code">json</code>
+</li><li><code class="code">line</code>
+</li><li><code class="code">list</code>
+</li><li><code class="code">markdown</code>
+</li><li><code class="code">quote</code>
+</li><li><code class="code">table</code>
+</li><li><code class="code">tabs</code>
+</li><li><code class="code">tcl</code>
+</li></ul>
+
+<p>Vous pouvez utiliser la commande point <code class="code">.mode</code> pour basculer entre ces
+formats de sortie. Le mode de sortie par défaut est <code class="code">list</code>. En mode
+<code class="code">list</code>, chaque ligne d’un résultat de requête est écrite sur une ligne de
+sortie et chaque colonne de cette ligne est séparée par une chaîne de
+séparation spécifique. Le séparateur par défaut est un symbole de barre
+verticale (<code class="code">|</code>). Le mode liste est particulièrement utile lorsque vous
+souhaitez envoyer le résultat d’une requête à un autre programme (tel
+qu’AWK) pour un traitement supplémentaire.
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .mode list 
+sqlite&gt; select * from tbl1 ;
+bonjour!|10
+au revoir|20
+sqlite&gt;
+</pre></div>
+
+<p>Tapez <code class="code">.mode</code> sans argument pour afficher le mode actuel :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .mode
+mode de sortie actuel : liste
+sqlite&gt;
+</pre></div>
+
+<p>Utilisez la commande point <code class="code">.separator</code> pour changer le séparateur. Par
+exemple, pour remplacer le séparateur par une virgule et un espace, vous
+pouvez procéder comme suit :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .separator &quot;, &quot; 
+sqlite&gt; select * from tbl1 ;
+bonjour!, 10
+au revoir, 20
+sqlite&gt;
+</pre></div>
+
+<p>La prochaine commande <code class="code">.mode</code> pourrait réinitialiser le <code class="code">.separator</code> à
+une valeur par défaut (en fonction de ses arguments). Vous devrez donc
+probablement répéter la commande <code class="code">.separator</code> chaque fois que vous
+changez de mode si vous souhaitez continuer à utiliser un séparateur non
+standard.
+</p>
+<p>En mode <code class="code">quote</code>, la sortie est formatée sous forme d’instruction
+SQL littérale. Les chaînes sont placées entre guillemets simples et les
+guillemets simples internes sont échappés en les doublant. Les blobs
+sont affichés en notation littérale hexadécimale (Ex : x&rsquo;abcd&rsquo;). Les
+nombres sont affichés sous forme de texte ASCII et les valeurs
+<code class="code">NULL</code> sont affichées sous forme de <code class="code">NULL</code>. Toutes les
+colonnes sont séparées les unes des autres par une virgule (ou tout
+autre caractère sélectionné à l’aide de <code class="code">.separator</code>).
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .mode quote 
+sqlite&gt; select * from tbl1 ;
+'bonjour !',10
+'au revoir',20
+sqlite&gt;
+</pre></div>
+
+<p>En mode <code class="code">line</code>, chaque colonne d’une ligne de la base de données est
+affichée seule sur une ligne. Chaque ligne comprend le nom de la
+colonne, un signe égal et les données de la colonne. Les enregistrements
+successifs sont séparés par une ligne vierge. Voici un exemple de sortie
+en mode <code class="code">line</code> :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .mode line 
+sqlite&gt; select * from tbl1 ;
+un = bonjour !
+deux = 10
+
+un = au revoir
+deux = 20
+sqlite&gt;
+</pre></div>
+
+<p>En mode colonne, chaque enregistrement est affiché sur une ligne
+distincte avec les données alignées en colonnes. Par exemple:
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; colonne .mode 
+sqlite&gt; select * from tbl1 ;
+un deux
+--------- ---
+Bonjour! dix
+au revoir 20
+sqlite&gt;
+</pre></div>
+
+<p>En mode <code class="code">column</code> (et également en modes <code class="code">box</code>, <code class="code">table</code> et
+<code class="code">markdown</code>) la largeur des colonnes s’ajuste automatiquement. Mais
+vous pouvez remplacer cela en fournissant une largeur spécifiée pour
+chaque colonne à l’aide de la commande <code class="code">.width</code>. Les arguments de
+<code class="code">.width</code> sont des entiers qui correspondent au nombre de caractères
+à consacrer à chaque colonne. Les nombres négatifs signifient justifier
+à droite.
+</p>
+<p>Ainsi :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .width 12 -6 
+sqlite&gt; select * from tbl1 ;
+un deux
+------------ ------
+Bonjour! dix
+au revoir 20
+sqlite&gt;
+</pre></div>
+
+<p>Une largeur de 0 signifie que la largeur de la colonne est choisie
+automatiquement. Les largeurs de colonnes non spécifiées deviennent
+nulles. Par conséquent, la commande <code class="code">.width</code> sans argument réinitialise
+toutes les largeurs de colonnes à zéro et provoque donc la détermination
+automatique de toutes les largeurs de colonnes.
+</p>
+<p>Le mode « colonne » est un format de sortie tabulaire. Les autres
+formats de sortie tabulaires sont «&nbsp;box&nbsp;», «&nbsp;markdown&nbsp;» et
+«&nbsp;table&nbsp;» :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .width 
+sqlite&gt; .mode markdown 
+sqlite&gt; select * from tbl1 ;
+|    un     | deux |
+|---------- |----- |
+| Bonjour!  |  10  |
+| au revoir |  20  |
+sqlite&gt; .mode table 
+sqlite&gt; select * from tbl1 ;
++-----------+------+
+|    un     | deux |
++-----------+------+
+| Bonjour!  |  10  |
+| au revoir |  20  |
++-----------+------+
+sqlite&gt; .mode box 
+sqlite&gt; select * from tbl1 ;
+┌───────────┬─────┐
+│    un     │deux │
+├───────────┼─────┤
+│ bonjour ! │ 10  │
+│ au revoir │ 20  │
+└───────────┴─────┘
+sqlite&gt;
+</pre></div>
+
+
+
+<p>Les modes en colonnes ont quelques options supplémentaires pour
+contrôler le formatage. L’option <code class="code">--wrap <em class="emph">N</em> </code> (où <em class="emph">N</em> est un
+entier) amène les colonnes à envelopper le texte qui dépasse N
+caractères. Le wrapping est désactivé si N est nul.
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; insert into tbl1 values('Le renard saute par-dessus le chien.',90); 
+sqlite&gt; .mode box --wrap 30 
+sqlite&gt; select * from tbl1 où deux&gt;50 ;
+┌──────────────────────────────────────┬─────┐
+│               un                     │deux │
+├──────────────────────────────────────┼─────┤
+│ Le renard saute par-dessus le chien. │ 90  │
+└──────────────────────────────────────┴─────┘
+sqlite&gt;
+</pre></div>
+
+
+<p>Le retour à la ligne se produit après exactement <em class="emph">N</em> caractères,
+qui peuvent se trouver au milieu d’un mot. Pour revenir à la limite d’un
+mot, ajoutez l’option <code class="code">--wordwrap on</code> (ou simplement <code class="code">-ww</code> pour faire
+court) :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .mode box --wrap 30 -ww 
+sqlite&gt; select * from tbl1 où deux&gt;50 ;
+┌──────────────────────────────────────┬──────┐
+│             un                       │ deux │
+├──────────────────────────────────────┼──────┤
+│ Le renard saute par-dessus le chien. │  90  │
+└──────────────────────────────────────┴──────┘
+sqlite&gt;
+</pre></div>
+
+
+
+<p>L’option <code class="code">--quote</code> fait que les résultats de chaque colonne sont
+cités comme une chaîne SQL littérale, comme dans le mode
+<code class="code">quote</code>. Consultez l’aide en ligne pour des options
+supplémentaires.
+</p>
+<p>La commande <code class="code">.mode box --wrap 60 --quote</code> est si utile pour les requêtes
+de base de données à usage général qu’elle reçoit son propre alias. Au
+lieu de taper toute cette commande de 27 caractères, vous pouvez
+simplement dire <code class="code">.mode qbox</code>.
+</p>
+<p>Un autre mode de sortie utile est <code class="code">insertion</code>. En mode insertion,
+la sortie est formatée pour ressembler aux instructions <code class="code">SQL
+INSERT</code>.  Utilisez le mode insertion pour générer du texte qui pourra
+ensuite être utilisé pour saisir des données dans une autre base de
+données.
+</p>
+<p>Lors de la spécification du mode d’insertion, vous devez donner un
+argument supplémentaire qui est le nom de la table dans laquelle
+insérer. Par exemple:
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .mode insert new_table 
+sqlite&gt; select * from tbl1 où deux&lt;50 ;
+INSERT INTO &quot;new_table&quot; VALUES('bonjour',10);
+INSERT INTO &quot;new_table&quot; VALUES('goodbye',20);
+sqlite&gt;
+</pre></div>
+
+<p>Les autres modes de sortie incluent <code class="code">csv</code>, <code class="code">json</code> et <code class="code">tcl</code>.
+Essayez-les vous-même pour voir ce qu’ils font.
+</p>
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Requ_00eate-sur-le-sch_00e9ma-de-la-base-de-donn_00e9es">
+<div class="nav-panel">
+<p>
+Next: <a href="#Ouverture-des-fichiers-de-base-de-donn_00e9es" accesskey="n" rel="next">Ouverture des fichiers de base de données</a>, Previous: <a href="#Modification-des-formats-de-sortie" accesskey="p" rel="prev">Modification des formats de sortie</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Requete-sur-le-schema-de-la-base-de-donnees"><span>6 Requête sur le schéma de la base de données<a class="copiable-link" href="#Requete-sur-le-schema-de-la-base-de-donnees"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023querying_005fthe_005fdatabase_005fschema"></a>
+<p>Le programme <code class="code">sqlite3</code> fournit plusieurs commandes pratiques et utiles
+pour consulter le schéma de la base de données. Il n’y a rien de ce que
+font ces commandes qui ne puisse être fait par d’autres moyens. Ces
+commandes sont fournies uniquement à titre de raccourci.
+</p>
+<p>Par exemple, pour voir une liste des tables de la base de données, vous
+pouvez saisir <code class="code">.tables</code>.
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .tables
+tbl1 tbl2
+sqlite&gt;
+</pre></div>
+
+<p>La commande <code class="code">.tables</code> est similaire à la définition du mode
+<code class="code">list</code> puis à l’exécution de la requête suivante :
+</p>
+<div class="example">
+<pre class="example-preformatted">SELECT name FROM sqlite_master 
+WHERE type IN ('table','view') AND name NOT LIKE 'sqlite_%'
+ORDER BY 1
+</pre></div>
+
+<p>Mais la commande <code class="code">.tables</code> fait plus. Il interroge la table
+<code class="code">sqlite_master</code> pour toutes les bases de données attachées, pas
+seulement la base de données principale. Et il organise sa sortie en
+colonnes soignées.
+</p>
+<p>La commande <code class="code">.indexes</code> fonctionne de la même manière pour lister tous
+les index. Si la commande <code class="code">.indexes</code> reçoit un argument qui est le nom
+d’une table, alors elle affiche uniquement les index de cette table.
+</p>
+<p>La commande <code class="code">.schema</code> affiche le schéma complet de la base de données,
+ou pour une seule table si un argument facultatif de nom de table est
+fourni :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .schéma
+créer la table tbl1 (un varchar (10), deux smallint)
+CRÉER UNE TABLE tbl2 (
+  clé primaire f1 varchar(30),
+  texte f2,
+  f3 réel
+);
+sqlite&gt; .schéma tbl2
+CRÉER UNE TABLE tbl2 (
+  clé primaire f1 varchar(30),
+  texte f2,
+  f3 réel
+);
+sqlite&gt;
+</pre></div>
+
+<p>La commande <code class="code">.schema</code> est à peu près la même que pour définir le mode
+liste, puis saisir la requête suivante :
+</p>
+<div class="example">
+<pre class="example-preformatted">SELECT sql FROM sqlite_schema
+ORDER BY tbl_name, tapez DESC, nom
+</pre></div>
+
+<p>Comme pour <code class="code">.tables</code>, la commande <code class="code">.schema</code> affiche le schéma
+de toutes les bases de données attchées. Si vous souhaitez uniquement
+voir le schéma d’une seule base de données (peut-être <code class="code">main</code>), vous
+pouvez ajouter un argument à <code class="code">.schema</code> pour restreindre sa sortie :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .schema principal.*
+</pre></div>
+
+<p>La commande <code class="code">.schema</code> peut être complétée par l’option <code class="code">--indent</code>,
+auquel cas elle tente de reformater les différentes instructions CREATE
+du schéma afin qu’elles soient plus facilement lisibles par les humains.
+</p>
+<p>La commande <code class="code">.databases</code> affiche une liste de toutes les bases de
+données ouvertes dans la connexion actuelle. Il y en aura toujours au
+moins deux. La première est la <em class="emph">principale</em>, la base de données
+d’origine ouverte. La seconde est appelée <em class="emph">temp</em>, la base de
+données utilisée pour les tables temporaires. Des bases de données
+supplémentaires peuvent être répertoriées pour les bases de données
+attachées à l’aide de l’instruction <code class="code">ATTACH</code>. La première colonne
+de sortie est le nom avec lequel la base de données est attachée et la
+deuxième colonne de résultat est le nom du fichier externe. Il peut y
+avoir une troisième colonne de résultat qui sera soit <code class="code">r/o</code> soit
+<code class="code">r/w</code> selon que le fichier de base de données est en lecture seule
+ou en lecture-écriture.  Et il pourrait y avoir une quatrième colonne de
+résultats affichant le résultat de <code class="code">sqlite3_txn_state()</code> pour ce
+fichier de base de données.
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .databases
+</pre></div>
+
+<p>La commande point <code class="code">.fullschema</code> fonctionne comme la commande
+<code class="code">.schema</code> dans la mesure où elle affiche l’intégralité du schéma de
+la base de données. Mais <code class="code">.fullschema</code> inclut également les dumps
+des tables de statistiques <code class="code">sqlite_stat1</code>, <code class="code">sqlite_stat3</code> et
+<code class="code">sqlite_stat4</code>, si elles existent. La commande <code class="code">.fullschema</code>
+fournit normalement toutes les informations nécessaires pour recréer
+exactement un plan de requête pour une requête spécifique. Lorsqu’ils
+signalent des problèmes suspectés avec le planificateur de requêtes
+SQLite à l’équipe de développement SQLite, les
+développeurs sont priés de fournir la sortie <code class="code">.fullschema</code> complète
+dans le cadre du rapport de problème. Notez que les tables
+<code class="code">sqlite_stat3</code> et <code class="code">sqlite_stat4</code> contiennent des échantillons
+d’entrées d’index et peuvent donc contenir des données
+sensibles. N’envoyez donc pas la sortie <code class="code">.fullschema</code> d’une base de
+données propriétaire sur un canal public.
+</p>
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Ouverture-des-fichiers-de-base-de-donn_00e9es">
+<div class="nav-panel">
+<p>
+Next: <a href="#Redirection-des-E_002fS" accesskey="n" rel="next">Redirection des E/S</a>, Previous: <a href="#Requ_00eate-sur-le-sch_00e9ma-de-la-base-de-donn_00e9es" accesskey="p" rel="prev">Requête sur le schéma de la base de données</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Ouverture-des-fichiers-de-base-de-donnees"><span>7 Ouverture des fichiers de base de données<a class="copiable-link" href="#Ouverture-des-fichiers-de-base-de-donnees"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023opening_005fdatabase_005ffiles"></a>
+<p>La commande <code class="code">.open</code> ouvre une nouvelle connexion à la base de données,
+après avoir d’abord fermé la commande de base de données précédemment
+ouverte. Dans sa forme la plus simple, la commande <code class="code">.open</code> invoque
+simplement <code class="code">sqlite3_open()</code>
+</p>
+<p>sur le fichier nommé comme argument. Utilisez le nom <code class="code">:memory:</code> pour
+ouvrir une nouvelle base de données en mémoire qui disparaît lorsque la
+CLI se ferme ou lorsque la commande <code class="code">.open</code> est à nouveau exécutée. Ou
+n’utilisez aucun nom pour ouvrir une base de données privée et
+temporaire sur disque qui disparaîtra également à la sortie ou à
+l’utilisation de <code class="code">.open</code>.
+</p>
+<p>Si l’option <code class="code">--new</code> est incluse avec <code class="code">.open</code>, alors la base de
+données est réinitialisée avant d’être ouverte. Toutes les données
+antérieures sont détruites. Il s’agit d’un écrasement détruisant les
+données antérieures et aucune confirmation n’est demandée, utilisez donc
+cette option avec précaution.
+</p>
+<p>L’option <code class="code">--readonly</code> ouvre la base de données en mode lecture seule.
+L’écriture sera interdite.
+</p>
+<p>L’option <code class="code">--deserialize</code> entraîne la lecture de l’intégralité du
+contenu du fichier sur disque en mémoire, puis son ouverture en tant que
+base de données en mémoire à l’aide de l’interface
+<code class="code">sqlite3_deserialize()</code>. Bien entendu, cela nécessitera beaucoup de
+mémoire si vous disposez d’une grande base de données. De plus, toutes
+les modifications que vous apportez à la base de données ne seront pas
+enregistrées sur le disque, sauf si vous les enregistrez explicitement à
+l’aide des commandes <code class="code">.save</code> ou <code class="code">.backup</code>.
+</p>
+<p>L’option <code class="code">--append</code> entraîne l’ajout de la base de données
+SQLite à un fichier existant plutôt que de fonctionner comme un
+fichier autonome.  Voir l’extension <samp class="file">appendvfs</samp> pour plus
+d’informations.
+</p>
+<p>L’option <code class="code">--zip</code> fait que le fichier d’entrée spécifié est interprété
+comme une archive <code class="code">ZIP</code> plutôt que comme un fichier de base de données
+SQLite.
+</p>
+<p>L’option <code class="code">--hexdb</code> permet de lire le contenu de la base de données à
+partir des lignes d’entrée suivantes au format hexadécimal, plutôt qu’à
+partir d’un fichier séparé sur le disque. L’outil de ligne de commande
+<code class="code">dbtotxt</code> peut être utilisé pour générer le texte approprié pour une
+base de données. L’option <code class="code">--hexdb</code> est destinée à être utilisée par les
+développeurs SQLite à des fins de test. Nous ne connaissons aucun cas
+d’utilisation de cette option en dehors des tests et du développement
+internes de SQLite.
+</p>
+<hr>
+</div>
+<div class="chapter-level-extent" id="Redirection-des-E_002fS">
+<div class="nav-panel">
+<p>
+Next: <a href="#Acc_00e8s-aux-bases-sous-forme-compress_00e9e" accesskey="n" rel="next">Accès aux bases sous forme compressée</a>, Previous: <a href="#Ouverture-des-fichiers-de-base-de-donn_00e9es" accesskey="p" rel="prev">Ouverture des fichiers de base de données</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Redirection-des-E_002fS-1"><span>8 Redirection des E/S<a class="copiable-link" href="#Redirection-des-E_002fS-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023redirecting_005fi_005fo"></a>
+
+<ul class="mini-toc">
+<li><a href="#g_t_00c9crire-les-r_00e9sultats-dans-un-fichier" accesskey="1">Écrire les résultats dans un fichier</a></li>
+<li><a href="#Lire-SQL-_00e0-partir-d_2019un-fichier" accesskey="2">Lire SQL à partir d’un fichier</a></li>
+<li><a href="#Fonctions-d_2019E_002fS-sur-les-fichiers" accesskey="3">Fonctions d’Entrée/Sortie sur les fichiers</a></li>
+<li><a href="#La-fonction-SQL-edit" accesskey="4">La fonction SQL edit()</a></li>
+<li><a href="#Importation-de-fichiers-au-format-CSV-ou-autres-formats" accesskey="5">Importation de fichiers au format CSV ou autres formats</a></li>
+<li><a href="#Exporter-au-format-CSV" accesskey="6">Exporter au format CSV</a></li>
+</ul>
+<hr>
+<div class="section-level-extent" id="g_t_00c9crire-les-r_00e9sultats-dans-un-fichier">
+<div class="nav-panel">
+<p>
+Next: <a href="#Lire-SQL-_00e0-partir-d_2019un-fichier" accesskey="n" rel="next">Lire SQL à partir d’un fichier</a>, Up: <a href="#Redirection-des-E_002fS" accesskey="u" rel="up">Redirection des E/S</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Ecrire-les-resultats-dans-un-fichier"><span>8.1 Écrire les résultats dans un fichier<a class="copiable-link" href="#Ecrire-les-resultats-dans-un-fichier"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023writing_005fresults_005fto_005fa_005ffile"></a>
+<p>Par défaut, <code class="code">sqlite3</code> envoie les résultats de la requête vers la sortie
+standard. Vous pouvez modifier cela à l’aide des commandes
+<code class="code">.output</code> et <code class="code">.once</code>. Mettez simplement le nom d’un fichier de
+sortie comme argument dans <code class="code">.output</code> et tous les résultats des
+requêtes ultérieures seront écrits dans ce fichier. Ou utilisez la
+commande <code class="code">.once</code> au lieu de <code class="code">.output</code> et la sortie ne sera
+redirigée que pour que la commande suivante et ensuite les autres
+reviendront à la console. Utilisez <code class="code">.output</code> sans argument pour
+recommencer à écrire sur la sortie standard. Par exemple:
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .mode list 
+sqlite&gt; .separator | 
+sqlite&gt; .output test_file_1.txt 
+sqlite&gt; select * from tbl1 ; 
+sqlite&gt; .exit 
+$ cat test_file_1.txt
+bonjour|10
+au revoir|20
+$
+</pre></div>
+
+<p>Si le premier caractère du nom de fichier <code class="code">.output</code> ou <code class="code">.once</code>
+est le symbole de barre verticale (<code class="code">|</code>), alors les caractères restants
+sont traités comme une commande et la sortie est envoyée à cette
+commande.  Cela facilite le transfert des résultats d’une requête vers
+un autre processus. Par exemple, la commande <code class="code">open -f</code> sur un Mac
+ouvre un éditeur de texte pour afficher le contenu qu’il lit à partir de
+l’entrée standard. Ainsi, pour voir les résultats d’une requête dans un
+éditeur de texte, on pourrait taper :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .une fois | open -f 
+sqlite&gt; SELECT * FROM bigTable;
+</pre></div>
+
+<p>Si les commandes <code class="code">.output</code> ou <code class="code">.once</code> ont un argument
+<code class="code">-e</code>, alors la sortie est collectée dans un fichier temporaire et
+l’éditeur de texte système est invoqué sur ce fichier texte. Ainsi, la
+commande <code class="code">.once -e</code> obtient le même résultat que
+<code class="code">.once '|open -f'</code> mais avec l’avantage d’être portable
+sur tous les systèmes.
+</p>
+<p>Si les commandes <code class="code">.output</code> ou <code class="code">.once</code> ont un argument
+<code class="code">-x</code>, ce qui les amène à accumuler la sortie sous forme de valeurs
+séparées par des virgules (CSV) dans un fichier temporaire,
+invoquez l’utilitaire système par défaut pour afficher les fichiers
+CSV. (généralement un tableur) sur le résultat. Il s’agit d’un
+moyen rapide d’envoyer le résultat d’une requête vers une feuille de
+calcul pour une visualisation facile :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .once -x 
+sqlite&gt; SELECT * FROM bigTable;
+</pre></div>
+
+<p>La commande <code class="code">.excel</code> est un alias pour <code class="code">.once -x</code>. Cela fait
+exactement la même chose.
+</p>
+<hr>
+</div>
+<div class="section-level-extent" id="Lire-SQL-_00e0-partir-d_2019un-fichier">
+<div class="nav-panel">
+<p>
+Next: <a href="#Fonctions-d_2019E_002fS-sur-les-fichiers" accesskey="n" rel="next">Fonctions d’Entrée/Sortie sur les fichiers</a>, Previous: <a href="#g_t_00c9crire-les-r_00e9sultats-dans-un-fichier" accesskey="p" rel="prev">Écrire les résultats dans un fichier</a>, Up: <a href="#Redirection-des-E_002fS" accesskey="u" rel="up">Redirection des E/S</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Lire-SQL-a-partir-d_2019un-fichier"><span>8.2 Lire SQL à partir d’un fichier<a class="copiable-link" href="#Lire-SQL-a-partir-d_2019un-fichier"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023reading_005fsql_005ffrom_005fa_005ffile"></a>
+<p>En mode interactif, sqlite3 lit le texte saisi (soit des
+instructions SQL, soit des commandes point) à partir du
+clavier. Vous pouvez également rediriger les entrées d’un fichier
+lorsque vous lancez sqlite3, bien sûr, mais vous n’avez alors
+pas la possibilité d’interagir avec le programme.  Parfois, il est utile
+d’exécuter un script SQL contenu dans un fichier en saisissant
+d’autres commandes à partir de la ligne de commande. Pour cela, la
+commande point <code class="code">.read</code> est fournie.
+</p>
+<p>La commande <code class="code">.read</code> prend un seul argument qui est (généralement)
+le nom d’un fichier à partir duquel lire le texte d’entrée.
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .read monscript.sql
+</pre></div>
+
+<p>La commande <code class="code">.read</code> arrête temporairement la lecture à partir du
+clavier et prend à la place son entrée dans le fichier nommé. Une fois
+la fin du fichier atteinte, la saisie revient au clavier. Le fichier de
+script peut contenir des commandes point, tout comme une entrée
+interactive ordinaire.
+</p>
+<p>Si l’argument de <code class="code">.read</code> commence par le signe <code class="code">|</code> , puis au
+lieu d’ouvrir l’argument sous forme de fichier, il exécute l’argument
+(sans le <code class="code">|</code>) en tant que commande, puis utilise la sortie de cette
+commande comme entrée. Ainsi, si vous disposez d’un script qui génère du
+SQL, vous pouvez exécuter ce SQL directement à l’aide
+d’une commande similaire à la suivante :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .read |monscript.bat
+</pre></div>
+
+
+<hr>
+</div>
+<div class="section-level-extent" id="Fonctions-d_2019E_002fS-sur-les-fichiers">
+<div class="nav-panel">
+<p>
+Next: <a href="#La-fonction-SQL-edit" accesskey="n" rel="next">La fonction SQL edit()</a>, Previous: <a href="#Lire-SQL-_00e0-partir-d_2019un-fichier" accesskey="p" rel="prev">Lire SQL à partir d’un fichier</a>, Up: <a href="#Redirection-des-E_002fS" accesskey="u" rel="up">Redirection des E/S</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Fonctions-d_2019Entree_002fSortie-sur-les-fichiers"><span>8.3 Fonctions d’Entrée/Sortie sur les fichiers<a class="copiable-link" href="#Fonctions-d_2019Entree_002fSortie-sur-les-fichiers"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023file_005fi_005fo_005ffunctions"></a>
+<p>Le shell de ligne de commande ajoute deux fonctions SQL définies par
+l’application qui facilitent respectivement la lecture du contenu d’un
+fichier dans une colonne de table et l’écriture du contenu d’une colonne
+dans un fichier.
+</p>
+<p>La fonction SQL <code class="code">readfile(X)</code> lit tout le contenu du
+fichier nommé <code class="code">X</code> et renvoie ce contenu sous forme d’un
+<em class="emph">BLOB</em>. Cela peut être utilisé pour charger du contenu dans un
+tableau. Par exemple:
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; CREATE TABLE images(name TEXT, type TEXT, img BLOB);
+sqlite&gt; INSERT INTO images(name,type,img)
+   ...&gt;   VALUES('icon','jpeg',readfile('icon.jpg'));
+</pre></div>
+
+<p>La fonction SQL <code class="code">writefile(X,Y)</code> écrit le <em class="emph">blob</em>
+<code class="code">Y</code> dans le fichier nommé <code class="code">X</code> et renvoie le nombre d’octets
+écrits. Utilisez cette fonction pour extraire le contenu d’une seule
+colonne de table dans un fichier. Par exemple:
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; SELECT writefile('icon.jpg',img) FROM images WHERE name='icon';
+</pre></div>
+
+<p>Notez que les fonctions <code class="code">readfile(X)</code> et <code class="code">writefile(X,Y)</code> sont
+des extensions qui ne sont pas intégrées à la bibliothèque SQLite
+principale. Ces routines sont disponibles sous forme d’extensions
+chargeables dans le fichier source <samp class="file">ext/misc/fileio.c</samp> qui fait
+partie du dépôt source de SQLite.
+</p>
+
+<hr>
+</div>
+<div class="section-level-extent" id="La-fonction-SQL-edit">
+<div class="nav-panel">
+<p>
+Next: <a href="#Importation-de-fichiers-au-format-CSV-ou-autres-formats" accesskey="n" rel="next">Importation de fichiers au format CSV ou autres formats</a>, Previous: <a href="#Fonctions-d_2019E_002fS-sur-les-fichiers" accesskey="p" rel="prev">Fonctions d’Entrée/Sortie sur les fichiers</a>, Up: <a href="#Redirection-des-E_002fS" accesskey="u" rel="up">Redirection des E/S</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="La-fonction-SQL-edit_0028_0029"><span>8.4 La fonction SQL edit()<a class="copiable-link" href="#La-fonction-SQL-edit_0028_0029"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023the_005fedit_005fsql_005ffunction"></a>
+<p>L’interface en ligne de commande possède une autre fonction SQL
+intégrée nommée <code class="code">edit()</code>. Cette fonction <code class="code">edit()</code> prend un ou
+deux arguments. Le premier argument est une valeur &ndash; souvent une grande
+chaîne multiligne à modifier. Le deuxième argument est l’invocation d’un
+éditeur de texte. (Il peut inclure des options pour affecter le
+comportement de l’éditeur). Si le deuxième argument est omis, la
+variable d’environnement <code class="code">VISUAL</code> est utilisée. La fonction <code class="code">edit()</code>
+écrit son premier argument dans un fichier temporaire, appelle l’éditeur
+sur le fichier temporaire, relit le fichier en mémoire une fois
+l’éditeur terminé, puis renvoie le texte modifié.
+</p>
+<p>La fonction <code class="code">edit()</code> peut être utilisée pour apporter des
+modifications à de grandes valeurs de texte. Par exemple:
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; UPDATE docs SET body=edit(body) WHERE name='report-15';
+</pre></div>
+
+<p>Dans cet exemple, le contenu du champ <code class="code">docs.body</code> pour l’entrée où
+<code class="code">docs.name</code> est <code class="code">report-15</code> sera envoyé à l’éditeur. Après le
+retour de l’éditeur, le résultat sera réécrit dans le champ
+<code class="code">docs.body</code>.
+</p>
+<p>L’opération par défaut de la commande <code class="code">edit()</code> consiste à appeler
+un éditeur de texte.  Mais en utilisant un programme d’édition
+alternatif dans le deuxième argument, vous pouvez également lui faire
+éditer des images ou d’autres ressources non textuelles. Par exemple, si
+vous souhaitez modifier une image JPEG qui se trouve être
+stockée dans un champ d’une table, vous pouvez exécuter :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; UPDATE pics SET img=edit(img,'gimp') WHERE id='pic-1542';
+</pre></div>
+
+<p>Le programme d’édition peut également être utilisé comme visualiseur, en
+ignorant simplement la valeur de retour. Par exemple, pour simplement
+regarder l’image ci-dessus, vous pouvez exécuter :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; SELECT length(edit(img,'gimp')) WHERE id='pic-1542';
+</pre></div>
+
+
+<hr>
+</div>
+<div class="section-level-extent" id="Importation-de-fichiers-au-format-CSV-ou-autres-formats">
+<div class="nav-panel">
+<p>
+Next: <a href="#Exporter-au-format-CSV" accesskey="n" rel="next">Exporter au format CSV</a>, Previous: <a href="#La-fonction-SQL-edit" accesskey="p" rel="prev">La fonction SQL edit()</a>, Up: <a href="#Redirection-des-E_002fS" accesskey="u" rel="up">Redirection des E/S</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Importation-de-fichiers-au-format-CSV-ou-autres-formats-1"><span>8.5 Importation de fichiers au format CSV ou autres formats<a class="copiable-link" href="#Importation-de-fichiers-au-format-CSV-ou-autres-formats-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023importing_005ffiles_005fas_005fcsv_005for_005fother_005fformats"></a>
+<p>Utilisez la commande <code class="code">.import</code> pour importer des données
+CSV (valeurs séparées par des virgules) ou des données
+délimitées de manière similaire dans une table SQLite. La
+commande <code class="code">.import</code> prend deux arguments qui sont la source à partir
+de laquelle les données doivent être lues et le nom de la table
+SQLite dans laquelle les données doivent être
+insérées. L’argument source est le nom d’un fichier à lire ou, s’il
+commence par un <code class="code">|</code> caractère, il spécifie une commande qui sera
+exécutée pour produire les données d’entrée.
+</p>
+<p>Notez qu’il peut être important de définir le <code class="code">mode</code> avant
+d’exécuter la commande <code class="code">.import</code>. Il est prudent d’empêcher le
+shell de ligne de commande d’essayer d’interpréter le texte du fichier
+d’entrée dans un format autre que la façon dont le fichier est
+structuré. Si les options <code class="code">--csv</code> ou <code class="code">--ascii</code> sont utilisées,
+elles contrôlent les délimiteurs d’entrée d’importation. Dans le cas
+contraire, les délimiteurs sont ceux en vigueur pour le mode de sortie
+en cours.
+</p>
+<p>Pour importer dans une table ne figurant pas dans le schéma
+<code class="code">principal</code>, l’option <code class="code">--schema</code> peut être utilisée pour
+spécifier que la table se trouve dans un autre schéma. Cela peut être
+utile pour les bases de données attachées ou pour importer dans une
+table <code class="code">TEMP</code>.
+</p>
+<p>Lorsque <code class="code">.import</code> est exécuté, le traitement de la première ligne
+d’entrée dépend de l’existence ou non de la table cible. S’il n’existe
+pas, le tableau est automatiquement créé et le contenu de la première
+ligne de saisie est utilisé pour définir le nom de toutes les colonnes
+du tableau. Dans ce cas, le contenu des données du tableau est extrait
+de la deuxième ligne d’entrée et des suivantes. Si la table cible existe
+déjà, chaque ligne de l’entrée, y compris la première, est considérée
+comme le contenu réel des données. Si le fichier d’entrée contient une
+ligne initiale d’étiquettes de colonnes, vous pouvez faire en sorte que
+la commande .import ignore cette ligne initiale en utilisant l’option
+<code class="code">--skip 1</code>.
+</p>
+<p>Voici un exemple d’utilisation, chargeant une table temporaire
+préexistante à partir d’un fichier CSV dont la première ligne
+contient des noms de colonnes :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .import --csv --skip 1 --schema temp C:/work/data.csv tab1
+</pre></div>
+
+<p>Lors de la lecture des données d’entrée dans des modes autres que
+<code class="code">ascii</code>, <code class="code">.import</code> interprète l’entrée comme des
+enregistrements composés de champs conformément à la spécification
+<em class="emph">RFC 4180</em> avec cette exception : l’enregistrement d’entrée et les
+séparateurs de champ sont tels que définis par le mode ou par
+l’utilisation du Commande <code class="code">.separator</code>. Les champs sont toujours
+sujets à la suppression des guillemets pour inverser les guillemets
+effectués conformément à la <em class="emph">RFC 4180</em>, sauf en mode
+ascii.
+</p>
+<p>Pour importer des données avec des délimiteurs arbitraires et sans
+guillemets, définissez d’abord le mode ascii (<code class="code">.mode ascii</code>), puis
+définissez les délimiteurs de champ et d’enregistrement à l’aide de la
+commande <code class="code">.separator</code>. Cela supprimera la déquotation. Lors de
+<code class="code">.import</code>, les données seront divisées en champs et enregistrements
+selon les délimiteurs ainsi spécifiés.
+</p>
+<hr>
+</div>
+<div class="section-level-extent" id="Exporter-au-format-CSV">
+<div class="nav-panel">
+<p>
+Previous: <a href="#Importation-de-fichiers-au-format-CSV-ou-autres-formats" accesskey="p" rel="prev">Importation de fichiers au format CSV ou autres formats</a>, Up: <a href="#Redirection-des-E_002fS" accesskey="u" rel="up">Redirection des E/S</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Exporter-au-format-CSV-1"><span>8.6 Exporter au format CSV<a class="copiable-link" href="#Exporter-au-format-CSV-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023export_005fto_005fcsv"></a>
+<p>Pour exporter une table SQLite (ou une partie de table) au format CSV,
+définissez simplement le <code class="code">mode</code> sur <code class="code">csv</code>, puis exécutez une
+requête pour extraire les lignes souhaitées de la table. La sortie sera
+formatée au format CSV conformément à la <em class="emph">RFC 4180</em>.
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .headers sur 
+sqlite&gt; .mode csv 
+sqlite&gt; .once c:/work/dataout.csv 
+sqlite&gt; SELECT * FROM tab1; 
+sqlite&gt; .system c:/work/dataout.csv
+</pre></div>
+
+<p>Dans l’exemple ci-dessus, la ligne <code class="code">.headers on</code> entraîne
+l’impression des étiquettes de colonnes comme première ligne de
+sortie. Cela signifie que la première ligne du fichier CSV
+résultant contiendra des étiquettes de colonnes. Si les étiquettes de
+colonnes ne sont pas souhaitées, désactivez plutôt <code class="code">.headers
+off</code>. (Le paramètre <code class="code">.headers off</code> est le paramètre par défaut et
+peut être omis si les en-têtes n’ont pas été préalablement activés.)
+</p>
+<p>La ligne <code class="code">.once FILENAME</code> fait que toutes les sorties de requête
+sont envoyées dans le fichier nommé au lieu d’être imprimées sur la
+console. Dans l’exemple ci-dessus, cette ligne entraîne l’écriture du
+contenu CSV dans un fichier nommé <samp class="file">C:/work/dataout.csv</samp>.
+</p>
+<p>La dernière ligne de l’exemple (le <code class="code">.system c:/work/dataout.csv</code>) a
+le même effet qu’un double-clic sur le fichier
+<samp class="file">c:/work/dataout.csv</samp> dans Windows. Cela fera généralement
+apparaître un tableur pour afficher le fichier CSV.
+</p>
+<p>Cette commande ne fonctionne que telle qu’elle est écrite sous Windows.
+La ligne équivalente sur un Mac serait :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .system oppen dataout.csv
+</pre></div>
+
+<p>Sous Linux et autres systèmes Unix, vous devrez saisir quelque chose
+comme :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .system xdg-open dataout.csv
+</pre></div>
+
+
+
+<ul class="mini-toc">
+<li><a href="#Exporter-vers-Excel" accesskey="1">Exporter vers Excel</a></li>
+<li><a href="#Exporter-vers-TSV" accesskey="2">Exporter vers TSV (valeurs séparées par des tabulations)</a></li>
+</ul>
+<hr>
+<div class="subsection-level-extent" id="Exporter-vers-Excel">
+<div class="nav-panel">
+<p>
+Next: <a href="#Exporter-vers-TSV" accesskey="n" rel="next">Exporter vers TSV (valeurs séparées par des tabulations)</a>, Up: <a href="#Exporter-au-format-CSV" accesskey="u" rel="up">Exporter au format CSV</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h4 class="subsection" id="Exporter-vers-Excel-1"><span>8.6.1 Exporter vers Excel<a class="copiable-link" href="#Exporter-vers-Excel-1"> &para;</a></span></h4>
+<a class="anchor" id="g_t_0023_005fexport_005fto_005fexcel_005f"></a>
+<p>Pour simplifier l’exportation vers une feuille de calcul, l’interface
+en ligne de commande fournit la commande <code class="code">.excel</code> qui capture le
+résultat d’une seule requête et envoie ce résultat au tableur par défaut
+sur l’ordinateur hôte.  Utilisez-le comme ceci :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .excel 
+sqlite&gt; onglet SELECT * FROM ;
+</pre></div>
+
+<p>La commande ci-dessus écrit le résultat de la requête au format
+CSV dans un fichier temporaire, appelle le gestionnaire par
+défaut pour les fichiers CSV (généralement le tableur préféré
+tel qu’Excel ou LibreOffice), puis supprime le fichier
+temporaire. Il s’agit essentiellement d’une méthode abrégée permettant
+d’exécuter la séquence de commandes <code class="code">.csv</code>, <code class="code">.once</code> et
+<code class="code">.system</code> décrite ci-dessus.
+</p>
+<p>La commande <code class="code">.excel</code> est en réalité un alias pour <code class="code">.once -x</code>.
+L’option <code class="code">-x</code> de .once lui permet d’écrire les résultats au
+format CSV dans un fichier temporaire nommé avec le suffixe
+<code class="code">.csv</code>, puis d’appeler le gestionnaire par défaut du système pour
+les fichiers CSV.
+</p>
+<p>Il existe également une commande <code class="code">.once -e</code> qui fonctionne de
+manière similaire, sauf qu’elle nomme le fichier temporaire avec un
+suffixe <code class="code">.txt</code> afin que l’éditeur de texte par défaut du système
+soit invoqué, au lieu de la feuille de calcul par défaut.
+</p>
+
+<hr>
+</div>
+<div class="subsection-level-extent" id="Exporter-vers-TSV">
+<div class="nav-panel">
+<p>
+Previous: <a href="#Exporter-vers-Excel" accesskey="p" rel="prev">Exporter vers Excel</a>, Up: <a href="#Exporter-au-format-CSV" accesskey="u" rel="up">Exporter au format CSV</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h4 class="subsection" id="Exporter-vers-TSV-_0028valeurs-separees-par-des-tabulations_0029"><span>8.6.2 Exporter vers TSV (valeurs séparées par des tabulations)<a class="copiable-link" href="#Exporter-vers-TSV-_0028valeurs-separees-par-des-tabulations_0029"> &para;</a></span></h4>
+<a class="anchor" id="g_t_0023_005fexport_005fto_005ftsv_005ftab_005fseparated_005fvalues_005f"></a>
+<p>L’exportation vers du TSV pur, sans aucune citation de champ,
+peut être effectuée en saisir <code class="code">.mode tabs</code> avant d&rsquo;exécuter une
+requête. Cependant, la sortie sera ne pas être lu correctement en mode
+onglets par la commande <code class="code">.import</code> s&rsquo;il contient des guillemets
+doubles. Pour obtenir le TSV cité selon la <em class="emph">RFC 4180</em> afin
+que il peut être saisi en mode onglets avec <code class="code">.import</code>, entrez
+d&rsquo;abord <code class="code">.mode&nbsp;csv</code>, puis entrez <code class="code">.separator \t</code> avant
+d&rsquo;exécuter une requête.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div class="chapter-level-extent" id="Acc_00e8s-aux-bases-sous-forme-compress_00e9e">
+<div class="nav-panel">
+<p>
+Next: <a href="#Conversion-d_0027une-base-en-fichier-texte" accesskey="n" rel="next">Conversion d&rsquo;une base en fichier texte</a>, Previous: <a href="#Redirection-des-E_002fS" accesskey="p" rel="prev">Redirection des E/S</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Acces-aux-bases-sous-forme-compressee"><span>9 Accès aux bases sous forme compressée<a class="copiable-link" href="#Acces-aux-bases-sous-forme-compressee"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023accessing_005fzip_005farchives_005fas_005fdatabase_005ffiles"></a>
+<p>En plus de lire et d’écrire des fichiers de base de données
+SQLite, le Le programme <code class="code">sqlite3</code> lira et écrira également
+les archives ZIP. Simplement spécifier un nom de fichier
+d&rsquo;archive <code class="code">ZIP</code> à la place d’un nom de fichier de base de données
+SQLite sur la ligne de commande initiale, ou dans la commande
+<code class="code">.open</code>, et <code class="code">sqlite3</code> détectera automatiquement que le fichier
+est une archive <code class="code">ZIP</code> au lieu d’une base de données SQLite
+et l’ouvrira comme telle. Ceci fonctionne quel que soit le suffixe du
+fichier. Vous pouvez donc ouvrir des fichier <samp class="file">JAR</samp>, <samp class="file">DOCX</samp> et
+<samp class="file">ODP</samp> ou tous les autres formats de fichier qui sont sont en
+réalité une archive <samp class="file">ZIP</samp>.
+</p>
+<p>Une archive <code class="code">ZIP</code> semble être une base de données contenant une seule
+table avec le schéma suivant :
+</p>
+<div class="example">
+<pre class="example-preformatted">CREATE TABLE zip(
+  name,     // Name of the file
+  mode,     // Unix-style file permissions
+  mtime,    // Timestamp, seconds since 1970
+  sz,       // File size after decompression
+  rawdata,  // Raw compressed file data
+  data,     // Uncompressed file content
+  method    // ZIP compression method code
+);
+</pre></div>
+
+<p>Ainsi, par exemple, si vous vouliez voir l&rsquo;efficacité de la compression
+(exprimée par la taille du contenu compressé par rapport au taille
+originale du fichier non compressé) pour tous les fichiers de l&rsquo;archive
+ZIP, trié du plus compressé au moins compressé, vous pouvez exécuter une
+requête comme ça:
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; SELECT name, (100.0*length(rawdata))/sz FROM zip ORDER BY 2;
+</pre></div>
+
+<p>Ou en utilisant les fonctions d&rsquo;E/S de fichiers, vous pouvez extraire
+des éléments de l&rsquo;archive ZIP :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; SELECT writefile(name,content) FROM zip
+   ...&gt; WHERE name LIKE 'docProps/%';
+</pre></div>
+
+
+
+<ul class="mini-toc">
+<li><a href="#Details-de-l_2019impl_00e9mentation-de-l_0027acc_00e8s-aux-archives-ZIP" accesskey="1">Details de l’implémentation de l&rsquo;accès aux archives ZIP</a></li>
+</ul>
+<hr>
+<div class="section-level-extent" id="Details-de-l_2019impl_00e9mentation-de-l_0027acc_00e8s-aux-archives-ZIP">
+<div class="nav-panel">
+<p>
+Up: <a href="#Acc_00e8s-aux-bases-sous-forme-compress_00e9e" accesskey="u" rel="up">Accès aux bases sous forme compressée</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Details-de-l_2019implementation-de-l_0027acces-aux-archives-ZIP"><span>9.1 Details de l’implémentation de l&rsquo;accès aux archives ZIP<a class="copiable-link" href="#Details-de-l_2019implementation-de-l_0027acces-aux-archives-ZIP"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023how_005fzip_005farchive_005faccess_005fis_005fimplemented"></a>
+<p>Le shell de ligne de commande utilise la table virtuelle <samp class="file">Zipfile</samp> pour
+accéder aux archives ZIP. Vous pouvez le voir en exécutant la commande
+<code class="code">.schema</code> lorsqu&rsquo;une archive <code class="code">ZIP</code> est ouverte :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .schema
+CREATE VIRTUAL TABLE zip USING zipfile('document.docx')
+/* zip(name,mode,mtime,sz,rawdata,data,method) */;
+</pre></div>
+
+<p>Lors de l&rsquo;ouverture d’un fichier, si le client en ligne de commande
+découvre que le fichier est une archive <code class="code">ZIP</code> au lieu d&rsquo;une base de
+données SQLite, il ouvre en fait une base de données en mémoire, puis
+dans cette base de données en mémoire, il crée une instance de la table
+virtuelle <samp class="file">Zipfile</samp> qui est attachée à l’archive ZIP.
+</p>
+<p>Le traitement spécial pour ouvrir les archives <code class="code">ZIP</code> est une astuce du
+shell de ligne de commande et non de la bibliothèque SQLite. Donc si
+vous voulez ouvrir une archive <code class="code">ZIP</code> comme base de données dans votre
+application, vous devrez activer le module de table virtuelle
+<code class="code">Zipfile</code> puis exécuter une instruction <code class="code">CREATE VIRTUAL TABLE</code>
+appropriée.
+</p>
+
+<hr>
+</div>
+</div>
+<div class="chapter-level-extent" id="Conversion-d_0027une-base-en-fichier-texte">
+<div class="nav-panel">
+<p>
+Next: <a href="#R_00e9cup_00e9rer-une-base-de-donn_00e9es-corrompue" accesskey="n" rel="next">Récupérer une base de données corrompue</a>, Previous: <a href="#Acc_00e8s-aux-bases-sous-forme-compress_00e9e" accesskey="p" rel="prev">Accès aux bases sous forme compressée</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Conversion-d_0027une-base-en-fichier-texte-1"><span>10 Conversion d&rsquo;une base en fichier texte<a class="copiable-link" href="#Conversion-d_0027une-base-en-fichier-texte-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023converting_005fan_005fentire_005fdatabase_005fto_005fa_005ftext_005ffile"></a>
+<p>Utilisez la commande <code class="code">.dump</code> pour convertir l&rsquo;intégralité du
+contenu d&rsquo;une base de données dans un seul fichier texte UTF-8. Ce
+fichier peut être reconverti en un base de données en la redirigeant
+vers <code class="code">sqlite3</code>.
+</p>
+<p>Une bonne façon de créer une copie d’archive d’une base de données est
+la suivante :
+</p>
+<div class="example">
+<pre class="example-preformatted">$ sqlite3 ex1 .dump | gzip -c &gt;ex1.dump.gz
+</pre></div>
+
+<p>Cela génère un fichier nommé <samp class="file">ex1.dump.gz</samp> qui contient tout ce
+dont vous avez besoin pour reconstruire la base de données
+ultérieurement ou sur une autre machine. Pour reconstruire la base de
+données, tapez simplement :
+</p>
+<div class="example">
+<pre class="example-preformatted">$ zcat ex1.dump.gz | sqlite3 ex2
+</pre></div>
+
+<p>Le format de texte est du SQL pur, vous pouvez donc également utiliser
+la commande <code class="code">.dump</code> pour exporter une base de données SQLite vers
+d&rsquo;autres moteurs de base de données SQL populaires. Comme ceci:
+</p>
+<div class="example">
+<pre class="example-preformatted">$ createdb ex2
+$ sqlite3 ex1 .dump | psql ex2
+</pre></div>
+
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="R_00e9cup_00e9rer-une-base-de-donn_00e9es-corrompue">
+<div class="nav-panel">
+<p>
+Next: <a href="#Charger-des-Extensions" accesskey="n" rel="next">Charger des Extensions</a>, Previous: <a href="#Conversion-d_0027une-base-en-fichier-texte" accesskey="p" rel="prev">Conversion d&rsquo;une base en fichier texte</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Recuperer-une-base-de-donnees-corrompue"><span>11 Récupérer une base de données corrompue<a class="copiable-link" href="#Recuperer-une-base-de-donnees-corrompue"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023recover_005fdata_005ffrom_005fa_005fcorrupted_005fdatabase"></a>
+<p>Comme la commande <code class="code">.dump</code>, la commande <code class="code">.recover</code> tente de
+convertir l’intégralité du contenu d’un fichier de la base de données en
+texte. La différence est qu’au lieu de lire les données à l’aide de
+l’interface de base de données SQL normale, <code class="code">.recover</code> tente de
+réassembler la base de données en fonction des données extraites
+directement du plus grand nombre possible de pages de base de
+données. Si la base de données est corrompue, <code class="code">.recover</code> est
+généralement capable de récupérer les données de toutes les parties non
+corrompues de la base de données, alors que <code class="code">.dump</code> s’arrête dès
+les premiers signes de corruption.
+</p>
+<p>Si la commande <code class="code">.recover</code> récupère une ou plusieurs lignes qu’elle
+ne peut pas attribut à n’importe quelle table de base de données, le
+script de sortie crée un Table <code class="code">lost_and_found</code> pour stocker les
+lignes orphelines. Le schéma de la table loss_and_found est la
+suivante :
+</p>
+<div class="example">
+<pre class="example-preformatted">CREATE TABLE lost_and_found(
+    rootpgno INTEGER,   -- page racine de l'arbre pgno,
+    pgno INTEGER,       -- numéro de page contenant la rangée,
+    nfield INTEGER,     -- numéro du champs dans la rangée,
+    id INTEGER,         -- valeur du champs rowid, ou NULL
+    c0, c1, c2, ...     -- les colonnes des champs de la rangée
+);
+</pre></div>
+
+<p>La table <code class="code">lost_and_found</code> contient une ligne pour chaque ligne
+orpheline récupérée de la base de données. De plus, il y a une ligne
+pour chaque entrée d&rsquo;index récupérée qui ne peut être attribuée à aucun
+index SQL. En effet, dans une base de données SQLite, le même format est
+utilisé pour stocker les entrées d&rsquo;index SQL et SANS les entrées de
+table ROWID.
+</p>
+<table class="multitable">
+<tbody><tr><td>Column</td><td>Contenu</td></tr>
+<tr><td>rootpgno</td><td>Même s’il n&rsquo;est pas possible d&rsquo;attribuer la ligne à une
+table de base de données spécifique, elle peut faire partie d&rsquo;une
+structure arborescente au sein de la fichier de base de données. Dans ce
+cas, le numéro de page racine de cette arborescence est stocké dans 
+cette colonne. Ou, si la page sur laquelle la ligne a été trouvée n&rsquo;est
+pas faisant partie d&rsquo;une arborescence, cette colonne stocke une copie de
+la valeur dans column <code class="code">pgno</code> - le numéro de page de la page sur
+laquelle la ligne a été trouvée. Dans de nombreux cas, mais pas tous,
+toutes les lignes de la table loss_and_found avec la même valeur dans
+cette colonne appartient à la même table.</td></tr>
+<tr><td>pgno</td><td>Le numéro de la page sur laquelle on trouve cette rangée..</td></tr>
+<tr><td>nfield</td><td>Le nombre de champs dans cette rangée.</td></tr>
+<tr><td>id</td><td>Si la ligne provient d&rsquo;une table SANS ROWID, cette colonne contient
+NUL. Sinon, il contient la valeur entière rowid de 64 bits pour la ligne.</td></tr>
+<tr><td>c0,&nbsp;c1,&nbsp;c2...</td><td>Les valeurs de chaque colonne de la ligne sont stockées dans ces colonnes.
+La commande <code class="code">.recover</code> crée la table loss_and_found avec autant de
+colonnes comme requis par la ligne orpheline la plus longue.</td></tr>
+</tbody>
+</table>
+
+<p>Si le schéma de base de données récupéré contient déjà une table nommée
+<code class="code">lost_and_found</code>, la commande <code class="code">.recover</code> utilise le nom
+<code class="code">lost_and_found0</code>. Si le nom <code class="code">lost_and_found0</code> est également
+déjà pris, <code class="code">lost_and_found1</code>, et ainsi de suite. Le nom par défaut
+<code class="code">lost_and_found</code> peut être remplacé en appelant <code class="code">.recover</code>
+avec le commutateur <code class="code">--lost-and-found</code>. Pour exemple, pour que le
+script de sortie appelle la table <code class="code">orphaned_rows</code> :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .recover --lost-and-found orphaned_rows
+</pre></div>
+
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Charger-des-Extensions">
+<div class="nav-panel">
+<p>
+Next: <a href="#Hachages-cryptographiques" accesskey="n" rel="next">Hachages cryptographiques</a>, Previous: <a href="#R_00e9cup_00e9rer-une-base-de-donn_00e9es-corrompue" accesskey="p" rel="prev">Récupérer une base de données corrompue</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Charger-des-Extensions-1"><span>12 Charger des Extensions<a class="copiable-link" href="#Charger-des-Extensions-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023loading_005fextensions"></a>
+<p>Vous pouvez ajouter de nouvelles fonctions SQL personnalisées, des
+séquences de classement, des tables virtuelles et VFS vers le shell de
+ligne de commande au moment de l’exécution à l’aide de la commande
+<code class="code">.load</code>. D’abord, construire l’extension en tant que DLL ou
+bibliothèque partagée (comme décrit dans le Document Extensions
+chargeables au moment de l’exécution) puis tapez :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; .load /path/to/my_extension
+</pre></div>
+
+<p>Notez que SQLite ajoute automatiquement le suffixe d’extension approprié
+(<code class="code">.dll</code> sur Windows, <code class="code">.dylib</code> sur Mac, <code class="code">.so</code> sur la
+plupart des autres Unix) au nom de fichier d’extension. C’est
+généralement une bonne idée de préciser l’intégralité chemin d’accès à
+l’extension.
+</p>
+<p>SQLite calcule le point d’entrée de l’extension en fonction de l’extension
+nom de fichier. Pour remplacer ce choix, ajoutez simplement le nom de l’extension
+comme deuxième argument de la commande <code class="code">.load</code>.
+</p>
+<p>Le code source de plusieurs extensions utiles peut être trouvé dans le
+Sous-répertoire <samp class="file">ext/misc</samp> de l’arborescence des sources
+SQLite. Vous pouvez utiliser ces extensions telles quelles, ou comme
+base pour créer votre propre personnalisation extensions pour répondre à
+vos propres besoins particuliers.
+</p>
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Hachages-cryptographiques">
+<div class="nav-panel">
+<p>
+Next: <a href="#Autotests-du-contenu-de-la-base-de-donn_00e9es" accesskey="n" rel="next">Autotests du contenu de la base de données</a>, Previous: <a href="#Charger-des-Extensions" accesskey="p" rel="prev">Charger des Extensions</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Hachages-cryptographiques-1"><span>13 Hachages cryptographiques<a class="copiable-link" href="#Hachages-cryptographiques-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023cryptographic_005fhashes_005fof_005fdatabase_005fcontent"></a>
+<p>La commande point <code class="code">.sha3sum</code> calcule un hâchage <em class="emph">SHA3</em> du
+<em class="emph">contenu</em> de la base de données. Pour être clair, le hâchage est
+calculé sur le contenu de la base de données, pas sur sa représentation
+sur le disque. Par exemple, ceci signifie qu’un <code class="code">VACUUM</code> ou une
+transformation similaire de préservation des données ne change pas le
+hâchage.
+</p>
+<p>La commande <code class="code">.sha3sum</code> prend en charge les options
+<code class="code">--sha3-224</code>, <code class="code">--sha3-256</code>, <code class="code">--sha3-384</code> et
+<code class="code">--sha3-512</code> pour définir la variété de <em class="emph">SHA3</em> à utiliser pour
+le hâchage. La valeur par défaut est <em class="emph">SHA3-256</em>.
+</p>
+<p>Le schéma de la base de données (dans la table <code class="code">sqlite_schema</code>)
+n’est normalement pas inclus dans le hachage, mais peut être ajouté par
+l’option <code class="code">--schema</code>.
+</p>
+<p>La commande <code class="code">.sha3sum</code> prend un seul argument facultatif similaire
+au motif <code class="code">LIKE</code>. Si cette option est présente, seules les tables
+dont les noms correspondent au motif seront hachées.
+</p>
+<p>La commande <code class="code">.sha3sum</code> est implémentée à l&rsquo;aide du fonction
+d&rsquo;extension <code class="code">sha3_query()</code> incluse avec le shell de ligne de
+commande.
+</p>
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Autotests-du-contenu-de-la-base-de-donn_00e9es">
+<div class="nav-panel">
+<p>
+Next: <a href="#Prise-en-charge-des-archives-SQLite" accesskey="n" rel="next">Prise en charge des archives SQLite</a>, Previous: <a href="#Hachages-cryptographiques" accesskey="p" rel="prev">Hachages cryptographiques</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Autotests-du-contenu-de-la-base-de-donnees"><span>14 Autotests du contenu de la base de données<a class="copiable-link" href="#Autotests-du-contenu-de-la-base-de-donnees"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023database_005fcontent_005fself_005ftests"></a>
+<p>La commande <code class="code">.selftest</code> tente de vérifier si une base de données
+est intacte et non corrompue. La commande <code class="code">.selftest</code> recherche une
+table dans le schéma nommé <code class="code">selftest</code> et définie comme suit :
+</p>
+<div class="example">
+<pre class="example-preformatted">CREATE TABLE selftest(
+  tno INTEGER PRIMARY KEY,  -- Test number
+  op TEXT,                  -- 'run’ or 'memo'
+  cmd TEXT,                 -- SQL command to run, or text of &quot;memo&quot;
+  ans TEXT                  -- Expected result of the SQL command
+);
+</pre></div>
+
+<p>La commande <code class="code">.selftest</code> lit les lignes de la table <code class="code">selftest</code>
+en suivant l’ordre <code class="code">selftest.tno</code>. Pour chaque ligne <code class="code">memo</code>,
+il écrit le texte dans <code class="code">cmd</code> dans le résultat. Pour chaque ligne
+inspectée, il exécute l’instruction SQL <code class="code">cmd</code> et compare le
+résultat à la valeur dans <code class="code">ans</code> et affiche un message d&rsquo;erreur si
+les résultats diffèrent.
+</p>
+<p>S’il n&rsquo;y a pas de table d’autotest, la commande <code class="code">.selftest</code> exécute
+un pragma de vérification d’intégrité.
+</p>
+<p>La commande <code class="code">.selftest --init</code> crée la table d’autotest si elle
+n’existe pas déjà le cas. Puis elle ajoute des entrées qui vérifient le hachage
+SHA3 du contenu de tous les tableaux. Les exécutions ultérieures de
+<code class="code">.selftest</code> vérifieront que la base de données n’a pas été
+modifiée. Pour générer des tests pour vérifiez qu’un sous-ensemble des
+tables est inchangé, exécutez simplement <code class="code">.selftest --init</code> puis
+supprimez les lignes d’autotest qui font référence aux tables et qui ne
+sont pas constantes.
+</p>
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Prise-en-charge-des-archives-SQLite">
+<div class="nav-panel">
+<p>
+Next: <a href="#Param_00e8tres-SQL" accesskey="n" rel="next">Paramètres SQL</a>, Previous: <a href="#Autotests-du-contenu-de-la-base-de-donn_00e9es" accesskey="p" rel="prev">Autotests du contenu de la base de données</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Prise-en-charge-des-archives-SQLite-1"><span>15 Prise en charge des archives SQLite<a class="copiable-link" href="#Prise-en-charge-des-archives-SQLite-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023sqlite_005farchive_005fsupport"></a>
+<p>La commande <code class="code">.archive</code> et l&rsquo;option de ligne de commande <code class="code">-A</code>&quot;
+fournissent une prise en charge intégrée du format d’archive de
+SQLite. L’interface est similaire à celui de la commande <code class="code">tar</code> sur
+les systèmes Unix. Chaque invocation de la commande <code class="code">.ar</code> ne doit
+spécifier qu’une seule option. Voici les commandes disponibles pour
+<code class="code">.archive</code> :
+</p>
+<table class="multitable">
+<tbody><tr><td>Option</td><td>Option longue</td><td>usage</td></tr>
+<tr><td><code class="code">-c</code></td><td><code class="code">--create</code></td><td>Créé une nouvelle archive contenant le fichier spécifié.</td></tr>
+<tr><td><code class="code">-x</code></td><td><code class="code">--extract</code></td><td>Extrait le fichier spécifié de l’archive.</td></tr>
+<tr><td><code class="code">-i</code></td><td><code class="code">--insert</code></td><td>Ajoute des fichiers à une archive existante</td></tr>
+<tr><td><code class="code">-r</code></td><td><code class="code">--remove</code></td><td>Enlève des fichiers d’une archive.</td></tr>
+<tr><td><code class="code">-t</code></td><td><code class="code">--list</code></td><td>Liste les fichers de l’archive.</td></tr>
+<tr><td><code class="code">-u</code></td><td><code class="code">--update</code></td><td>Ajoute des fichiers à une archive existante <em class="emph">s’ils</em> ont été changés.</td></tr>
+</tbody>
+</table>
+
+<p>En plus de l’option de commande, chaque invocation de <code class="code">.ar</code> peut
+spécifier une ou plusieurs options de modification. Certaines options de
+modification nécessitent un argument, d&rsquo;autres non. Les options de
+modification suivantes sont disponibles :
+</p>
+<table class="multitable">
+<tbody><tr><td width="20%">Option</td><td width="20%">Option_longue</td><td width="60%">Usage</td></tr>
+<tr><td width="20%"><code class="code">-v</code></td><td width="20%"><code class="code">--verbose</code></td><td width="60%">Liste chaque fichier en cours de traitement.</td></tr>
+<tr><td width="20%"><code class="code">-f FILE</code></td><td width="20%"><code class="code">--file FILE</code></td><td width="60%">Si spécifié, utilisez le fichier <samp class="file">FILE</samp> comme archive. Sinon,
+ supposons que la base de données &quot;principale&quot; (ndt. &ldquo;main&rdquo;) actuelle
+ est l&rsquo;archive à exploiter.</td></tr>
+<tr><td width="20%"><code class="code">-a FILE</code></td><td width="20%"><code class="code">--append FILE</code></td><td width="60%">Comme l’option <code class="code">--file</code>, utilise le fichier <samp class="file">FILE</samp> comme
+ archive, mais ouvre le fichier en utilisant la VFS <code class="code">apndvfs</code> pour
+ que l’archivage soit ajouté à la fin du fichier <samp class="file">FILE</samp> s’il existe.</td></tr>
+<tr><td width="20%"><code class="code">-C DIR</code></td><td width="20%"><code class="code">--directory DIR</code></td><td width="60%">Si spécifié, interprète tous les chemins relatifs par rapport à
+ <samp class="file">DIR</samp>, au lieu d’utiliser le répertoire courant.</td></tr>
+<tr><td width="20%"><code class="code">-g</code></td><td width="20%"><code class="code">--glob</code></td><td width="60%">Utilise <code class="code">glob(Y,X)</code> pour faire correspondre les
+ arguments à des noms dans l’archive.</td></tr>
+<tr><td width="20%"><code class="code">-n</code></td><td width="20%"><code class="code">--dryrun</code></td><td width="60%">Montre l’instruction SQL, qui devrait être exécutée pour réaliser
+ l’opération d’archivage, mais dans les faits ne change rien.</td></tr>
+<tr><td width="20%"><code class="code">--</code></td><td width="20%"><code class="code">--</code></td><td width="60%">Tous les mots qui suivent sur la ligne de commande sont des
+ arguments de commande, et plus des options.</td></tr>
+</tbody>
+</table>
+
+<p>Pour une utilisation en ligne de commande, ajoutez les options de ligne
+de commande de style court immédiatement après le <code class="code">-A</code>, sans espace
+intermédiaire. Tous les arguments suivants sont considérés comme faisant
+partie de la commande <code class="code">.archive</code>.  Par exemple, les commandes
+suivantes sont équivalentes :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite3 new_archive.db -Acv file1 file2 file3
+sqlite3 new_archive.db &quot;.ar -cv file1 file2 file3&quot;
+</pre></div>
+
+<p>Les options de style long et court peuvent être mélangées. Par exemple,
+ces instrucitons sont équivalentes :
+</p>
+<div class="example">
+<pre class="example-preformatted">-- Deux méthodes pour créer un nouvelle archive &quot;new_archive.db&quot; 
+-- contenant les fichiers &quot;file1&quot;, &quot;file2&quot; et &quot;file3&quot;.
+.ar -c --file new_archive.db file1 file2 file3
+.ar -f new_archive.db --create file1 file2 file3
+</pre></div>
+
+<p>Alternativement, le premier argument suivant <code class="code">.ar</code> peut être la
+concaténation de la forme courte de toutes les options requises (sans le
+caractère <code class="code">-</code>). Dans ce cas, les arguments des options qui les
+nécessitent sont lus dans les mots qui suivent sur la ligne de commande,
+et tous les mots restants sont compris comme les arguments de commande. Par
+exemple:
+</p>
+<div class="example">
+<pre class="example-preformatted">-- Créé une nouvelle archive &quot;new_archive.db&quot; contenant les fichiers
+-- &quot;file1&quot; et &quot;file2&quot; dans le répertoire &quot;dir1&quot;.
+.ar cCf dir1 new_archive.db file1 file2 file3
+</pre></div>
+
+
+
+
+<ul class="mini-toc">
+<li><a href="#La-commande-de-cr_00e9ation-d_2019archive-_0028_002ear-_002d_002dcreate_0029" accesskey="1">La commande de création d’archive (.ar &ndash;create)</a></li>
+<li><a href="#La-commande-d_2019extraction-_0028_002ear-_002d_002dextract_0029" accesskey="2">La commande d’extraction (.ar &ndash;extract)</a></li>
+<li><a href="#La-commande-pour-lister-le-contenu-d_2019une-archive-_0028_002ear-_002d_002dlist_0029" accesskey="3">La commande pour lister le contenu d’une archive (.ar &ndash;list)</a></li>
+<li><a href="#Les-commandes-pour-ins_00e9rer-et-mettre-_00e0-jour-_0028_002ear-_002d_002dinsert_002f_002ear-_002d_002dupdate_0029" accesskey="4">Les commandes pour insérer et mettre à jour (.ar &ndash;insert/.ar &ndash;update)</a></li>
+<li><a href="#La-commande-pour-enlever-_0028_002ear-_002d_002dremove_0029" accesskey="5">La commande pour enlever (.ar &ndash;remove)</a></li>
+<li><a href="#Les-operations-sur-les-archives-ZIP" accesskey="6">Les operations sur les archives ZIP</a></li>
+<li><a href="#Les-Instructions-SQL-r_00e9alisant-des-op_00e9rations-d_2019archivage-SQLite" accesskey="7">Les Instructions SQL réalisant des opérations d’archivage SQLite</a></li>
+</ul>
+<hr>
+<div class="section-level-extent" id="La-commande-de-cr_00e9ation-d_2019archive-_0028_002ear-_002d_002dcreate_0029">
+<div class="nav-panel">
+<p>
+Next: <a href="#La-commande-d_2019extraction-_0028_002ear-_002d_002dextract_0029" accesskey="n" rel="next">La commande d’extraction (.ar &ndash;extract)</a>, Up: <a href="#Prise-en-charge-des-archives-SQLite" accesskey="u" rel="up">Prise en charge des archives SQLite</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="La-commande-de-creation-d_2019archive-_0028_002ear-_002d_002dcreate_0029"><span>15.1 La commande de création d’archive (.ar &ndash;create)<a class="copiable-link" href="#La-commande-de-creation-d_2019archive-_0028_002ear-_002d_002dcreate_0029"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023_005fsqlite_005farchive_005fcreate_005fcommand_005f"></a>
+<p>La commande <code class="code">.ar --create</code> crée une nouvelle archive en écrasant
+toute archive existante (soit dans le base de données &quot;principale&quot;
+actuelle ou dans le fichier spécifié par une option
+<code class="code">--file</code>). Chaque argument qui suit les options est un fichier à
+ajouter à l&rsquo;archive.  Les répertoires sont importés de manière
+récursive. Voir ci-dessus pour des exemples.
+</p>
+<hr>
+</div>
+<div class="section-level-extent" id="La-commande-d_2019extraction-_0028_002ear-_002d_002dextract_0029">
+<div class="nav-panel">
+<p>
+Next: <a href="#La-commande-pour-lister-le-contenu-d_2019une-archive-_0028_002ear-_002d_002dlist_0029" accesskey="n" rel="next">La commande pour lister le contenu d’une archive (.ar &ndash;list)</a>, Previous: <a href="#La-commande-de-cr_00e9ation-d_2019archive-_0028_002ear-_002d_002dcreate_0029" accesskey="p" rel="prev">La commande de création d’archive (.ar &ndash;create)</a>, Up: <a href="#Prise-en-charge-des-archives-SQLite" accesskey="u" rel="up">Prise en charge des archives SQLite</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="La-commande-d_2019extraction-_0028_002ear-_002d_002dextract_0029-1"><span>15.2 La commande d’extraction (.ar &ndash;extract)<a class="copiable-link" href="#La-commande-d_2019extraction-_0028_002ear-_002d_002dextract_0029-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023_005fsqlite_005farchive_005fextract_005fcommand_005f"></a>
+<p>La commande <code class="code">.ar --extract</code> extrait les fichiers de l’archive (soit
+vers le répertoire de travail actuel, soit vers le répertoire spécifié
+par une option <code class="code">--directory</code>). Les fichiers ou les répertoires dont
+les noms correspondent aux arguments affectés par l’option <code class="code">--glob</code>
+sont extraits. Si aucun argument ne suit les options, tous les fichiers
+et les répertoires sont extraits. Tous les répertoires spécifiés sont
+extraits récursivement. C&rsquo;est une erreur si des noms spécifiés ou des
+modèles de recherche ne correspondent à rien dans l’archive.
+</p>
+<div class="example">
+<pre class="example-preformatted">-- Extrait tous les fichiers de l’archive de la base courante 
+-- &quot;main&quot; dans le répertoire courant. Liste les fichiers pendant
+-- leur extraction. 
+.ar --extract --verbose
+
+-- Extrait le fichier &quot;file1&quot; de l’archive &quot;ar.db&quot; dans le
+-- répertoire &quot;dir1&quot;.
+.ar fCx ar.db dir1 file1
+
+-- Extrait les fichiers avec l’extension &quot;.h&quot; dans le répertoire
+-- &quot;headers&quot;.
+.ar -gCx headers *.h
+</pre></div>
+
+
+<hr>
+</div>
+<div class="section-level-extent" id="La-commande-pour-lister-le-contenu-d_2019une-archive-_0028_002ear-_002d_002dlist_0029">
+<div class="nav-panel">
+<p>
+Next: <a href="#Les-commandes-pour-ins_00e9rer-et-mettre-_00e0-jour-_0028_002ear-_002d_002dinsert_002f_002ear-_002d_002dupdate_0029" accesskey="n" rel="next">Les commandes pour insérer et mettre à jour (.ar &ndash;insert/.ar &ndash;update)</a>, Previous: <a href="#La-commande-d_2019extraction-_0028_002ear-_002d_002dextract_0029" accesskey="p" rel="prev">La commande d’extraction (.ar &ndash;extract)</a>, Up: <a href="#Prise-en-charge-des-archives-SQLite" accesskey="u" rel="up">Prise en charge des archives SQLite</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="La-commande-pour-lister-le-contenu-d_2019une-archive-_0028_002ear-_002d_002dlist_0029-1"><span>15.3 La commande pour lister le contenu d’une archive (.ar &ndash;list)<a class="copiable-link" href="#La-commande-pour-lister-le-contenu-d_2019une-archive-_0028_002ear-_002d_002dlist_0029-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023_005fsqlite_005farchive_005flist_005fcommand_005f"></a>
+<p>La commande <code class="code">.ar --list</code> répertorie le contenu de l’archive. Si aucun
+argument n’est spécifié, alors tous les fichiers sont
+répertoriés. Sinon, seuls ceux qui correspondent aux arguments de
+l’option <code class="code">--glob</code> sont listés. Actuellement, l’option
+<code class="code">--verbose</code> ne modifie pas le comportement de cette commande. Cela
+pourrait changer dans l&rsquo;avenir.
+</p>
+<div class="example">
+<pre class="example-preformatted">-- Liste le contenu de l'archive dans la base courante &quot;main&quot;..
+.ar --list
+</pre></div>
+
+
+<hr>
+</div>
+<div class="section-level-extent" id="Les-commandes-pour-ins_00e9rer-et-mettre-_00e0-jour-_0028_002ear-_002d_002dinsert_002f_002ear-_002d_002dupdate_0029">
+<div class="nav-panel">
+<p>
+Next: <a href="#La-commande-pour-enlever-_0028_002ear-_002d_002dremove_0029" accesskey="n" rel="next">La commande pour enlever (.ar &ndash;remove)</a>, Previous: <a href="#La-commande-pour-lister-le-contenu-d_2019une-archive-_0028_002ear-_002d_002dlist_0029" accesskey="p" rel="prev">La commande pour lister le contenu d’une archive (.ar &ndash;list)</a>, Up: <a href="#Prise-en-charge-des-archives-SQLite" accesskey="u" rel="up">Prise en charge des archives SQLite</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Les-commandes-pour-inserer-et-mettre-a-jour-_0028_002ear-_002d_002dinsert_002f_002ear-_002d_002dupdate_0029"><span>15.4 Les commandes pour insérer et mettre à jour (.ar &ndash;insert/.ar &ndash;update)<a class="copiable-link" href="#Les-commandes-pour-inserer-et-mettre-a-jour-_0028_002ear-_002d_002dinsert_002f_002ear-_002d_002dupdate_0029"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023_005fsqlite_005farchive_005finsert_005fand_005fupdate_005fcommands_005f"></a>
+
+<p>Les commandes <code class="code">.ar --update</code> et <code class="code">.ar --insert</code> fonctionnent
+comme la commande <code class="code">.ar --create</code>, sauf qu&rsquo;ils ne suppriment pas
+l’archive courante avant de commencer. Les nouvelles versions des
+fichiers remplacent silencieusement les fichiers existants portant les
+mêmes noms, mais sinon le contenu initial des archives (le cas échéant)
+restent intactes.
+</p>
+<p>Pour la commande <code class="code">.ar --insert</code>, tous les fichiers répertoriés sont
+insérés dans le archive. Pour la commande <code class="code">.ar --update</code>, les fichiers
+ne sont insérés que s&rsquo;ils ne pré-existent pas dans l&rsquo;archive, ou que si
+leur <code class="code">mtime</code> ou <code class="code">mode</code> est différent de ce qui se trouve
+actuellement dans l’archive.
+</p>
+<p>Remarque de compatibilité : avant SQLiteversion 3.28.0 (2019-04-16),
+seul l’option <code class="code">--update</code> était prise en charge mais cette option
+fonctionnait comme <code class="code">--insert</code>, car il réinsérait le fichier, qu&rsquo;il
+ait été modifié ou non.
+</p>
+
+<hr>
+</div>
+<div class="section-level-extent" id="La-commande-pour-enlever-_0028_002ear-_002d_002dremove_0029">
+<div class="nav-panel">
+<p>
+Next: <a href="#Les-operations-sur-les-archives-ZIP" accesskey="n" rel="next">Les operations sur les archives ZIP</a>, Previous: <a href="#Les-commandes-pour-ins_00e9rer-et-mettre-_00e0-jour-_0028_002ear-_002d_002dinsert_002f_002ear-_002d_002dupdate_0029" accesskey="p" rel="prev">Les commandes pour insérer et mettre à jour (.ar &ndash;insert/.ar &ndash;update)</a>, Up: <a href="#Prise-en-charge-des-archives-SQLite" accesskey="u" rel="up">Prise en charge des archives SQLite</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="La-commande-pour-enlever-_0028_002ear-_002d_002dremove_0029-1"><span>15.5 La commande pour enlever (.ar &ndash;remove)<a class="copiable-link" href="#La-commande-pour-enlever-_0028_002ear-_002d_002dremove_0029-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023_005fsqlite_005farchive_005fremove_005fcommand_005f"></a>
+<p>La commande <code class="code">.ar --remove</code> supprime les fichiers et les répertoires qui
+correspondent aux arguments fournis (le cas échéant) par l&rsquo;option
+<code class="code">--glob</code>. C&rsquo;est un erreur de fournir des arguments qui ne
+correspondent à rien dans l&rsquo;archive.
+</p>
+
+<hr>
+</div>
+<div class="section-level-extent" id="Les-operations-sur-les-archives-ZIP">
+<div class="nav-panel">
+<p>
+Next: <a href="#Les-Instructions-SQL-r_00e9alisant-des-op_00e9rations-d_2019archivage-SQLite" accesskey="n" rel="next">Les Instructions SQL réalisant des opérations d’archivage SQLite</a>, Previous: <a href="#La-commande-pour-enlever-_0028_002ear-_002d_002dremove_0029" accesskey="p" rel="prev">La commande pour enlever (.ar &ndash;remove)</a>, Up: <a href="#Prise-en-charge-des-archives-SQLite" accesskey="u" rel="up">Prise en charge des archives SQLite</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Les-operations-sur-les-archives-ZIP-1"><span>15.6 Les operations sur les archives ZIP<a class="copiable-link" href="#Les-operations-sur-les-archives-ZIP-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023_005foperations_005fon_005fzip_005farchives_005f"></a>
+<p>Si <samp class="file">FILE</samp> est une archive <code class="code">ZIP</code> plutôt qu’une archive SQLite,
+la commande <code class="code">.archive</code> et l&rsquo;option de ligne de commande <code class="code">-A</code>
+fonctionnent toujours. C&rsquo;est réalisé en utilisant l&rsquo;extension
+<a class="url" href="https://www.sqlite.org/zipfile.html">zipfile</a>. Les commandes qui
+suivent sont à peu près équivalentes et ne diffèrent que par le
+format de la sortie :
+</p>
+<table class="multitable">
+<tbody><tr><td>Traditional Command</td><td>Commande équivalente avec <code class="code">sqlite3.exe</code></td></tr>
+<tr><td><code class="code">unzip archive.zip</code></td><td><code class="code">sqlite3 -Axf archive.zip</code></td></tr>
+<tr><td><code class="code">unzip -l archive.zip</code></td><td><code class="code">sqlite3 -Atvf archive.zip</code></td></tr>
+<tr><td><code class="code">zip -r archive2.zip dir</code></td><td><code class="code">sqlite3 -Acf archive2.zip dir</code></td></tr>
+</tbody>
+</table>
+
+
+<hr>
+</div>
+<div class="section-level-extent" id="Les-Instructions-SQL-r_00e9alisant-des-op_00e9rations-d_2019archivage-SQLite">
+<div class="nav-panel">
+<p>
+Previous: <a href="#Les-operations-sur-les-archives-ZIP" accesskey="p" rel="prev">Les operations sur les archives ZIP</a>, Up: <a href="#Prise-en-charge-des-archives-SQLite" accesskey="u" rel="up">Prise en charge des archives SQLite</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Les-Instructions-SQL-realisant-des-operations-d_2019archivage-SQLite"><span>15.7 Les Instructions SQL réalisant des opérations d’archivage SQLite<a class="copiable-link" href="#Les-Instructions-SQL-realisant-des-operations-d_2019archivage-SQLite"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023_005fsql_005fused_005fto_005fimplement_005fsqlite_005farchive_005foperations_005f"></a>
+<p>Les différentes commandes d&rsquo;archivage de SQLite sont
+implémentées à l&rsquo;aide d’instruction SQL. Les développeurs
+d’applications peuvent ajouter simplement un support pour la lecture et
+l’écriture des archives SQLite dans leurs projets en utilisant
+des instructions SQL approprié.
+</p>
+<p>Pour voir quelles instructions SQL sont utilisées pour
+implémenter une archive SQLite opération, ajoutez l’option
+<code class="code">--dryrun</code> ou <code class="code">-n</code>. Ceci affiche les instructions SQL
+affichées mais inhibe leur exécution.
+</p>
+<p>Les instructions SQL implémentant les opérations d’archivage
+SQLite utilisent diverses extensions chargeables. Ces
+extensions sont toutes disponibles dans l’arborescence des sources de
+SQLite dans les sous répertoires de <samp class="file">ext/misc/</samp>. Les
+extensions nécessaires à la prise en charge complète de l&rsquo;archivage
+SQLite incluent:
+</p>
+
+<ol class="enumerate">
+<li> fileio.c
+&mdash; Cette extension ajoute les fonctions SQL <code class="code">readfile()</code>
+et <code class="code">writefile()</code> pour lire et écrire à partir de fichiers présents
+sur le disque. L’extension <samp class="file">fileio.c</samp> inclut également la fonction
+<code class="code">fsdir()</code> pour répertorier le contenu d’un répertoire et la
+fonction <code class="code">lsmode()</code> qui convertit les codes numérique
+<code class="code">st_mode</code> de l’appel système <code class="code">stat()</code> en chaînes lisibles par
+l’homme après, à la manière de la commande <code class="code">ls -l</code>.
+
+</li><li> sqlar.c 
+&mdash; Cette extension ajoute les fonctions <code class="code">sqlar_compress()</code> et
+<code class="code">sqlar_uncompress()</code> nécessaires pour compresser et décompresser un
+fichier au fur et à mesure de son extraction d’une archive SQLite.
+
+</li><li> zipfile.c
+&mdash; Cette extension implémente la fonction <code class="code">zipfile(FILE)</code> qui est
+utilisée pour lire les archives <code class="code">ZIP</code>. Cette extension n&rsquo;est
+nécessaire que pour lire les archives <code class="code">ZIP</code> au lieu des archives
+SQLite.
+
+</li><li> appendvfs.c
+&mdash; Cette extension implémente un système de fichiers virtuel
+(VFS) supplémentaire qui permet d’ajouter une base de données
+SQLite à un autre fichier, comme un exécutable. Cette extension
+n’est nécessaire que si l&rsquo;option <code class="code">--append</code> de la commande
+<code class="code">.archive</code> est utilisée.
+
+</li></ol>
+
+<hr>
+</div>
+</div>
+<div class="chapter-level-extent" id="Param_00e8tres-SQL">
+<div class="nav-panel">
+<p>
+Next: <a href="#Recommendation-pour-les-experts-SQLite-sur-les-index" accesskey="n" rel="next">Recommendation pour les experts SQLite sur les index</a>, Previous: <a href="#Prise-en-charge-des-archives-SQLite" accesskey="p" rel="prev">Prise en charge des archives SQLite</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Parametres-SQL"><span>16 Paramètres SQL<a class="copiable-link" href="#Parametres-SQL"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023sql_005fparameters"></a>
+<p><code class="code">SQLite</code> permet aux paramètres liés d’apparaître dans une
+instruction SQL partout où une valeur littérale est
+permise. Les valeurs de ces les paramètres sont définis à l’aide de la
+famille d’API <code class="code">sqlite3_bind_...()</code>.
+</p>
+<p>Les paramètres peuvent être nommés ou non. Un paramètre sans nom est un
+un point d&rsquo;interrogation seul (<code class="code">?</code>). Les paramètres nommés sont un
+<code class="code">?</code> suivis immédiatement par un chiffre (ex : <code class="code">?15</code> ou
+<code class="code">?123</code>) ou un des caractères <code class="code">$</code>, <code class="code">:</code>, ou <code class="code">@</code> suivi
+d’un nom alphanumérique (ex : <code class="code">$var1</code>, <code class="code">:xyz</code>, <code class="code">@bingo</code>).
+</p>
+<p>Ce shell en ligne de commande laisse les paramètres sans nom détachés,
+ce qui signifie qu’ils auront une valeur SQL <code class="code">NULL</code>. Par
+contre, les paramètres nommés auront des valeurs assignées. S’il existe
+une table <code class="code">TEMP</code> nommée <code class="code">sqlite_parameters</code> avec un schéma
+comme celui-ci :
+</p>
+<div class="example">
+<pre class="example-preformatted">CREATE TEMP TABLE sqlite_parameters(
+  key TEXT PRIMARY KEY,
+  value
+) WITHOUT ROWID;
+</pre></div>
+
+<p>Et s&rsquo;il y a une entrée dans cette table où la colonne des identifiants
+correspond exactement au nom du paramètre (comprenant les initiales
+<code class="code">?</code>, <code class="code">$</code>, <code class="code">:</code> ou le caractère <code class="code">@</code>), le paramètre
+reçoit alors la valeur de la colonne des valeurs correspondantes. Si
+aucune entrée n’existe, le paramètre par défaut est <code class="code">NULL</code>.
+</p>
+<p>La commande <code class="code">.parameter</code> existe pour simplifier la gestion de cette
+table. La commande <code class="code">.parameter init</code> (souvent abrégée en
+<code class="code">.param init</code>) crée la table <samp class="file">temp.sqlite_parameters</samp> si elle
+n’existe pas déjà.  La commande <code class="code">.param list</code> affiche toutes les
+entrées de la table <code class="code">temp.sqlite_parameters</code>. La commande
+<code class="code">.param clear</code> supprime le table <code class="code">temp.sqlite_parameters</code>. Les
+commandes <code class="code">.param set CLÉ VALEUR</code> et <code class="code">.param unset CLÉ</code>
+créent ou suppriment des entrées du table <code class="code">temp.sqlite_parameters</code>.
+</p>
+<p>La <code class="code">VALEUR</code> transmise à <code class="code">.param set CLÉ VALEUR</code> peut être soit
+un littéral SQL ou toute autre expression ou requête
+SQL qui peut être évaluée pour générer une valeur. Ceci permet
+de définir des valeurs de différents types. Si ce genre d’évaluation
+échoue, la <code class="code">VALEUR</code> fournie est mise sous guillemets et insérée
+comme un texte. Parce qu&rsquo;une telle évaluation peut échouer en fonction
+du contenu de la <code class="code">VALEUR</code>, le moyen fiable d’obtenir une valeur de
+texte est de l’entourer avec des guillemets simples qui la protègeront
+pendant l’analyse décrite ci-dessous. Par exemple, (sauf si l&rsquo;on
+souhaite une valeur de -1365) :
+</p>
+<div class="example">
+<pre class="example-preformatted">.parameter init
+.parameter set @phoneNumber &quot;'202-456-1111'&quot;
+</pre></div>
+
+<p>Notez que les guillemets doubles servent à protéger les guillemets
+simples et de s&rsquo;assurer ainsi que le texte cité est analysé comme un
+seul argument.
+</p>
+<p>La table <code class="code">temp.sqlite_parameters</code> fournit uniquement des valeurs
+pour les paramètres dans le shell de la ligne de commande. La table
+<code class="code">temp.sqlite_parameter</code> n’a aucun effet sur requêtes exécutées
+directement à l’aide de l’API SQLite du langage C. Les
+applications individuelles sont censées implémenter leur propres
+paramètres obligatoires. Vous pouvez rechercher <code class="code">sqlite_parameters</code>
+dans le code source de l’interface en ligne de commande de
+SQLite pour voir comment l’interface en ligne de commande
+établit la liaison avec les paramètres pour l’utiliser comme guide pour
+les implémenter dans vos propres applications.
+</p>
+<hr>
+</div>
+<div class="chapter-level-extent" id="Recommendation-pour-les-experts-SQLite-sur-les-index">
+<div class="nav-panel">
+<p>
+Next: <a href="#Travailler-avec-des-connexions-multiples-_00e0-base-de-donn_00e9es" accesskey="n" rel="next">Travailler avec des connexions multiples à base de données</a>, Previous: <a href="#Param_00e8tres-SQL" accesskey="p" rel="prev">Paramètres SQL</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Recommendation-pour-les-experts-SQLite-sur-les-index-1"><span>17 Recommendation pour les experts SQLite sur les index<a class="copiable-link" href="#Recommendation-pour-les-experts-SQLite-sur-les-index-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023index_005frecommendations_005fsqlite_005fexpert_005f"></a>
+<p>Note: This command is experimental. It may be removed or the
+interface modified in incompatible ways at some point in the future.
+</p>
+<p>Pour la plutpart des bases de données non triviales, la clé pour une
+bonne performance est de créer les bons index. Dans ce contexte,
+les « bons index SQL » signifient ceux qui feront que les requêtes
+demandées par une application seront rapides. La commande <code class="code">.expert</code>
+peut aider à définir les meilleurs index pour une requête spécifique, si
+elles sont présentes dans la base de données.
+</p>
+<p>La commande <code class="code">.expert</code> est utilisée dans un premier temps, suivie de
+la requète SQL sur une ligne séparée. Par exemple, considérez
+la session suivante :
+</p>
+<div class="example">
+<pre class="example-preformatted">sqlite&gt; CREATE TABLE x1(a, b, c);
+sqlite&gt; .expert
+sqlite&gt; SELECT * FROM x1 WHERE a=? AND b&gt;?;
+CREATE INDEX x1_idx_000123a7 ON x1(a, b);
+
+0|0|0|SEARCH TABLE x1 USING INDEX x1_idx_000123a7 (a=? AND b&gt;?)
+
+sqlite&gt; CREATE INDEX x1ab ON x1(a, b);     
+sqlite&gt; .expert
+sqlite&gt; SELECT * FROM x1 WHERE a=? AND b&gt;?;
+(no new indexes)
+
+0|0|0|SEARCH TABLE x1 USING INDEX x1ab (a=? AND b&gt;?)
+</pre></div>
+
+<p>Dans l’exemple ci-dessus, l’utilisateur crée un schéma de base de
+données (une table simple <code class="code">x1</code>) et ensuite utilise la commande
+<code class="code">.expert</code> pour analyser une requête, dans cas <code class="code">&quot;SELECT * FROM
+x1 WHERE a=? AND b&gt;?&quot;</code>. L’outil shell recommande alors que l’utilisateur
+crée un nouvel index (index <code class="code">&quot;x1_idx_000123a7</code>) et sort le plan que
+la requète utiliserait avec le format <code class="code">EXPLAIN QUERY
+PLAN</code>. L’utilisateur crée alors un index équivalent avec un schéma
+équivalent et lance l’analyse de nouveau sur la même requète. Cette
+fois, l’outil shell ne recommande par un nouvel index et renvoie les
+plan que SQLite va utiliser pour cette requète en utilisant
+l’index donné.
+</p>
+<p>La commande <code class="code">.expert</code> accepte les options suivantes :
+</p>
+<table class="multitable">
+<tbody><tr><td width="20%">Option</td><td width="80%">Objet</td></tr>
+<tr><td width="20%"><code class="code">--verbose</code></td><td width="80%">Si présent, la sortie donnera un rapport plus verveux pour chaque
+ requète analysée.</td></tr>
+<tr><td width="20%"><code class="code">--sample POURCENT</code></td><td width="80%">Ce paramètre à 0 comme valeur par défaut, ce qui fait que la
+ command <code class="code">.expert</code> ne recommande que des index basés sur des
+ requètes et le schéma de base données. Ce paramètre est par défaut à 0,
+ ce qui fait que la commande <code class="code">.expert</code> recommande des index basés
+ uniquement sur la requête et le schéma de la base de données. Ceci est
+ similaire à la façon dont le planificateur de requêtes SQLite
+ sélectionne les index pour les requêtes si l’utilisateur n’a pas
+ exécuté la commande <code class="code">ANALYZE</code> sur la base de données pour générer
+ des statistiques de distribution des données. Si cette option reçoit un
+ argument non nul, la commande <code class="code">.expert</code> génère des statistiques de
+ distribution de données similaires pour tous les index considérés,
+ basées sur un pourcentage (<code class="code">PERCENT</code>) des lignes actuellement
+ stockées dans chaque table de la base de données. Pour les bases de
+ données avec des distributions de données inhabituelles, cela peut
+ conduire à de meilleures recommandations d’index, en particulier si
+ l’application prévoit d’exécuter <code class="code">ANALYZE</code>. Pour les petites bases
+ de données et les processeurs modernes, il n’y a généralement aucune
+ raison de ne pas passer &quot;<code class="code">--sample 100</code>&quot;. Cependant, la collecte
+ de statistiques de distribution des données peut être coûteuse pour les
+ grandes tables de base de données. Si l’opération est trop lente,
+ essayez de passer une valeur plus petite pour l’option <code class="code">--sample</code>.</td></tr>
+</tbody>
+</table>
+
+<p>La fonctionnalité décrite dans cette section peut être intégrée dans
+d’autres applications ou outils en utilisant le code d’extension
+SQLite expert.
+</p>
+<p>Un schéma de base de données qui incorpore des fonctions SQL
+personnalisées disponibles via le mécanisme de chargement d’extension
+peut nécessiter des dispositions spéciales pour fonctionner avec la
+fonctionnalité <code class="code">.expert</code>. Étant donné que cette fonctionnalité
+utilise des connexions supplémentaires pour implémenter ses
+fonctionnalités, ces fonctions personnalisées doivent être rendues
+disponibles pour ces connexions supplémentaires. Cela peut être fait
+grâce aux options de chargement/utilisation d’extension décrites dans
+les sections Chargement Automatique des Extensions Liées Statiquement et
+Extensions Chargeables Persistantes.
+</p>
+<hr>
+</div>
+<div class="chapter-level-extent" id="Travailler-avec-des-connexions-multiples-_00e0-base-de-donn_00e9es">
+<div class="nav-panel">
+<p>
+Next: <a href="#Fonctionalit_00e9s-diverses-de-l_2019extension" accesskey="n" rel="next">Fonctionalités diverses de l’extension</a>, Previous: <a href="#Recommendation-pour-les-experts-SQLite-sur-les-index" accesskey="p" rel="prev">Recommendation pour les experts SQLite sur les index</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Travailler-avec-des-connexions-multiples-a-base-de-donnees"><span>18 Travailler avec des connexions multiples à base de données<a class="copiable-link" href="#Travailler-avec-des-connexions-multiples-a-base-de-donnees"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023working_005fwith_005fmultiple_005fdatabase_005fconnections"></a>
+<p>À partir de la version 3.37.0 (27-11-2021), l’interface en ligne de
+commande a la capacité de maintenir plusieurs connexions de bases
+de données ouvertes en même temps. Une seule connexion de base de
+données est active à la fois. Les connexions inactives restent ouvertes
+mais sont en attente.
+</p>
+<p>Utilisez la commande point <code class="code">.connection</code> (souvent abrégée en
+<code class="code">.conn</code>) pour voir une liste des connexions de bases de données et
+une indication de laquelle est actuellement active. Chaque connexion de
+base de données est identifiée par un entier entre 0 et 9. (Il peut y
+avoir au maximum 10 connexions ouvertes simultanément.) Passez à une
+autre connexion de base de données, en la créant si elle n’existe pas
+déjà, en tapant la commande <code class="code">.conn</code> suivie de son numéro. Fermez
+une connexion de base de données en tapant <code class="code">.conn close N</code> où
+<code class="code">N</code> est le numéro de la connexion.
+</p>
+<p>Bien que les connexions de bases de données SQLite
+sous-jacentes soient complètement indépendantes les unes des autres, de
+nombreux paramètres de l’interface en ligne de commande, tels que le
+format de sortie, sont partagés entre toutes les connexions de bases de
+données. Ainsi, changer le mode de sortie dans une connexion le changera
+dans toutes. En revanche, certaines commandes point, comme <code class="code">.open</code>,
+n’affectent que la connexion actuelle.
+</p>
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Fonctionalit_00e9s-diverses-de-l_2019extension">
+<div class="nav-panel">
+<p>
+Next: <a href="#Autres-commandes-point" accesskey="n" rel="next">Autres commandes point</a>, Previous: <a href="#Travailler-avec-des-connexions-multiples-_00e0-base-de-donn_00e9es" accesskey="p" rel="prev">Travailler avec des connexions multiples à base de données</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Fonctionalites-diverses-de-l_2019extension"><span>19 Fonctionalités diverses de l’extension<a class="copiable-link" href="#Fonctionalites-diverses-de-l_2019extension"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023miscellaneous_005fextension_005ffeatures"></a>
+
+<p>L’interface en ligne de commande est construit avec plusieurs extensions
+<code class="code">SQLite</code> qui ne sont pas incluses avec la bibliothèque
+<code class="code">SQLite</code>. Quelques-unes ajoutent des fonctionnalités non décrites dans les
+sections précédentes, à savoir :
+</p>
+<ul class="itemize mark-bullet">
+<li>la séquence de collation <code class="code">UINT</code> qui traite les entiers non signés
+intégrés dans du texte selon leur valeur, ainsi que d&rsquo;autres textes,
+pour le tri ;
+</li><li>l&rsquo;arithmétique décimale fournie par l&rsquo;extension <code class="code">decimal</code> ;
+</li><li>les <code class="code">generate_series()</code> de la fonction <code class="code">table-valued</code>;
+</li><li>les fonctions <code class="code">base64()</code> et <code class="code">base85()</code> qui encodent un blob en
+texte <em class="emph">base64</em> ou <em class="emph">base85</em>, ou décodent le même en blob ;
+</li><li>le support des expressions régulières étendues POSIX liées à
+l&rsquo;opérateur <code class="code">REGEXP</code>.
+</li></ul>
+
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Autres-commandes-point">
+<div class="nav-panel">
+<p>
+Next: <a href="#Utiliser-sqlite3-dans-un-script-shell" accesskey="n" rel="next">Utiliser sqlite3 dans un script shell</a>, Previous: <a href="#Fonctionalit_00e9s-diverses-de-l_2019extension" accesskey="p" rel="prev">Fonctionalités diverses de l’extension</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Autres-commandes-point-1"><span>20 Autres commandes point<a class="copiable-link" href="#Autres-commandes-point-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023other_005fdot_005fcommands"></a>
+<p>Il y a beaucoup d’autres commandes point disponibles dans le shell en
+ligne de commande. Voir la commandes <code class="code">.help</code> pour une liste
+complète pour toutes les versions de SQLite.
+</p>
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Utiliser-sqlite3-dans-un-script-shell">
+<div class="nav-panel">
+<p>
+Next: <a href="#Marquer-la-fin-d_2019une-instruction-SQL" accesskey="n" rel="next">Marquer la fin d’une instruction SQL</a>, Previous: <a href="#Autres-commandes-point" accesskey="p" rel="prev">Autres commandes point</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Utiliser-sqlite3-dans-un-script-shell-1"><span>21 Utiliser sqlite3 dans un script shell<a class="copiable-link" href="#Utiliser-sqlite3-dans-un-script-shell-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023using_005fsqlite3_005fin_005fa_005fshell_005fscript"></a>
+<p>Une façon d&rsquo;utiliser <code class="code">sqlite3</code> dans un script shell consiste à
+utiliser <code class="code">echo</code> ou <code class="code">cat</code> pour générer une séquence de
+commandes dans un fichier, puis appeler <code class="code">sqlite3</code> pendant rediriger
+l&rsquo;entrée du fichier de commande généré. Cela fonctionne bien et est
+approprié dans de nombreuses circonstances. Mais pour plus de commodité,
+sqlite3 permet de saisir une seule commande SQL sur la ligne de
+commande comme un deuxième argument après le nom de la base de
+données. Lorsque le programme <code class="code">sqlite3</code> est lancé avec deux arguments, le
+deuxième argument est passé au SQLitebibliothèque pour le traitement,
+les résultats de la requête sont imprimés sur la sortie standard en mode
+liste et le programme se termine. Ce mécanisme est conçu pour faire
+sqlite3 facile à utiliser avec des programmes comme <code class="code">awk</code>. Pour
+exemple:
+</p>
+<div class="example">
+<pre class="example-preformatted">$ sqlite3 ex1 'select * from tbl1' \
+&gt;  | awk '{printf &quot;&lt;tr&gt;&lt;td&gt;%s&lt;td&gt;%s\n&quot;,$1,$2 }'
+&lt;tr&gt;&lt;td&gt;hello&lt;td&gt;10
+&lt;tr&gt;&lt;td&gt;goodbye&lt;td&gt;20
+$
+</pre></div>
+
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Marquer-la-fin-d_2019une-instruction-SQL">
+<div class="nav-panel">
+<p>
+Next: <a href="#Options-de-la-ligne-de-commandes" accesskey="n" rel="next">Options de la ligne de commandes</a>, Previous: <a href="#Utiliser-sqlite3-dans-un-script-shell" accesskey="p" rel="prev">Utiliser sqlite3 dans un script shell</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Marquer-la-fin-d_2019une-instruction-SQL-1"><span>22 Marquer la fin d’une instruction SQL<a class="copiable-link" href="#Marquer-la-fin-d_2019une-instruction-SQL-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023marking_005fthe_005fend_005fof_005fan_005fsql_005fstatement"></a>
+<p>Les commandes SQLite sont normalement terminée par un point
+virgule. Dans l’interface en ligne de commande, vous pouvez aussi
+utiliser le mot <code class="code">GO</code> (insensible à la casse) ou la barre oblique
+<code class="code">/</code> sur une ligne pour terminer une commande. Ces caractères sont
+utilisés par, respectivement, SQL Server et Oracle et
+ils sont supporté par l’interface en ligne de commande de
+SQLite pour des raisons de compatibilités. Ceci ne fonctionne
+pas avec sqlite3_exec(), car l’interface en ligne de commande
+traduit ces entrées en point virgules avant des les envoyer au cœur
+d&rsquo;exécution de <code class="code">SQLite</code>.
+</p>
+
+<hr>
+</div>
+<div class="chapter-level-extent" id="Options-de-la-ligne-de-commandes">
+<div class="nav-panel">
+<p>
+Next: <a href="#Compiler-le-programme-sqlite3-depuis-ses-sources" accesskey="n" rel="next">Compiler le programme sqlite3 depuis ses sources</a>, Previous: <a href="#Marquer-la-fin-d_2019une-instruction-SQL" accesskey="p" rel="prev">Marquer la fin d’une instruction SQL</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Options-de-la-ligne-de-commandes-1"><span>23 Options de la ligne de commandes<a class="copiable-link" href="#Options-de-la-ligne-de-commandes-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023command_005fline_005foptions"></a>
+<p>Il y a beaucoup d’optiopns pour les commandes de l’interface
+shell. Utilisez la commande <code class="code">--help</code> pour en avoir la liste :
+</p>
+<div class="example">
+<pre class="example-preformatted">$ sqlite3 --help
+Usage: ./sqlite3 [OPTIONS] FILENAME [SQL]
+FILENAME is the name of an SQLite database. A new database is created
+if the file does not previously exist. Defaults to :memory:.
+OPTIONS include:
+   --                   treat no subsequent arguments as options
+   -A ARGS...           run &quot;.archive ARGS&quot; and exit
+   -append              append the database to the end of the file
+   -ascii               set output mode to 'ascii'
+   -bail                stop after hitting an error
+   -batch               force batch I/O
+   -box                 set output mode to 'box'
+   -column              set output mode to 'column'
+   -cmd COMMAND         run &quot;COMMAND&quot; before reading stdin
+   -csv                 set output mode to 'csv'
+   -deserialize         open the database using sqlite3_deserialize()
+   -echo                print inputs before execution
+   -init FILENAME       read/process named file
+   -[no]header          turn headers on or off
+   -help                show this message
+   -html                set output mode to HTML
+   -interactive         force interactive I/O
+   -json                set output mode to 'json'
+   -line                set output mode to 'line'
+   -list                set output mode to 'list'
+   -lookaside SIZE N    use N entries of SZ bytes for lookaside memory
+   -markdown            set output mode to 'markdown'
+   -maxsize N           maximum size for a --deserialize database
+   -memtrace            trace all memory allocations and deallocations
+   -mmap N              default mmap size set to N
+   -newline SEP         set output row separator. Default: '\n'
+   -nofollow            refuse to open symbolic links to database files
+   -nonce STRING        set the safe-mode escape nonce
+   -nullvalue TEXT      set text string for NULL values. Default ''
+   -pagecache SIZE N    use N slots of SZ bytes each for page cache mem
+   -pcachetrace         trace all page cache operations
+   -quote               set output mode to 'quote'
+   -readonly            open the database read-only
+   -safe                enable safe-mode
+   -separator SEP       set output column separator. Default: '|'
+   -stats               print memory stats before each finalize
+   -table               set output mode to 'table'
+   -tabs                set output mode to 'tabs'
+   -unsafe-testing      allow unsafe commands and modes for testing
+   -version             show SQLite version
+   -vfs NAME            use NAME as the default VFS
+   -zip                 open the file as a ZIP Archive
+</pre></div>
+
+<p>L’interface en ligne de commande est flexible pour ce qui concerne le
+formattage des options. On peut mettre un ou deux caractères <code class="code">-</code> en
+préfixe. Donc <code class="code">-box</code> et <code class="code">--box</code> signifie la même chose. Les
+options en ligne de commande sont traitées de gauche à droite. Donc une
+option <code class="code">--box</code> remplacera une option <code class="code">--quote</code> qui la
+précèderait.
+</p>
+<p>La plupart des options en lignes de commandes s&rsquo;expliquent par elles
+mêmes, mais certaines méritent quelques explications supplémentaires
+ci-après.
+</p>
+
+<ul class="mini-toc">
+<li><a href="#L_2019option-de-ligne-de-commande-_002d_002dsafe" accesskey="1">L’option de ligne de commande <code class="code">--safe</code></a></li>
+<li><a href="#L_2019option-de-ligne-de-commande-_002d_002dunsafe_002dtesting" accesskey="2">L’option de ligne de commande &ndash;unsafe-testing</a></li>
+<li><a href="#Les-options-de-ligne-de-commande-_002d_002dno_002dutf8-et-_002d_002dutf8" accesskey="3">Les options de ligne de commande &ndash;no-utf8 et &ndash;utf8</a></li>
+</ul>
+<hr>
+<div class="section-level-extent" id="L_2019option-de-ligne-de-commande-_002d_002dsafe">
+<div class="nav-panel">
+<p>
+Next: <a href="#L_2019option-de-ligne-de-commande-_002d_002dunsafe_002dtesting" accesskey="n" rel="next">L’option de ligne de commande &ndash;unsafe-testing</a>, Up: <a href="#Options-de-la-ligne-de-commandes" accesskey="u" rel="up">Options de la ligne de commandes</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="L_2019option-de-ligne-de-commande-_002d_002dsafe-1"><span>23.1 L’option de ligne de commande <code class="code">--safe</code><a class="copiable-link" href="#L_2019option-de-ligne-de-commande-_002d_002dsafe-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023the_005fsafe_005fcommand_005fline_005foption"></a>
+<p>L’option de ligne de commande <code class="code">safe</code> tente de désactiver toutes les
+fonctionnalités du CLI pouvant entraîner des modifications sur
+l’ordinateur hôte autres que des modifications au fichier de base de
+données spécifique nommé sur la ligne de commande. L’idée est que si
+vous recevez un gros script SQL d&rsquo;un inconnu ou non fiable source, vous
+pouvez exécuter ce script pour voir ce qu&rsquo;il fait sans risquer de
+exploiter en utilisant l’option <code class="code">safe</code>. L’option <code class="code">safe</code>
+désactive (parmi autres choses):
+</p>
+<ul class="itemize mark-bullet">
+<li>La commande <code class="code">.open</code>, sauf is l’option <code class="code">--hexdb</code> est utilisée
+ou si le nom du fichier est <code class="code">:memory:</code>. This prevents the script
+from reading or writing any database files not named on the original
+command-line. Cela empêche le script de lire ou d&rsquo;écrire des fichiers de
+base de données non nommés sur la ligne de commande d&rsquo;origine.
+</li><li>La commande SQL <code class="code">ATTACH</code>.
+</li><li>Les fonctions SQL qui peuvent potentiellement avoir des effets
+de bord dangereux comme <code class="code">edit()</code>, <code class="code">fts3_tokenizer()</code>,
+<code class="code">load_extension()</code>, <code class="code">readfile()</code> and <code class="code">writefile()</code>.
+</li><li>La commande <code class="code">.archive</code>.
+</li><li>Les commandes <code class="code">.backup</code> et <code class="code">.save</code>.
+</li><li>La commandes <code class="code">.import</code>.
+</li><li>La commande <code class="code">.load</code>.
+</li><li>La commande <code class="code">.log</code>.
+</li><li>Les commandes <code class="code">.shell</code> et <code class="code">.system</code>.
+</li><li>Les commandes <code class="code">.excel</code>, <code class="code">.once</code> et <code class="code">.output</code>.
+</li><li>Les autres commandes qui peuvent avoir des effets de bords délétères.
+</li></ul>
+
+<p>En pratique, toutes les fonctionnalités de l’interface en ligne de
+commande qui lisent ou écrivent à partir d’un fichier sur un disque
+autre que le fichier de base de données principal sont désactivé.
+</p>
+
+
+<ul class="mini-toc">
+<li><a href="#Court_002dcircuiter-des-commandes-particuli_00e8res-avec-_002d_002dsafe-restrictions" accesskey="1">Court-circuiter des commandes particulières avec &ndash;safe restrictions</a></li>
+</ul>
+<hr>
+<div class="subsection-level-extent" id="Court_002dcircuiter-des-commandes-particuli_00e8res-avec-_002d_002dsafe-restrictions">
+<div class="nav-panel">
+<p>
+Up: <a href="#L_2019option-de-ligne-de-commande-_002d_002dsafe" accesskey="u" rel="up">L’option de ligne de commande <code class="code">--safe</code></a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h4 class="subsection" id="Court_002dcircuiter-des-commandes-particulieres-avec-_002d_002dsafe-restrictions"><span>23.1.1 Court-circuiter des commandes particulières avec &ndash;safe restrictions<a class="copiable-link" href="#Court_002dcircuiter-des-commandes-particulieres-avec-_002d_002dsafe-restrictions"> &para;</a></span></h4>
+<a class="anchor" id="g_t_0023bypassing_005fsafe_005frestrictions_005ffor_005fspecific_005fcommands"></a>
+<p>Si l&rsquo;option <code class="code">--nonce NONCE</code> est également incluse sur la ligne de
+commande, par exemple une chaîne <code class="code">NONCE</code> volumineuse et arbitraire,
+puis la commande <code class="code">.nonce NONCE</code> (avec la même grande chaîne
+occasionnelle) autorisera la prochaine instruction SQL ou
+commande point pour contourner les restrictions <code class="code">--safe</code>.
+</p>
+<p>Supposons que vous souhaitiez exécuter un script suspect et que celui-ci
+nécessite une ou deux des fonctionnalités que <code class="code">--safe désactive</code>
+normalement. Par exemple, supposons qu&rsquo;il doive ATTACHER une base de
+données supplémentaire. Ou supposons que Le script doive charger une
+extension spécifique. Ceci peut être accompli en précédant l’instruction
+ATTACH (soigneusement vérifiée) ou la commande <code class="code">.load</code> avec une
+commande <code class="code">.nonce</code> appropriée et en fournissant la même valeur
+occasionnelle à l&rsquo;aide de l&rsquo;option en ligne de commande
+<code class="code">--nonce</code>. Ces commandes spécifiques seront alors autorisées à
+s&rsquo;exécuter normalement, mais toutes les autres commandes dangereuses
+seront toujours restreintes.
+</p>
+<p>L’utilisation de <code class="code">.nonce</code> est dangereuse car une erreur peut
+permettre à un script hostile d’endommager votre système. Par
+conséquent, n’utilisez <code class="code">.nonce</code> qu’avec précaution, parcimonie, et
+en dernier recours lorsqu’il n&rsquo;existe pas d&rsquo;autres moyens d&rsquo;obtenir un
+script à exécuter en mode <code class="code">--safe</code>.
+</p>
+
+<hr>
+</div>
+</div>
+<div class="section-level-extent" id="L_2019option-de-ligne-de-commande-_002d_002dunsafe_002dtesting">
+<div class="nav-panel">
+<p>
+Next: <a href="#Les-options-de-ligne-de-commande-_002d_002dno_002dutf8-et-_002d_002dutf8" accesskey="n" rel="next">Les options de ligne de commande &ndash;no-utf8 et &ndash;utf8</a>, Previous: <a href="#L_2019option-de-ligne-de-commande-_002d_002dsafe" accesskey="p" rel="prev">L’option de ligne de commande <code class="code">--safe</code></a>, Up: <a href="#Options-de-la-ligne-de-commandes" accesskey="u" rel="up">Options de la ligne de commandes</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="L_2019option-de-ligne-de-commande-_002d_002dunsafe_002dtesting-1"><span>23.2 L’option de ligne de commande &ndash;unsafe-testing<a class="copiable-link" href="#L_2019option-de-ligne-de-commande-_002d_002dunsafe_002dtesting-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023the_005funsafe_005ftesting_005fcommand_005fline_005foption"></a>
+<p>L’option de ligne de commande <code class="code">--unsafe-testing</code> permet d’utiliser
+l’interface en ligne de commande pour des tests internes de la
+bibliothèque SQLite. Ce n’est ni nécessaire ni utile pour
+l’utiliser en utilitaire pour créer, modifier ou interroger des bases de
+données SQLite. Il est prévu pour permettre des tests de
+scripts avec des changements de schéma, des défaites des mesures
+défensives et certains commandes point à usage spécial, non
+documentées.
+</p>
+<p>Une mauvaise utilisation qui nécessiterait l’utilisation de l’option
+<code class="code">--unsafe-testing</code> ne sera généralement pas considéré comme un
+boggue pour cette seule raison.  Le comportement de la lgine de commande
+avec <code class="code">--unsafe-testing</code> n&rsquo;est ni pris en charge ni défini.
+</p>
+
+<hr>
+</div>
+<div class="section-level-extent" id="Les-options-de-ligne-de-commande-_002d_002dno_002dutf8-et-_002d_002dutf8">
+<div class="nav-panel">
+<p>
+Previous: <a href="#L_2019option-de-ligne-de-commande-_002d_002dunsafe_002dtesting" accesskey="p" rel="prev">L’option de ligne de commande &ndash;unsafe-testing</a>, Up: <a href="#Options-de-la-ligne-de-commandes" accesskey="u" rel="up">Options de la ligne de commandes</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Les-options-de-ligne-de-commande-_002d_002dno_002dutf8-et-_002d_002dutf8-1"><span>23.3 Les options de ligne de commande &ndash;no-utf8 et &ndash;utf8<a class="copiable-link" href="#Les-options-de-ligne-de-commande-_002d_002dno_002dutf8-et-_002d_002dutf8-1"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023the_005fno_005futf8_005fand_005futf8_005fcommand_005fline_005foptions"></a>
+<p>Sur la plateforme Windows, lorsque la console est utilisée en entrée ou
+en sortie, une traduction est requise entre l&rsquo;encodage de caractères
+disponible dans la console et à la représentation textuelle <em class="emph">UTF-8</em>
+interne à l’interface en ligne de commande. Les versions précédentes
+acceptaient ces options pour activer ou désactiver l’utilisation d’une
+traduction qui reposait sur une fonctionnalité de la console Windows
+grâce à laquelle elle pourrait être amené à produire ou à accepter
+<em class="emph">UTF-8</em> sur les versions modernes du système d&rsquo;exploitation.
+</p>
+<p>Les versions actuelles de l’interface (3.44.1 ou ultérieures) effectuent
+les E/S de la console en lisant ou en écrivant UTF-16 depuis/vers les
+API de la console Windows. Parce que cela fonctionne correctement même
+sur les versions de Windows remontant à Windows 2000, il y a plus besoin
+de ces options. Ils sont toujours acceptés, mais sans effet.
+</p>
+<p>Dans tous les cas, les E/S texte hors console sont codées en UTF-8.
+</p>
+<p>Sur les plateformes non Windows, ces options sont également ignorées.
+</p>
+<hr>
+</div>
+</div>
+<div class="chapter-level-extent" id="Compiler-le-programme-sqlite3-depuis-ses-sources">
+<div class="nav-panel">
+<p>
+Previous: <a href="#Options-de-la-ligne-de-commandes" accesskey="p" rel="prev">Options de la ligne de commandes</a>, Up: <a href="#Top" accesskey="u" rel="up">SQLITE en ligne de commande</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h2 class="chapter" id="Compiler-le-programme-sqlite3-depuis-ses-sources-1"><span>24 Compiler le programme sqlite3 depuis ses sources<a class="copiable-link" href="#Compiler-le-programme-sqlite3-depuis-ses-sources-1"> &para;</a></span></h2>
+<a class="anchor" id="g_t_0023compiling_005fthe_005fsqlite3_005fprogram_005ffrom_005fsources"></a>
+<p>La commande de compilation en ligne de commande sur un shell sur les
+système Unix ou Windows avec MinGW fonctionne
+avec les commandes habituelles <code class="code">configure/make</code> :
+</p>
+<div class="example">
+<pre class="example-preformatted">sh configure; make
+</pre></div>
+
+<p>Cette commande <code class="code">configure/make</code> fonctionne que vous bâtissiez le
+programme de l’arbre des sources canonique oubien d’un paquet
+fusionné. Il y a quelque dépendances. Quand on compile à partir des
+sources canonique, une installation opérationnelle de <code class="code">tclsh</code> est
+requise. Si vous utilisez un paquet fusionné, toutes les tâches amont
+faites normalement avec <code class="code">tclsh</code> auront déjà été faite et seulement
+les outils normaux sont requis.
+</p>
+<p>Un bibliothèque de compression <code class="code">zlib</code> est nécessaire pour que la
+commande <code class="code">.archive</code> puisse opérer.
+</p>
+<p>Sous Windows avec <code class="code">MSVC</code>, utilisez <code class="code">nmake</code> avec le
+fichier <samp class="file"> Makefile.msc</samp> :
+</p>
+<div class="example">
+<pre class="example-preformatted">nmake /f Makefile.msc
+</pre></div>
+
+<p>Pour un fonctionnement correct avec la commande <code class="code">.archive</code>, faites
+une copie du code source <code class="code">zlib</code> dans le sous-répertoire
+<samp class="file">compat/zlib</samp> de l&rsquo;arbre des sources et compiler de la manière
+suivante :
+</p>
+<div class="example">
+<pre class="example-preformatted">nmake /f Makefile.msc USE_ZLIB=1
+</pre></div>
+
+
+<ul class="mini-toc">
+<li><a href="#Tout-compiler-par-soi_002dm_00eame" accesskey="1">Tout compiler par soi-même</a></li>
+</ul>
+<hr>
+<div class="section-level-extent" id="Tout-compiler-par-soi_002dm_00eame">
+<div class="nav-panel">
+<p>
+Up: <a href="#Compiler-le-programme-sqlite3-depuis-ses-sources" accesskey="u" rel="up">Compiler le programme sqlite3 depuis ses sources</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<h3 class="section" id="Tout-compiler-par-soi_002dmeme"><span>24.1 Tout compiler par soi-même<a class="copiable-link" href="#Tout-compiler-par-soi_002dmeme"> &para;</a></span></h3>
+<a class="anchor" id="g_t_0023_005fdo_005fit_005fyourself_005fbuilds_005f"></a>
+<p>Le code source de l’interface de ligne de commande <code class="code">sqlite3</code> se
+trouve dans un seul fichier nommé <code class="code">shell.c</code>. Le fichier source
+<samp class="file">shell.c</samp> est généré à partir d’autres sources, mais la plupart du
+code de <code class="code">shell.c</code> se trouve dans <samp class="file">src/shell.c.in</samp>. (Régénérez
+<code class="code">shell.c</code> en tapant <code class="code">make shell.c</code> à partir de l’arborescence des
+sources canoniques.)  Compilez le fichier <code class="code">shell.c</code> (avec le code source
+de la bibliothèque <code class="code">sqlite3</code> ) pour générer l’exécutable. Par exemple:
+</p>
+<div class="example">
+<pre class="example-preformatted">gcc -o sqlite3 shell.c sqlite3.c -ldl -lpthread -lz -lm
+</pre></div>
+
+<p>Les options de compilation supplémentaires suivantes sont recommandées
+afin de fournir un shell de ligne de commande complet :
+</p>
+<ul class="itemize mark-bullet">
+<li>-DSQLITE_THREADSAFE=0
+</li><li>-DSQLITE_ENABLE_EXPLAIN_COMMENTS
+</li><li>-DSQLITE_HAVE_ZLIB
+</li><li>-DSQLITE_INTROSPECTION_PRAGMAS
+</li><li>-DSQLITE_ENABLE_UNKNOWN_SQL_FUNCTION
+</li><li>-DSQLITE_ENABLE_STMTVTAB
+</li><li>-DSQLITE_ENABLE_DBPAGE_VTAB
+</li><li>-DSQLITE_ENABLE_DBSTAT_VTAB
+</li><li>-DSQLITE_ENABLE_OFFSET_SQL_FUNC
+</li><li>-DSQLITE_ENABLE_JSON1
+</li><li>-DSQLITE_ENABLE_RTREE
+</li><li>-DSQLITE_ENABLE_FTS4
+</li><li>-DSQLITE_ENABLE_FTS5
+</li></ul>
+
+<p><em class="emph">La page source date du 2024-04-16, la traduction du 2024-04-24</em>
+</p>
+</div>
+</div>
+</div>
+
+
+
+</body>
+</html>
