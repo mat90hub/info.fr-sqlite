@@ -5,15 +5,15 @@
 SHELL = /bin/bash
 
 INFO_PATH=/usr/local/share/info/
-
-CLS = cls_sqlite.fr
-
+CLS=cls_sqlite.fr
+COL=25
 
 info: $(CLS).texinfo
-	makeinfo --document-language=fr $(CLS).texinfo
+	texi2any --info --output=$(CLS).info --document-language=fr_FR $(CLS).texinfo
 	gzip -f $(CLS).info*
 	cp $(CLS).info*.gz -t $(INFO_PATH)
 	rm -f $(CLS).info*.gz
+	install-info --keep-old --align=$(COL) --calign=$(COL) $(INFO_PATH)/$(CLS).info.gz $(INFO_PATH)/dir
 
 
 pdf: $(CLS).texinfo
@@ -38,7 +38,7 @@ all: info
 
 
 # clean directories
-.PHONY : all clean
+.PHONY : all clean pdf html html2 info
 clean:
 	rm -f *.info*
 	rm -f *~
